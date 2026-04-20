@@ -1,5 +1,10 @@
 {
   "version": "2.0.0",
+  "options": {
+    "env": {
+      "PATH": "/opt/homebrew/bin:${env:PATH}"
+    }
+  },
   "tasks": [
     {
       "label": "mighty-core: configure (Debug)",
