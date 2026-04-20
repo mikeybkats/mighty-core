@@ -1,45 +1,50 @@
 #pragma once
 
 #ifdef __ANDROID__
-
 #include <oboe/Oboe.h>
-#include <atomic>
-#include <functional>
-#include <cstdint>
+#endif
 
-class TempoEngine : public oboe::AudioStreamDataCallback {
+#include <functional>
+#include <memory>
+#include "Scheduler.h"
+
+class TempoEngine
+#ifdef __ANDROID__
+    : public oboe::AudioStreamDataCallback
+#endif
+{
 public:
+    TempoEngine();
+    ~TempoEngine();
+
     std::function<void(int beatNumber)> onTick;
 
     bool open();
     void close();
     bool isRunning() const;
 
-    void setBPM(double bpm);
+    void   setBPM(double bpm);
     double getBPM() const;
 
-    // oboe::AudioStreamDataCallback
+#ifdef __ANDROID__
     oboe::DataCallbackResult onAudioReady(
-        oboe::AudioStream* stream,
-        void* audioData,
-        int32_t numFrames) override;
+        oboe::AudioStream*, void*, int32_t) override;
+#endif
+
+    // Called by platform audio callbacks (Oboe / miniaudio). Not part of the public MMC API.
+    void processAudio(float* output, int32_t numFrames);
 
 private:
     void renderClick(float* buf, int32_t frameOffset, int32_t clickSample, int32_t count);
 
-    std::atomic<double> bpm_{120.0};
-    int32_t sampleRate_{48000};
+    Scheduler scheduler_;
+    int32_t   clickPhase_{0};
+    int32_t   clickDuration_{0};
 
-    // Beat scheduling: all in samples, audio-clock based
-    int64_t samplePosition_{0};   // total frames output since start
-    double nextTickExact_{0.0};   // exact fractional sample of next tick
-    int beatNumber_{0};
-
-    // Click playback state
-    int32_t clickPhase_{0};          // samples into current click (>= clickDuration_ = silent)
-    int32_t clickDuration_{0};       // samples, set on open()
-
+#ifdef __ANDROID__
     std::shared_ptr<oboe::AudioStream> stream_;
+#else
+    struct DesktopImpl;
+    std::unique_ptr<DesktopImpl> desktop_;
+#endif
 };
-
-#endif // __ANDROID__

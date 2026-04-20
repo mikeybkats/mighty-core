@@ -1,0 +1,14 @@
+# CMake / local builds
+build/
+cmake-build-*/
+out/
+CMakeUserPresets.json
+
+# FetchContent / CPM caches (if used)
+_deps/
+
+# OS / editor
+.DS_Store
+*.swp
+*.swo
+*~
