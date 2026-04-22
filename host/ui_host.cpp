@@ -1,3 +1,5 @@
+// GLFW + Dear ImGui debug shell: set BPM, play/stop, flash on each beat from onTick.
+// Build target: mighty-core-ui (non-Android only).
 #define GL_SILENCE_DEPRECATION
 
 #include "MightyMusicCore.h"

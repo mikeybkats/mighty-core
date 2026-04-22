@@ -1,3 +1,6 @@
+# Mighty Music Core — static library `mighty-core` (Scheduler + TempoEngine + public API).
+# Android: link Oboe (Gradle prefab when available, else FetchContent).
+# Non-Android: miniaudio inside TempoEngine.cpp + optional CLI/GUI hosts and gtests.
 cmake_minimum_required(VERSION 3.14)  # 3.14 = FetchContent_MakeAvailable minimum
 project(mighty-core VERSION 1.0.0)
 

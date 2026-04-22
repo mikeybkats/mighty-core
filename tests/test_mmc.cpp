@@ -1,3 +1,4 @@
+// Integration tests against the real audio backends (miniaudio on desktop CI).
 #include "MightyMusicCore.h"
 #include <gtest/gtest.h>
 #include <atomic>

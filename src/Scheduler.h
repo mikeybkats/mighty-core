@@ -37,7 +37,10 @@ private:
 
     int32_t             sampleRate_;
     std::atomic<double> bpm_{120.0};
+    // Absolute timeline: total frames advanced since reset() (grows across buffers).
     int64_t             samplePosition_{0};
+    // Next beat boundary as a fractional sample index on the same timeline as samplePosition_.
     double              nextTickExact_{0.0};
+    // Monotonic beat index passed to onTick (0, 1, 2, ...).
     int                 beatNumber_{0};
 };

@@ -1,3 +1,4 @@
+// Implementation of sample-accurate beat scheduling (see Scheduler.h).
 #include "Scheduler.h"
 
 #include <algorithm>
@@ -36,6 +37,7 @@ AdvanceResult Scheduler::advance(int32_t numFrames) {
     const double  spb       = samplesPerBeat();
     const int64_t bufferEnd = samplePosition_ + numFrames;
 
+    // Emit every beat whose exact sample time falls inside [samplePosition_, bufferEnd).
     while (static_cast<int64_t>(nextTickExact_) < bufferEnd
            && result.count < AdvanceResult::kMaxTicks)
     {

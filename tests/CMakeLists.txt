@@ -1,3 +1,4 @@
+# GoogleTest runner for Scheduler + MightyMusicCore (linked in parent CMakeLists when not ANDROID).
 add_executable(mmc-tests
     test_scheduler.cpp
     test_mmc.cpp

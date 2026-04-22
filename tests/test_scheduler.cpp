@@ -1,3 +1,4 @@
+// Unit tests for Scheduler math only (no audio device).
 #include "Scheduler.h"
 #include <gtest/gtest.h>
 

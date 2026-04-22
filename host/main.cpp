@@ -1,3 +1,5 @@
+// Headless smoke test: play at BPM for N seconds, print beats from onTick (via atomic).
+// Build target: mighty-core-host-check (non-Android only).
 #include "MightyMusicCore.h"
 
 #include <atomic>
