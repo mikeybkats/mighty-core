@@ -36,6 +36,7 @@ public:
     double getBPM() const;
 
     void setTickSoundPcm(int index, std::vector<float> samples, int32_t sourceSampleRate);
+    // -1 = synthesized sine click; 0..kTickSlotCount-1 = sample slot (empty slot falls back to sine).
     void setTickSoundIndex(int index);
 
 #ifdef __ANDROID__
@@ -74,7 +75,7 @@ private:
     std::array<TickSource, kTickSlotCount>           tickSources_{};
     std::array<std::vector<float>, kTickSlotCount> tickDevice_{};
     int32_t tickDeviceRatePrepared_{0};
-    std::atomic<int> tickSoundIndex_{0};
+    std::atomic<int> tickSoundIndex_{-1};
 
 #ifdef __ANDROID__
     std::shared_ptr<oboe::AudioStream> stream_;

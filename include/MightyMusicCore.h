@@ -28,7 +28,7 @@ public:
     // Safe to call before start(); if the engine is already open at a known device rate,
     // buffers are resampled to the device immediately. Index must be in [0, 3].
     void setTickSoundPcm(int index, std::vector<float> samples, int32_t sourceSampleRate);
-    // Which preloaded slot to mix on each beat (read on the audio thread).
+    // Which preloaded slot to mix on each beat (read on the audio thread). Use -1 for sine click.
     void setTickSoundIndex(int index);
 
     // Fired from the audio thread when a beat boundary is crossed — do not block,

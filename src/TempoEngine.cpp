@@ -72,8 +72,11 @@ void TempoEngine::setTickSoundPcm(
 }
 
 void TempoEngine::setTickSoundIndex(int index) {
-    const int clamped = std::clamp(index, 0, kTickSlotCount - 1);
-    tickSoundIndex_.store(clamped, std::memory_order_relaxed);
+    if (index < 0) {
+        tickSoundIndex_.store(-1, std::memory_order_relaxed);
+        return;
+    }
+    tickSoundIndex_.store(std::clamp(index, 0, kTickSlotCount - 1), std::memory_order_relaxed);
 }
 
 void TempoEngine::processAudio(float* output, int32_t numFrames) {
