@@ -13,6 +13,13 @@ static constexpr float CLICK_MS      = 8.0f;
 
 static constexpr float SAMPLE_CLICK_GAIN = 0.85f;
 
+// Second-of-pair softening: one-pole low-pass mixed back ~9% for a ~10% “duller” top end.
+static constexpr float kOffbeatLpCoeff  = 0.65f;
+static constexpr float kOffbeatDryBlend = 0.91f;
+static constexpr float kOffbeatWetBlend = 0.09f;
+// Backbeat level in two-beat-per-measure mode (odd beat index), on top of optional LP soften.
+static constexpr float kTwoBeatBackbeatGain = 0.68f;
+
 namespace {
 
 std::vector<float> resampleLinear(
@@ -21,7 +28,7 @@ std::vector<float> resampleLinear(
     if (in.empty() || fromRate <= 0 || toRate <= 0 || fromRate == toRate)
         return in;
 
-    const size_t outCount = static_cast<size_t>(
+    const auto outCount = static_cast<size_t>(
         (static_cast<int64_t>(in.size()) * toRate + fromRate / 2) / fromRate);
     if (outCount == 0)
         return {};
@@ -30,10 +37,10 @@ std::vector<float> resampleLinear(
     for (size_t i = 0; i < outCount; ++i) {
         const double srcPos = static_cast<double>(i) * static_cast<double>(fromRate)
             / static_cast<double>(toRate);
-        const size_t   i0   = static_cast<size_t>(srcPos);
-        const double   frac = srcPos - static_cast<double>(i0);
-        const float    s0   = in[std::min(i0, in.size() - 1)];
-        const float    s1   = in[std::min(i0 + 1, in.size() - 1)];
+        const auto i0 = static_cast<size_t>(srcPos);
+        const auto frac = srcPos - static_cast<double>(i0);
+        const auto s0 = in[std::min(i0, in.size() - 1)];
+        const auto s1 = in[std::min(i0 + 1, in.size() - 1)];
         out[i]              = static_cast<float>(s0 + (s1 - s0) * frac);
     }
     return out;
@@ -79,6 +86,14 @@ void TempoEngine::setTickSoundIndex(int index) {
     tickSoundIndex_.store(std::clamp(index, 0, kTickSlotCount - 1), std::memory_order_relaxed);
 }
 
+void TempoEngine::setTwoBeatMeasure(bool enabled) {
+    scheduler_.setTwoBeatMeasure(enabled);
+}
+
+void TempoEngine::setSwingFraction(double fraction) {
+    scheduler_.setSwingFraction(fraction);
+}
+
 void TempoEngine::processAudio(float* output, int32_t numFrames) {
     std::memset(output, 0, numFrames * sizeof(float));
 
@@ -89,9 +104,11 @@ void TempoEngine::processAudio(float* output, int32_t numFrames) {
         if (activeTickSlotForClick_ >= 0) {
             renderClickSample(
                 output, 0, clickPhase_, toRender,
-                tickDevice_[static_cast<size_t>(activeTickSlotForClick_)]);
+                tickDevice_[static_cast<size_t>(activeTickSlotForClick_)],
+                activeClickOffbeatSoft_, activeClickPairGainMul_);
         } else {
-            renderClickSine(output, 0, clickPhase_, toRender);
+            renderClickSine(
+                output, 0, clickPhase_, toRender, activeClickOffbeatSoft_, activeClickPairGainMul_);
         }
         clickPhase_ += toRender;
     }
@@ -101,6 +118,11 @@ void TempoEngine::processAudio(float* output, int32_t numFrames) {
     for (int i = 0; i < ticks.count; ++i) {
         const int32_t tickFrame = ticks.ticks[i].frameOffset;
         const int     beat      = ticks.ticks[i].beatNumber;
+
+        activeClickOffbeatSoft_ =
+            scheduler_.getTwoBeatMeasure() && (beat % 2 == 1);
+        activeClickPairGainMul_ =
+            (scheduler_.getTwoBeatMeasure() && (beat % 2 == 1)) ? kTwoBeatBackbeatGain : 1.f;
 
         const int idx = tickSoundIndex_.load(std::memory_order_relaxed);
         if (idx >= 0 && idx < kTickSlotCount && !tickDevice_[static_cast<size_t>(idx)].empty()) {
@@ -117,9 +139,11 @@ void TempoEngine::processAudio(float* output, int32_t numFrames) {
         if (activeTickSlotForClick_ >= 0) {
             renderClickSample(
                 output, tickFrame, 0, toRender,
-                tickDevice_[static_cast<size_t>(activeTickSlotForClick_)]);
+                tickDevice_[static_cast<size_t>(activeTickSlotForClick_)],
+                activeClickOffbeatSoft_, activeClickPairGainMul_);
         } else {
-            renderClickSine(output, tickFrame, 0, toRender);
+            renderClickSine(
+                output, tickFrame, 0, toRender, activeClickOffbeatSoft_, activeClickPairGainMul_);
         }
         clickPhase_ = toRender;
 
@@ -128,28 +152,43 @@ void TempoEngine::processAudio(float* output, int32_t numFrames) {
 }
 
 void TempoEngine::renderClickSine(
-    float* buf, int32_t frameOffset, int32_t clickSample, int32_t count)
+    float* buf, int32_t frameOffset, int32_t clickSample, int32_t count, bool softenOffbeat,
+    float pairGainMul)
 {
-    const int32_t sr = scheduler_.getSampleRate();
+    if (clickSample == 0)
+        offbeatToneZ_ = 0.f;
+    const auto sr = scheduler_.getSampleRate();
     for (int32_t i = 0; i < count; ++i) {
         int32_t s      = clickSample + i;
         float   t      = static_cast<float>(s) / static_cast<float>(sineClickDuration_);
         float   env    = std::exp(-CLICK_DECAY * t);
-        float   phase  = TWO_PI * CLICK_FREQ_HZ * s / static_cast<float>(sr);
-        buf[frameOffset + i] += CLICK_GAIN * env * std::sin(phase);
+        const auto phase = TWO_PI * CLICK_FREQ_HZ * static_cast<float>(s) / static_cast<float>(sr);
+        float   sample = CLICK_GAIN * env * std::sin(phase);
+        if (softenOffbeat) {
+            offbeatToneZ_ += kOffbeatLpCoeff * (sample - offbeatToneZ_);
+            sample = kOffbeatDryBlend * sample + kOffbeatWetBlend * offbeatToneZ_;
+        }
+        buf[frameOffset + i] += pairGainMul * sample;
     }
 }
 
 void TempoEngine::renderClickSample(
     float* buf, int32_t frameOffset, int32_t clickSample, int32_t count,
-    const std::vector<float>& data)
+    const std::vector<float>& data, bool softenOffbeat, float pairGainMul)
 {
-    const int32_t n = static_cast<int32_t>(data.size());
+    if (clickSample == 0)
+        offbeatToneZ_ = 0.f;
+    const auto n = static_cast<int32_t>(data.size());
     for (int32_t i = 0; i < count; ++i) {
         const int32_t p = clickSample + i;
         if (p >= n)
             break;
-        buf[frameOffset + i] += SAMPLE_CLICK_GAIN * data[static_cast<size_t>(p)];
+        float sample = SAMPLE_CLICK_GAIN * data[static_cast<size_t>(p)];
+        if (softenOffbeat) {
+            offbeatToneZ_ += kOffbeatLpCoeff * (sample - offbeatToneZ_);
+            sample = kOffbeatDryBlend * sample + kOffbeatWetBlend * offbeatToneZ_;
+        }
+        buf[frameOffset + i] += pairGainMul * sample;
     }
 }
 
@@ -189,7 +228,7 @@ bool TempoEngine::open() {
     const int32_t sr = stream_->getSampleRate();
     scheduler_.setSampleRate(sr);
     scheduler_.reset();
-    sineClickDuration_ = static_cast<int32_t>(sr * CLICK_MS / 1000.0f);
+    sineClickDuration_ = static_cast<int32_t>(static_cast<float>(sr) * CLICK_MS / 1000.0f);
     prepareDeviceTickBuffers(sr);
     activeClickTotalLength_ = sineClickDuration_;
     // clickPhase_ == activeClickTotalLength_ means idle until first scheduled tick.
@@ -266,7 +305,7 @@ bool TempoEngine::open() {
     const int32_t sr = static_cast<int32_t>(desktop_->device.sampleRate);
     scheduler_.setSampleRate(sr);
     scheduler_.reset();
-    sineClickDuration_ = static_cast<int32_t>(sr * CLICK_MS / 1000.0f);
+    sineClickDuration_ = static_cast<int32_t>(static_cast<float>(sr) * CLICK_MS / 1000.0f);
     prepareDeviceTickBuffers(sr);
     activeClickTotalLength_ = sineClickDuration_;
     clickPhase_             = activeClickTotalLength_;

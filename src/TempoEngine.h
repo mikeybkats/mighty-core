@@ -24,7 +24,11 @@ public:
     static constexpr int kTickSlotCount = 4;
 
     TempoEngine();
+#ifdef __ANDROID__
+    ~TempoEngine() override;
+#else
     ~TempoEngine();
+#endif
 
     std::function<void(int beatNumber)> onTick;
 
@@ -34,6 +38,9 @@ public:
 
     void   setBPM(double bpm);
     double getBPM() const;
+
+    void setTwoBeatMeasure(bool enabled);
+    void setSwingFraction(double fraction); // 0 .. 0.5
 
     void setTickSoundPcm(int index, std::vector<float> samples, int32_t sourceSampleRate);
     // -1 = synthesized sine click; 0..kTickSlotCount-1 = sample slot (empty slot falls back to sine).
@@ -52,10 +59,12 @@ public:
 private:
     void prepareDeviceTickBuffers(int32_t deviceSampleRate);
 
-    void renderClickSine(float* buf, int32_t frameOffset, int32_t clickSample, int32_t count);
+    void renderClickSine(
+        float* buf, int32_t frameOffset, int32_t clickSample, int32_t count, bool softenOffbeat,
+        float pairGainMul);
     void renderClickSample(
         float* buf, int32_t frameOffset, int32_t clickSample, int32_t count,
-        const std::vector<float>& data);
+        const std::vector<float>& data, bool softenOffbeat, float pairGainMul);
 
     Scheduler scheduler_;
 
@@ -67,6 +76,11 @@ private:
     int32_t activeClickTotalLength_{0};
     // -1 = sine click; 0..kTickSlotCount-1 = sample slot for the current partial click.
     int activeTickSlotForClick_{-1};
+    // Second beat of each pair in two-beat mode: mild low-pass on the tick timbre.
+    bool activeClickOffbeatSoft_{false};
+    // In two-beat mode, backbeats (odd beat index) are quieter so 1–2 grouping is obvious even with swing at 0.
+    float activeClickPairGainMul_{1.f};
+    float offbeatToneZ_{0.f};
 
     struct TickSource {
         std::vector<float> pcm;

@@ -18,11 +18,16 @@ public:
     // miniaudio on desktop hosts). Copies the current onTick handler into the engine.
     void start();
     void stop();
-    bool isPlaying() const;
+    [[nodiscard]] bool isPlaying() const;
 
     // BPM is stored atomically inside Scheduler; safe to call from UI / JNI while playing.
     void setBPM(double bpm);
-    double getBPM() const;
+    [[nodiscard]] double getBPM() const;
+
+    // Two-beat mode runs double-time clicks (2x click rate at same BPM). Swing (0..0.5)
+    // redistributes timing inside each click pair; odd clicks are slightly low-passed.
+    void setTwoBeatMeasure(bool enabled);
+    void setSwingFraction(double fraction);
 
     // Preload mono float PCM for one of four tick slots (typically 48 kHz from decoded WAV).
     // Safe to call before start(); if the engine is already open at a known device rate,

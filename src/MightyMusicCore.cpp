@@ -21,6 +21,14 @@ bool MightyMusicCore::isPlaying() const  { return impl_->engine.isRunning(); }
 void MightyMusicCore::setBPM(double bpm) { impl_->engine.setBPM(bpm); }
 double MightyMusicCore::getBPM() const   { return impl_->engine.getBPM(); }
 
+void MightyMusicCore::setTwoBeatMeasure(bool enabled) {
+    impl_->engine.setTwoBeatMeasure(enabled);
+}
+
+void MightyMusicCore::setSwingFraction(double fraction) {
+    impl_->engine.setSwingFraction(fraction);
+}
+
 void MightyMusicCore::setTickSoundPcm(
     int index, std::vector<float> samples, int32_t sourceSampleRate)
 {
