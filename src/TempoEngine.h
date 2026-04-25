@@ -70,7 +70,7 @@ private:
 
     // Sub-sample position within the current click (0 .. activeClickTotalLength_).
     int32_t clickPhase_{0};
-    // Length of the synthetic sine click at the current device sample rate.
+    // Length of the synthesized click at the current device sample rate.
     int32_t sineClickDuration_{0};
     // Length of the click currently being rendered (sine or sample); idle when clickPhase_ >= this.
     int32_t activeClickTotalLength_{0};
@@ -80,6 +80,8 @@ private:
     bool activeClickOffbeatSoft_{false};
     // In two-beat mode, backbeats (odd beat index) are quieter so 1–2 grouping is obvious even with swing at 0.
     float activeClickPairGainMul_{1.f};
+    // Separate one-pole states for click voicing and two-beat offbeat softening.
+    float synthToneZ_{0.f};
     float offbeatToneZ_{0.f};
 
     struct TickSource {

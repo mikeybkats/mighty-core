@@ -4,12 +4,15 @@
 #include <cmath>
 #include <cstring>
 
-// Click timbre (sine fallback when a tick slot has no PCM loaded).
+// Click timbre (square-like synthesized fallback when no PCM slot is loaded).
 static constexpr float TWO_PI        = 6.28318530718f;
 static constexpr float CLICK_FREQ_HZ = 1000.0f;
 static constexpr float CLICK_DECAY   = 8.0f;
 static constexpr float CLICK_GAIN    = 0.7f;
 static constexpr float CLICK_MS      = 8.0f;
+static constexpr float SYNTH_LP_COEFF = 0.28f;
+static constexpr float SYNTH_DRY_BLEND = 0.18f;
+static constexpr float SYNTH_WET_BLEND = 0.82f;
 
 static constexpr float SAMPLE_CLICK_GAIN = 0.85f;
 
@@ -155,15 +158,23 @@ void TempoEngine::renderClickSine(
     float* buf, int32_t frameOffset, int32_t clickSample, int32_t count, bool softenOffbeat,
     float pairGainMul)
 {
-    if (clickSample == 0)
+    if (clickSample == 0) {
+        synthToneZ_ = 0.f;
         offbeatToneZ_ = 0.f;
+    }
     const auto sr = scheduler_.getSampleRate();
     for (int32_t i = 0; i < count; ++i) {
-        int32_t s      = clickSample + i;
-        float   t      = static_cast<float>(s) / static_cast<float>(sineClickDuration_);
-        float   env    = std::exp(-CLICK_DECAY * t);
+        const auto s = clickSample + i;
+        const auto t = static_cast<float>(s) / static_cast<float>(sineClickDuration_);
+        const auto env = std::exp(-CLICK_DECAY * t);
         const auto phase = TWO_PI * CLICK_FREQ_HZ * static_cast<float>(s) / static_cast<float>(sr);
-        float   sample = CLICK_GAIN * env * std::sin(phase);
+
+        float sample = (std::sin(phase) >= 0.f) ? 1.f : -1.f;
+        // Slight LP keeps square transients but removes brittle top-end aliasing.
+        synthToneZ_ += SYNTH_LP_COEFF * (sample - synthToneZ_);
+        sample = SYNTH_DRY_BLEND * sample + SYNTH_WET_BLEND * synthToneZ_;
+        sample *= CLICK_GAIN * env;
+
         if (softenOffbeat) {
             offbeatToneZ_ += kOffbeatLpCoeff * (sample - offbeatToneZ_);
             sample = kOffbeatDryBlend * sample + kOffbeatWetBlend * offbeatToneZ_;
