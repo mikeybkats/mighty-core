@@ -32,6 +32,7 @@ endif()
 add_library(mighty-core STATIC
     src/Scheduler.cpp
     src/MightyMusicCore.cpp
+    src/Metronome.cpp
     src/TempoEngine.cpp
 )
 

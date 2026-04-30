@@ -20,6 +20,8 @@ iOS (SwiftUI)              Android (Kotlin)
 
 ## Public Interface
 
+### `MightyMusicCore` (primitives)
+
 ```cpp
 MightyMusicCore core;
 
@@ -30,6 +32,18 @@ core.start();   // opens audio stream, begins scheduling
 core.stop();    // closes audio stream
 core.isPlaying();
 core.getBPM();
+```
+
+### `Metronome` (app/domain policy)
+
+```cpp
+Metronome metronome;
+
+metronome.onTick = [](int beat) { /* fired from audio thread — do not block */ };
+metronome.setBPM(120.0);
+metronome.setSwingFraction(0.2);
+metronome.setTwoBeatMeasure(true);
+metronome.start();
 ```
 
 ## Building

@@ -44,7 +44,7 @@ public:
 
     void setTickSoundPcm(int index, std::vector<float> samples, int32_t sourceSampleRate);
     // -1 = synthesized sine click; 0..kTickSlotCount-1 = sample slot (empty slot falls back to sine).
-    void setTickSoundIndex(int index);
+    void setTickSound(int index);
 
 #ifdef __ANDROID__
     // Oboe invokes this on a high-priority audio thread for each output buffer.

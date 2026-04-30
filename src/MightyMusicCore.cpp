@@ -21,11 +21,11 @@ bool MightyMusicCore::isPlaying() const  { return impl_->engine.isRunning(); }
 void MightyMusicCore::setBPM(double bpm) { impl_->engine.setBPM(bpm); }
 double MightyMusicCore::getBPM() const   { return impl_->engine.getBPM(); }
 
-void MightyMusicCore::setTwoBeatMeasure(bool enabled) {
+void MightyMusicCore::setTwoBeatMeasureInternal(bool enabled) {
     impl_->engine.setTwoBeatMeasure(enabled);
 }
 
-void MightyMusicCore::setSwingFraction(double fraction) {
+void MightyMusicCore::setSwingFractionInternal(double fraction) {
     impl_->engine.setSwingFraction(fraction);
 }
 
@@ -35,6 +35,6 @@ void MightyMusicCore::setTickSoundPcm(
     impl_->engine.setTickSoundPcm(index, std::move(samples), sourceSampleRate);
 }
 
-void MightyMusicCore::setTickSoundIndex(int index) {
-    impl_->engine.setTickSoundIndex(index);
+void MightyMusicCore::setTickSound(MightyMusicCore::TickSound sound) {
+    impl_->engine.setTickSound(static_cast<int>(sound));
 }

@@ -81,7 +81,7 @@ void TempoEngine::setTickSoundPcm(
         prepareDeviceTickBuffers(tickDeviceRatePrepared_);
 }
 
-void TempoEngine::setTickSoundIndex(int index) {
+void TempoEngine::setTickSound(int index) {
     if (index < 0) {
         tickSoundIndex_.store(-1, std::memory_order_relaxed);
         return;
