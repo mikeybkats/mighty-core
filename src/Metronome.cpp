@@ -3,6 +3,44 @@
 #include <algorithm>
 #include <utility>
 
+namespace {
+using PaletteSound = Metronome::PaletteSound;
+using TickSound = Metronome::TickSound;
+using Kit = Metronome::Kit;
+
+TickSound tickSoundForPalette(PaletteSound sound) {
+  switch (sound) {
+    case PaletteSound::MetKickGentle:
+      return TickSound::Slot0;
+    case PaletteSound::MetSnareGentle:
+      return TickSound::Slot1;
+    case PaletteSound::MetDigiGentle:
+      return TickSound::Slot2;
+    case PaletteSound::MetRimshotGentle:
+      return TickSound::Slot3;
+    case PaletteSound::SineClassic:
+    default:
+      return TickSound::Sine;
+  }
+}
+
+int slotForPalette(PaletteSound sound) {
+  switch (sound) {
+    case PaletteSound::MetKickGentle:
+      return 0;
+    case PaletteSound::MetSnareGentle:
+      return 1;
+    case PaletteSound::MetDigiGentle:
+      return 2;
+    case PaletteSound::MetRimshotGentle:
+      return 3;
+    case PaletteSound::SineClassic:
+    default:
+      return -1;
+  }
+}
+} // namespace
+
 void Metronome::start() {
   core_.onTick = onTick;
   syncPolicyToCore();
@@ -23,6 +61,60 @@ void Metronome::setTickSoundPcm(int index, std::vector<float> samples,
 }
 
 void Metronome::setTickSound(TickSound sound) { core_.setTickSound(sound); }
+
+void Metronome::setPaletteSoundPcm(PaletteSound sound, std::vector<float> samples,
+                                   int32_t sourceSampleRate) {
+  const int slot = slotForPalette(sound);
+  if (slot < 0) {
+    return;
+  }
+  core_.setTickSoundPcm(slot, std::move(samples), sourceSampleRate);
+}
+
+void Metronome::setPaletteSound(PaletteSound sound) {
+  core_.setTickSound(tickSoundForPalette(sound));
+}
+
+void Metronome::setKit(Kit kit) {
+  activeKit_ = kit;
+  const auto palette = getKitPalette(activeKit_);
+  if (!palette.empty()) {
+    setPaletteSound(palette.front());
+  } else {
+    setPaletteSound(PaletteSound::SineClassic);
+  }
+}
+
+Metronome::Kit Metronome::getKit() const { return activeKit_; }
+
+std::vector<Metronome::PaletteSound> Metronome::getKitPalette(Kit kit) {
+  switch (kit) {
+    case Kit::Metronome:
+    default:
+      return {
+          PaletteSound::MetKickGentle,
+          PaletteSound::MetSnareGentle,
+          PaletteSound::MetDigiGentle,
+          PaletteSound::MetRimshotGentle,
+      };
+  }
+}
+
+const char* Metronome::getPaletteResourceName(PaletteSound sound) {
+  switch (sound) {
+    case PaletteSound::MetKickGentle:
+      return "metkick_gentle";
+    case PaletteSound::MetSnareGentle:
+      return "metsnare_gentle";
+    case PaletteSound::MetDigiGentle:
+      return "metdigi_gentle";
+    case PaletteSound::MetRimshotGentle:
+      return "metrimshot_gentle";
+    case PaletteSound::SineClassic:
+    default:
+      return "";
+  }
+}
 
 void Metronome::setTwoBeatMeasure(bool enabled) {
   twoBeatMeasure_ = enabled;

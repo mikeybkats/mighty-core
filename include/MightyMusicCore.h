@@ -44,8 +44,8 @@ public:
   // Selects synthesized sine click or one of the preloaded tick PCM slots.
   void setTickSound(TickSound sound);
 
-  // void startListening()
-  // void stopListening()
+  void startListening();
+  void stopListening();
 
   // Fired from the audio thread when a beat boundary is crossed — do not block,
   // allocate, or take locks. Platform code often forwards this to another

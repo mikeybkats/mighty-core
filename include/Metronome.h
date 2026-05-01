@@ -1,6 +1,8 @@
 #pragma once
 
+#include <cstdint>
 #include <functional>
+#include <vector>
 
 #include "MightyMusicCore.h"
 
@@ -9,6 +11,16 @@
 class Metronome {
 public:
   using TickSound = MightyMusicCore::TickSound;
+  enum class PaletteSound : int32_t {
+    SineClassic = -1,
+    MetKickGentle = 0,
+    MetSnareGentle = 1,
+    MetDigiGentle = 2,
+    MetRimshotGentle = 3,
+  };
+  enum class Kit : int32_t {
+    Metronome = 0,
+  };
 
   Metronome() = default;
 
@@ -22,6 +34,14 @@ public:
   void setTickSoundPcm(int index, std::vector<float> samples,
                        int32_t sourceSampleRate);
   void setTickSound(TickSound sound);
+  void setPaletteSoundPcm(PaletteSound sound, std::vector<float> samples,
+                          int32_t sourceSampleRate);
+  void setPaletteSound(PaletteSound sound);
+
+  void setKit(Kit kit);
+  [[nodiscard]] Kit getKit() const;
+  [[nodiscard]] static std::vector<PaletteSound> getKitPalette(Kit kit);
+  [[nodiscard]] static const char* getPaletteResourceName(PaletteSound sound);
 
   void setTwoBeatMeasure(bool enabled);
   [[nodiscard]] bool getTwoBeatMeasure() const;
@@ -39,4 +59,5 @@ private:
   MightyMusicCore core_{};
   bool twoBeatMeasure_{false};
   double swingFraction_{0.0};
+  Kit activeKit_{Kit::Metronome};
 };
