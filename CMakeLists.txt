@@ -1,4 +1,4 @@
-# Mighty Music Core — static library `mighty-core` (Scheduler + TempoEngine + public API).
+# Mighty Music Core — static library `mighty-core` (scheduler, engine, metronome, public API).
 # Android: link Oboe (Gradle prefab when available, else FetchContent).
 # Non-Android: miniaudio inside TempoEngine.cpp + optional CLI/GUI hosts and gtests.
 cmake_minimum_required(VERSION 3.14)  # 3.14 = FetchContent_MakeAvailable minimum
@@ -30,12 +30,13 @@ if(ANDROID)
 endif()
 
 add_library(mighty-core STATIC
-    src/Scheduler.cpp
-    src/MightyMusicCore.cpp
-    src/Input.cpp
-    src/Output.cpp
-    src/Metronome.cpp
-    src/TempoEngine.cpp
+    src/scheduler/Scheduler.cpp
+    src/core/MightyMusicCore.cpp
+    src/engine/Input.cpp
+    src/engine/Output.cpp
+    src/metronome/Metronome.cpp
+    src/metronome/BuiltInKits.cpp
+    src/engine/TempoEngine.cpp
 )
 
 target_include_directories(mighty-core
@@ -122,8 +123,12 @@ else()
     add_executable(mighty-core-host-check host/main.cpp)
     target_link_libraries(mighty-core-host-check PRIVATE mighty-core)
 
-    # GUI debug host
-    add_executable(mighty-core-ui host/ui_host.cpp)
+    # GUI debug host (loads mono WAV ticks from assets/metronome/res/raw at runtime).
+    set(MIGHTY_CORE_METRONOME_RAW "${CMAKE_CURRENT_SOURCE_DIR}/assets/metronome/res/raw")
+    add_executable(mighty-core-ui host/ui_host.cpp host/wav_reader.cpp)
+    target_include_directories(mighty-core-ui PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/host)
+    target_compile_definitions(mighty-core-ui PRIVATE
+        "MIGHTY_CORE_METRONOME_RAW_DIR=\"${MIGHTY_CORE_METRONOME_RAW}\"")
     target_link_libraries(mighty-core-ui PRIVATE mighty-core imgui_lib)
 
     # Unit tests

@@ -1,4 +1,4 @@
-#include "TempoEngine.h"
+#include "engine/TempoEngine.h"
 
 #include <algorithm>
 #include <cmath>
@@ -284,7 +284,7 @@ oboe::DataCallbackResult TempoEngine::onAudioReady(
 #else
 
 #define MINIAUDIO_IMPLEMENTATION
-#include "../third_party/miniaudio.h"
+#include "miniaudio.h"
 
 struct TempoEngine::DesktopImpl {
     ma_device device;

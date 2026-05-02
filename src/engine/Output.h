@@ -22,9 +22,9 @@ public:
     void setTwoBeatMeasure(bool enabled);
     void setSwingFraction(double fraction);
 
-    // Index must be in [0, 3].
+    // Index must be in [0, TempoEngine::kTickSlotCount).
     void setTickSoundPcm(int index, std::vector<float> samples, int32_t sourceSampleRate);
-    // -1 = synthesized sine click, 0..3 = preloaded sample slot.
+    // -1 = synthesized sine click, 0..kTickSlotCount-1 = preloaded sample slot.
     void setTickSound(int soundIndex);
 
 private:

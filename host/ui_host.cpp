@@ -3,6 +3,8 @@
 // GL_SILENCE_DEPRECATION is set on the target via CMake on Apple.
 
 #include "Metronome.h"
+#include "MightyMusicCore.h"
+#include "wav_reader.h"
 
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
@@ -13,40 +15,44 @@
 #include <atomic>
 #include <chrono>
 #include <cmath>
+#include <filesystem>
+#include <fstream>
+#include <string>
+#include <vector>
 
 static constexpr int   WIN_W   = 520;
 static constexpr int   WIN_H   = 320;
 static constexpr float BPM_MIN = 1.0f;
 static constexpr float BPM_MAX = 200.0f;
 
-static const char* kTickSoundLabels[] = {
-    "Sine",
-    "PCM slot 0",
-    "PCM slot 1",
-    "PCM slot 2",
-    "PCM slot 3",
+struct TickSoundUiCtx {
+    Metronome* metro = nullptr;
 };
-static constexpr int kTickSoundCount = sizeof(kTickSoundLabels) / sizeof(kTickSoundLabels[0]);
 
-static Metronome::TickSound tickSoundFromComboIndex(int idx) {
-    switch (idx) {
-        case 1: return Metronome::TickSound::Slot0;
-        case 2: return Metronome::TickSound::Slot1;
-        case 3: return Metronome::TickSound::Slot2;
-        case 4: return Metronome::TickSound::Slot3;
-        case 0:
-        default: return Metronome::TickSound::Sine;
+static bool tickSoundComboGetter(void* userData, int idx, const char** outText) {
+    auto* ctx = static_cast<TickSoundUiCtx*>(userData);
+    if (!ctx || !ctx->metro || !outText) {
+        return false;
     }
+    const int kitN  = ctx->metro->loadedKitSoundCount();
+    const int total = 1 + kitN;
+    if (idx < 0 || idx >= total) {
+        return false;
+    }
+    if (idx == 0) {
+        *outText = "Sine";
+        return true;
+    }
+    const char* label = ctx->metro->loadedKitSoundDisplayName(idx - 1);
+    *outText          = label ? label : "(unnamed)";
+    return true;
 }
 
-static int comboIndexFromTickSound(Metronome::TickSound s) {
-    switch (s) {
-        case Metronome::TickSound::Slot0: return 1;
-        case Metronome::TickSound::Slot1: return 2;
-        case Metronome::TickSound::Slot2: return 3;
-        case Metronome::TickSound::Slot3: return 4;
-        case Metronome::TickSound::Sine:
-        default: return 0;
+static void applyTickSoundCombo(Metronome& metro, int comboIdx) {
+    if (comboIdx <= 0) {
+        metro.setActiveTickSound(MightyMusicCore::kTickSoundSine);
+    } else {
+        metro.setActiveTickSound(comboIdx - 1);
     }
 }
 
@@ -71,6 +77,63 @@ static int swingComboIndexFromFraction(double f) {
         }
     }
     return best;
+}
+
+/// Decodes each sound in the loaded kit (resource basename + `.wav`) from disk.
+static bool loadKitWavsFromDisk(Metronome& metro, std::string& statusLine) {
+    namespace fs = std::filesystem;
+    statusLine.clear();
+
+    const fs::path dir{MIGHTY_CORE_METRONOME_RAW_DIR};
+    const int        n = metro.loadedKitSoundCount();
+    if (n == 0) {
+        statusLine = "Loaded kit has no sounds.";
+        return false;
+    }
+
+    int ok = 0;
+    for (int i = 0; i < n; ++i) {
+        const char* base = metro.loadedKitSoundResourceName(i);
+        if (!base || !base[0]) {
+            break;
+        }
+        const fs::path path = dir / (std::string(base) + ".wav");
+        std::ifstream  f(path, std::ios::binary | std::ios::ate);
+        if (!f) {
+            statusLine += std::string("Missing: ") + path.string() + "\n";
+            continue;
+        }
+        const auto sz = static_cast<size_t>(f.tellg());
+        f.seekg(0);
+        std::vector<uint8_t> bytes(sz);
+        if (!f.read(reinterpret_cast<char*>(bytes.data()), static_cast<std::streamsize>(sz))) {
+            statusLine += std::string("Read error: ") + path.string() + "\n";
+            continue;
+        }
+
+        std::vector<float> pcm;
+        int32_t            sampleRate = 0;
+        std::string        err;
+        if (!decodeWavMono16leToFloat(bytes.data(), bytes.size(), pcm, sampleRate, err)) {
+            statusLine += path.filename().string() + ": " + err + "\n";
+            continue;
+        }
+
+        metro.setTickSoundPcm(i, std::move(pcm), sampleRate);
+        ++ok;
+    }
+
+    if (ok == n) {
+        statusLine = std::string("Kit \"") + (metro.loadedKit() ? metro.loadedKit()->kitId : "?")
+            + "\" — loaded " + std::to_string(ok) + " WAV(s) from\n" + dir.string();
+        return true;
+    }
+    if (ok == 0) {
+        statusLine += "\nNo kit PCM — tick uses sine for sample slots.";
+    } else {
+        statusLine += "\nSome kit sounds missing — empty slots use sine.";
+    }
+    return false;
 }
 
 int main() {
@@ -119,14 +182,21 @@ int main() {
     int   lastBeat     = -1;
     auto  lastBeatTime = std::chrono::steady_clock::now() - std::chrono::seconds(10);
 
-    int   tickSoundIdx = comboIndexFromTickSound(Metronome::TickSound::Sine);
-    int   swingIdx     = swingComboIndexFromFraction(0.0);
-    bool  twoBeat     = false;
+    int   swingIdx = swingComboIndexFromFraction(0.0);
+    bool  twoBeat  = false;
 
+    metro.loadKit(Metronome::KitId::MetronomeGentle);
     metro.setBPM(bpm);
-    metro.setTickSound(tickSoundFromComboIndex(tickSoundIdx));
     metro.setSwingFraction(kSwingValues[swingIdx]);
     metro.setTwoBeatMeasure(twoBeat);
+
+    TickSoundUiCtx tickUiCtx;
+    tickUiCtx.metro = &metro;
+    const int        kitSoundCount = metro.loadedKitSoundCount();
+    int              tickSoundComboIdx = (kitSoundCount > 0) ? 1 : 0;
+
+    std::string wavLoadStatus;
+    loadKitWavsFromDisk(metro, wavLoadStatus);
 
     // --- main loop ---
     while (!glfwWindowShouldClose(window)) {
@@ -224,12 +294,22 @@ int main() {
         ImGui::Separator();
         ImGui::Spacing();
 
-        // ---- Tick sound (sine or PCM slots; empty slots fall back to sine) ----
+        // ---- Tick sound: sine + one row per entry in the loaded kit definition ----
         ImGui::TextUnformatted("Tick sound");
         ImGui::SetNextItemWidth(-1.0f);
-        if (ImGui::Combo("##tick_sound", &tickSoundIdx, kTickSoundLabels, kTickSoundCount)) {
-            metro.setTickSound(tickSoundFromComboIndex(tickSoundIdx));
+        const int tickComboCount = 1 + metro.loadedKitSoundCount();
+        if (ImGui::Combo(
+                "##tick_sound",
+                &tickSoundComboIdx,
+                tickSoundComboGetter,
+                &tickUiCtx,
+                tickComboCount)) {
+            applyTickSoundCombo(metro, tickSoundComboIdx);
         }
+
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.65f, 0.65f, 0.70f, 1.0f));
+        ImGui::TextWrapped("%s", wavLoadStatus.c_str());
+        ImGui::PopStyleColor();
 
         ImGui::Spacing();
 

@@ -1,4 +1,4 @@
-#include "Input.h"
+#include "engine/Input.h"
 
 #include <algorithm>
 #include <atomic>
@@ -18,7 +18,7 @@
 #ifdef __ANDROID__
 #include <oboe/Oboe.h>
 #else
-#include "../third_party/miniaudio.h"
+#include "miniaudio.h"
 #endif
 
 namespace {

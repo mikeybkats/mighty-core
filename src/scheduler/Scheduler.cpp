@@ -1,5 +1,5 @@
 // Implementation of sample-accurate beat scheduling (see Scheduler.h).
-#include "Scheduler.h"
+#include "scheduler/Scheduler.h"
 
 #include <algorithm>
 

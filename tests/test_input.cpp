@@ -1,6 +1,6 @@
 // Input tests focus on lifecycle safety. StartListening is hardware/permission
 // dependent on each platform, so we keep this suite deterministic.
-#include "Input.h"
+#include "engine/Input.h"
 #include <gtest/gtest.h>
 
 TEST(Input, StopListeningWithoutStartIsHarmless) {

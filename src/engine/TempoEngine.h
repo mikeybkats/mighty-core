@@ -10,7 +10,7 @@
 #include <functional>
 #include <memory>
 #include <vector>
-#include "Scheduler.h"
+#include "scheduler/Scheduler.h"
 
 // Owns sample-accurate beat scheduling + click synthesis + platform I/O.
 // __ANDROID__: Oboe output stream; this class is the DataCallback.
@@ -21,7 +21,8 @@ class TempoEngine
 #endif
 {
 public:
-    static constexpr int kTickSlotCount = 4;
+    /// Must match `MightyMusicCore::kMaxTickSoundSlots` / `kKitMaxSounds`.
+    static constexpr int kTickSlotCount = 12;
 
     TempoEngine();
 #ifdef __ANDROID__

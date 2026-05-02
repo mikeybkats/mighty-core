@@ -2,6 +2,8 @@
 add_executable(mmc-tests
     test_scheduler.cpp
     test_mighty_music_core.cpp
+    test_kit_definition.cpp
+    test_metronome.cpp
     test_input.cpp
     test_output.cpp
 )

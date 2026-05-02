@@ -1,5 +1,5 @@
 // Integration tests against the real audio backend used by Output.
-#include "Output.h"
+#include "engine/Output.h"
 #include <gtest/gtest.h>
 #include <atomic>
 #include <chrono>
