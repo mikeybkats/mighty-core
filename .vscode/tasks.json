@@ -1,15 +1,16 @@
 {
   "version": "2.0.0",
+  // Apple Silicon Homebrew. On Intel Macs use "/usr/local/bin/cmake" instead.
   "options": {
     "env": {
-      "PATH": "/opt/homebrew/bin:${env:PATH}"
+      "PATH": "/opt/homebrew/bin:/opt/homebrew/sbin:${env:PATH}"
     }
   },
   "tasks": [
     {
       "label": "mighty-core: configure (Debug)",
       "type": "shell",
-      "command": "cmake",
+      "command": "/opt/homebrew/bin/cmake",
       "args": [
         "-B",
         "${workspaceFolder}/build",
@@ -27,7 +28,7 @@
     {
       "label": "mighty-core: build (Debug)",
       "type": "shell",
-      "command": "cmake",
+      "command": "/opt/homebrew/bin/cmake",
       "args": [
         "--build",
         "${workspaceFolder}/build",
@@ -56,7 +57,7 @@
     {
       "label": "mighty-core: clean",
       "type": "shell",
-      "command": "cmake",
+      "command": "/opt/homebrew/bin/cmake",
       "args": ["--build", "${workspaceFolder}/build", "--target", "clean"],
       "options": {
         "cwd": "${workspaceFolder}"
