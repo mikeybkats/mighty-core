@@ -1,0 +1,2 @@
+*.wav filter=lfs diff=lfs merge=lfs -text
+assets/metronome/**/*.wav filter=lfs diff=lfs merge=lfs -text
