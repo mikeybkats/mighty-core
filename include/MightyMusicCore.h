@@ -11,10 +11,10 @@
 // times in samples, and the audio callback mixes the tick (WAV or sine) +
 // invokes onTick.
 class MightyMusicCore {
-public:
+ public:
   /// Maximum PCM click slots (must match `kKitMaxSounds` policy cap in practice).
   static constexpr int kMaxTickSoundSlots = 12;
-  static constexpr int kTickSoundSine     = -1;
+  static constexpr int kTickSoundSine = -1;
 
   MightyMusicCore();
   ~MightyMusicCore();
@@ -28,8 +28,7 @@ public:
 
   // Preload mono float PCM for a tick slot. Safe before start(); resampled when
   // the device rate is known. Index must be in [0, kMaxTickSoundSlots).
-  void setTickSoundPcm(int index, std::vector<float> samples,
-                       int32_t sourceSampleRate);
+  void setTickSoundPcm(int index, std::vector<float> samples, int32_t sourceSampleRate);
   /// `kTickSoundSine` or 0 .. kMaxTickSoundSlots-1 for a PCM slot (empty slot → sine).
   void setTickSound(int soundIndex);
 
@@ -38,7 +37,7 @@ public:
 
   std::function<void(int beatNumber)> onTick;
 
-private:
+ private:
   friend class Metronome;
   void setTwoBeatMeasureInternal(bool enabled);
   void setSwingFractionInternal(double fraction);

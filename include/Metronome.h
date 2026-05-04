@@ -14,7 +14,7 @@
 // kit list ends (see `KitDefinition`).
 
 class Metronome {
-public:
+ public:
   enum class KitId : int32_t {
     MetronomeGentle = 0,
   };
@@ -32,15 +32,18 @@ public:
   /// kit sound, or sine when the kit lists no samples.
   void loadKit(KitId id);
 
-  [[nodiscard]] KitId loadedKitId() const { return loadedKitId_; }
-  [[nodiscard]] const KitDefinition* loadedKit() const { return loadedKit_; }
+  [[nodiscard]] KitId loadedKitId() const {
+    return loadedKitId_;
+  }
+  [[nodiscard]] const KitDefinition* loadedKit() const {
+    return loadedKit_;
+  }
   [[nodiscard]] int loadedKitSoundCount() const;
   [[nodiscard]] const char* loadedKitSoundResourceName(int index) const;
   [[nodiscard]] const char* loadedKitSoundDisplayName(int index) const;
 
   /// PCM slot index must be in [0, MightyMusicCore::kMaxTickSoundSlots).
-  void setTickSoundPcm(int slotIndex, std::vector<float> samples,
-                       int32_t sourceSampleRate);
+  void setTickSoundPcm(int slotIndex, std::vector<float> samples, int32_t sourceSampleRate);
   /// -1 = sine; otherwise slot index (typically 0 .. loadedKitSoundCount()-1).
   void setActiveTickSound(int slotIndex);
 
@@ -52,12 +55,12 @@ public:
 
   std::function<void(int beatNumber)> onTick;
 
-private:
+ private:
   void syncPolicyToCore();
 
   MightyMusicCore core_{};
-  bool              twoBeatMeasure_{false};
-  double            swingFraction_{0.0};
+  bool twoBeatMeasure_{false};
+  double swingFraction_{0.0};
   const KitDefinition* loadedKit_{nullptr};
-  KitId               loadedKitId_{KitId::MetronomeGentle};
+  KitId loadedKitId_{KitId::MetronomeGentle};
 };

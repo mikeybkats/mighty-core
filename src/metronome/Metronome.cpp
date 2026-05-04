@@ -1,10 +1,10 @@
 #include "Metronome.h"
 
-#include "BuiltInKits.h"
-#include "MightyMusicCore.h"
-
 #include <algorithm>
 #include <utility>
+
+#include "BuiltInKits.h"
+#include "MightyMusicCore.h"
 
 static_assert(kKitMaxSounds == MightyMusicCore::kMaxTickSoundSlots);
 
@@ -18,7 +18,7 @@ const KitDefinition* definitionForKit(Metronome::KitId id) {
   }
 }
 
-} // namespace
+}  // namespace
 
 void Metronome::start() {
   core_.onTick = onTick;
@@ -26,18 +26,26 @@ void Metronome::start() {
   core_.start();
 }
 
-void Metronome::stop() { core_.stop(); }
+void Metronome::stop() {
+  core_.stop();
+}
 
-bool Metronome::isPlaying() const { return core_.isPlaying(); }
+bool Metronome::isPlaying() const {
+  return core_.isPlaying();
+}
 
-void Metronome::setBPM(double bpm) { core_.setBPM(bpm); }
+void Metronome::setBPM(double bpm) {
+  core_.setBPM(bpm);
+}
 
-double Metronome::getBPM() const { return core_.getBPM(); }
+double Metronome::getBPM() const {
+  return core_.getBPM();
+}
 
 void Metronome::loadKit(KitId id) {
-  loadedKit_    = definitionForKit(id);
-  loadedKitId_  = id;
-  const int n   = loadedKitSoundCount();
+  loadedKit_ = definitionForKit(id);
+  loadedKitId_ = id;
+  const int n = loadedKitSoundCount();
   core_.setTickSound(n > 0 ? 0 : MightyMusicCore::kTickSoundSine);
 }
 
@@ -76,14 +84,18 @@ void Metronome::setTwoBeatMeasure(bool enabled) {
   core_.setTwoBeatMeasureInternal(twoBeatMeasure_);
 }
 
-bool Metronome::getTwoBeatMeasure() const { return twoBeatMeasure_; }
+bool Metronome::getTwoBeatMeasure() const {
+  return twoBeatMeasure_;
+}
 
 void Metronome::setSwingFraction(double fraction) {
   swingFraction_ = std::clamp(fraction, 0.0, 0.5);
   core_.setSwingFractionInternal(swingFraction_);
 }
 
-double Metronome::getSwingFraction() const { return swingFraction_; }
+double Metronome::getSwingFraction() const {
+  return swingFraction_;
+}
 
 void Metronome::syncPolicyToCore() {
   core_.setTwoBeatMeasureInternal(twoBeatMeasure_);

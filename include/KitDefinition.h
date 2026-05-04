@@ -11,7 +11,7 @@ struct KitSoundEntry {
 };
 
 struct KitDefinition {
-  const char*     kitId;
+  const char* kitId;
   const KitSoundEntry* sounds;
 };
 

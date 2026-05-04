@@ -12,11 +12,11 @@ static const KitSoundEntry kMetronomeGentleEntries[] = {
     {nullptr, nullptr},
 };
 
-} // namespace
+}  // namespace
 
 const KitDefinition kMetronomeGentle = {
     "metronome_gentle",
     kMetronomeGentleEntries,
 };
 
-} // namespace BuiltInKits
+}  // namespace BuiltInKits

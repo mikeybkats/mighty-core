@@ -1,9 +1,10 @@
 #include "MightyMusicCore.h"
+
 #include "engine/Input.h"
 #include "engine/Output.h"
 
 class MightyMusicCore::Impl {
-public:
+ public:
   Input input;
   Output output;
 };
