@@ -21,7 +21,7 @@
 #include "wav_reader.h"
 
 static constexpr int WIN_W = 520;
-static constexpr int WIN_H = 320;
+static constexpr int WIN_H = 390;
 static constexpr float BPM_MIN = 1.0f;
 static constexpr float BPM_MAX = 200.0f;
 
@@ -73,6 +73,15 @@ static int swingComboIndexFromFraction(double f) {
     }
   }
   return best;
+}
+
+static const char* midiNoteName(int midi) {
+  static const char* kNames[12] = {"C",  "C#", "D",  "D#", "E", "F",
+                                   "F#", "G",  "G#", "A",  "A#", "B"};
+  if (midi < 0 || midi > 127) {
+    return "--";
+  }
+  return kNames[midi % 12];
 }
 
 /// Decodes each sound in the loaded kit (resource basename + `.wav`) from disk.
@@ -285,6 +294,52 @@ int main() {
 
     ImGui::Spacing();
     ImGui::Separator();
+    ImGui::Spacing();
+
+    // ---- Input listening controls ----
+    const bool listening = metro.isListening();
+    if (listening) {
+      ImGui::PushStyleColor(ImGuiCol_Button, {0.70f, 0.12f, 0.12f, 1.0f});
+      ImGui::PushStyleColor(ImGuiCol_ButtonHovered, {0.90f, 0.18f, 0.18f, 1.0f});
+      ImGui::PushStyleColor(ImGuiCol_ButtonActive, {0.50f, 0.08f, 0.08f, 1.0f});
+      if (ImGui::Button("Stop listening", {150.0f, 28.0f})) {
+        metro.stopListening();
+      }
+      ImGui::PopStyleColor(3);
+    } else {
+      ImGui::PushStyleColor(ImGuiCol_Button, {0.10f, 0.55f, 0.10f, 1.0f});
+      ImGui::PushStyleColor(ImGuiCol_ButtonHovered, {0.14f, 0.75f, 0.14f, 1.0f});
+      ImGui::PushStyleColor(ImGuiCol_ButtonActive, {0.06f, 0.38f, 0.06f, 1.0f});
+      if (ImGui::Button("Start listening", {150.0f, 28.0f})) {
+        metro.startListening();
+      }
+      ImGui::PopStyleColor(3);
+    }
+    ImGui::SameLine();
+    const bool detectedSignal = metro.hasDetectedInputSignal();
+    ImGui::TextUnformatted("Signal");
+    ImGui::SameLine();
+    ImVec2 signalCursor = ImGui::GetCursorScreenPos();
+    const float signalRadius = 7.0f;
+    const ImVec4 signalColor = detectedSignal
+                                   ? ImVec4(0.10f, 0.80f, 0.25f, 1.0f)
+                                   : ImVec4(0.35f, 0.35f, 0.35f, 1.0f);
+    dl->AddCircleFilled({signalCursor.x + signalRadius, signalCursor.y + signalRadius}, signalRadius,
+                        ImGui::ColorConvertFloat4ToU32(signalColor));
+    ImGui::Dummy({signalRadius * 2.0f + 2.0f, signalRadius * 2.0f});
+    if (detectedSignal) {
+      ImGui::SameLine();
+      ImGui::TextDisabled("detected");
+    }
+    ImGui::SameLine(0.0f, 12.0f);
+    const int detectedMidi = metro.lastDetectedMidiNote();
+    if (detectedMidi >= 0) {
+      const int octave = (detectedMidi / 12) - 1;
+      ImGui::Text("Note: %s%d (MIDI %d)", midiNoteName(detectedMidi), octave, detectedMidi);
+    } else {
+      ImGui::TextDisabled("Note: --");
+    }
+
     ImGui::Spacing();
 
     // ---- Tick sound: sine + one row per entry in the loaded kit definition ----

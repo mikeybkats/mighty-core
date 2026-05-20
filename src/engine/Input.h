@@ -13,6 +13,11 @@ class Input {
   void startListening();
   // Stops listening, clears session buffers, and writes session logs to disk.
   void stopListening();
+  [[nodiscard]] bool isListening() const;
+  // True once pitch detection has seen at least one valid signal since startListening.
+  [[nodiscard]] bool hasDetectedSignal() const;
+  // Returns last detected MIDI note for current session, or -1 when none detected.
+  [[nodiscard]] int lastDetectedMidiNote() const;
 
  private:
   class Impl;

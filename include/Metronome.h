@@ -53,6 +53,12 @@ class Metronome {
   void setSwingFraction(double fraction);
   [[nodiscard]] double getSwingFraction() const;
 
+  void startListening();
+  void stopListening();
+  [[nodiscard]] bool isListening() const;
+  [[nodiscard]] bool hasDetectedInputSignal() const;
+  [[nodiscard]] int lastDetectedMidiNote() const;
+
   std::function<void(int beatNumber)> onTick;
 
  private:

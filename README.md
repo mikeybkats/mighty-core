@@ -5,14 +5,14 @@ A C++ audio engine that powers the Mighty family of apps. MMC handles all audio 
 ## Architecture
 
 ```
-iOS (SwiftUI)              Android (Kotlin)
+Android (Kotlin)
       ↕  ObjC++ bridge           ↕  JNI bridge
-            [Mighty Music Core (C++ / JUCE)]
+            [Mighty Music Core (C++)]
             ┌─────────────────────────────┐
             │  Lifecycle & Scheduler      │
             │  Tempo Engine               │
-            │  IAnalyzer (swappable)      │
-            │  IComposer (swappable)      │
+            │  Interpret (swappable)      │
+            │  Compose (swappable)      │
             │  MIDI Out                   │
             │  Audio I/O                  │
             └─────────────────────────────┘
@@ -56,9 +56,11 @@ target_link_libraries(your_target mighty-core)
 ```
 
 ### Android
+
 Requires NDK 26+ and CMake 3.22+. Oboe is fetched automatically via CMake `FetchContent` — no manual dependency setup needed.
 
 ### iOS
+
 Not yet implemented (Milestone 5). Will use CoreAudio behind the same `MightyMusicCore` interface.
 
 ## Guiding Principles
@@ -70,10 +72,21 @@ Not yet implemented (Milestone 5). Will use CoreAudio behind the same `MightyMus
 
 ## Milestones
 
-| # | Status | Description |
-|---|--------|-------------|
-| 2 | ✅ | MMC scaffolding — static lib, stub interface, Android CMake integration |
-| 3 | ✅ | Tempo engine — audio-clock scheduler, Oboe click track, `onTick` callback |
-| 5 | ⬜ | iOS CoreAudio backend |
-| 5 | ⬜ | `IAnalyzer` / `IComposer` module system + `MusicalState` |
-| 6 | ⬜ | Pitch detection (YIN) and bassline composer |
+| #   | Status | Description                                                               |
+| --- | ------ | ------------------------------------------------------------------------- |
+| 2   | ✅     | MMC scaffolding — static lib, stub interface, Android CMake integration   |
+| 3   | ✅     | Tempo engine — audio-clock scheduler, Oboe click track, `onTick` callback |
+| 4   | ⬜     | `Interpret` / `Compose` module system + `MusicalState`                    |
+| 5   | ⬜     | Pitch detection (YIN) and bassline composer                               |
+| 6   | ⬜     | iOS CoreAudio backend                                                     |
+
+## TODO:
+
+1. Analyzer / Composer
+   1. listening / tracking / handling state
+      1. modes: `input`, `jam`, `song`
+         1. `input` - for v2 would rely on midi composition
+         2. `jam` - user just starts playing
+2. Synthesizer
+   1. a simple multitimbral polyphonic synthesizer.
+      1. V1 Not adjustable by user. Comes with pre-set sounds: `guitar`, `bass`, `piano`

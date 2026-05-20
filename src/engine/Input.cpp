@@ -214,6 +214,8 @@ class Input::Impl {
  public:
   // Shared listening session state.
   std::atomic<bool> listening{false};
+  std::atomic<bool> hasDetectedSignal{false};
+  std::atomic<int> latestDetectedMidi{-1};
   int32_t inputSampleRate = kInputSampleRate;
   std::mutex stateMutex;
   std::vector<float> inputBuffer;
@@ -261,6 +263,10 @@ class Input::Impl {
 
     while (static_cast<int32_t>(inputBuffer.size()) >= kWindowSize) {
       const DetectionResult detection = detectPitchMonophonic(inputBuffer, 0, inputSampleRate);
+      if (detection.valid) {
+        hasDetectedSignal.store(true, std::memory_order_relaxed);
+        latestDetectedMidi.store(detection.midi, std::memory_order_relaxed);
+      }
       if (detection.valid && detection.midi != lastMidi) {
         const auto now = std::chrono::steady_clock::now();
         const double ts = std::chrono::duration<double>(now - listenStartedAt).count();
@@ -301,6 +307,8 @@ void Input::startListening() {
     impl_->lastMidi = -1;
     impl_->listenStartedAt = std::chrono::steady_clock::now();
   }
+  impl_->hasDetectedSignal.store(false, std::memory_order_relaxed);
+  impl_->latestDetectedMidi.store(-1, std::memory_order_relaxed);
 
 #ifdef __ANDROID__
   // Android path: Oboe low-latency input stream.
@@ -394,4 +402,16 @@ void Input::stopListening() {
 
   impl_->lastSessionLogPath = buildSessionLogPath();
   writeSessionLog(impl_->lastSessionLogPath, sessionNotes);
+}
+
+bool Input::isListening() const {
+  return impl_->listening.load(std::memory_order_relaxed);
+}
+
+bool Input::hasDetectedSignal() const {
+  return impl_->hasDetectedSignal.load(std::memory_order_relaxed);
+}
+
+int Input::lastDetectedMidiNote() const {
+  return impl_->latestDetectedMidi.load(std::memory_order_relaxed);
 }

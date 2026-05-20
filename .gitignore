@@ -12,3 +12,6 @@ _deps/
 *.swp
 *.swo
 *~
+
+# Logs
+listening_logs/

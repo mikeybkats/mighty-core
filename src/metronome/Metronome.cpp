@@ -97,6 +97,26 @@ double Metronome::getSwingFraction() const {
   return swingFraction_;
 }
 
+void Metronome::startListening() {
+  core_.startListening();
+}
+
+void Metronome::stopListening() {
+  core_.stopListening();
+}
+
+bool Metronome::isListening() const {
+  return core_.isListening();
+}
+
+bool Metronome::hasDetectedInputSignal() const {
+  return core_.hasDetectedInputSignal();
+}
+
+int Metronome::lastDetectedMidiNote() const {
+  return core_.lastDetectedMidiNote();
+}
+
 void Metronome::syncPolicyToCore() {
   core_.setTwoBeatMeasureInternal(twoBeatMeasure_);
   core_.setSwingFractionInternal(swingFraction_);

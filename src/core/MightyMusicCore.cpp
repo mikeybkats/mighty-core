@@ -60,3 +60,15 @@ void MightyMusicCore::startListening() {
 void MightyMusicCore::stopListening() {
   impl_->input.stopListening();
 }
+
+bool MightyMusicCore::isListening() const {
+  return impl_->input.isListening();
+}
+
+bool MightyMusicCore::hasDetectedInputSignal() const {
+  return impl_->input.hasDetectedSignal();
+}
+
+int MightyMusicCore::lastDetectedMidiNote() const {
+  return impl_->input.lastDetectedMidiNote();
+}
