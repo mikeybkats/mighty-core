@@ -21,7 +21,8 @@
 #include "wav_reader.h"
 
 static constexpr int WIN_W = 520;
-static constexpr int WIN_H = 390;
+static constexpr int WIN_H = 560;
+static constexpr int WIN_MIN_H = 480;
 static constexpr float BPM_MIN = 1.0f;
 static constexpr float BPM_MAX = 200.0f;
 
@@ -54,6 +55,23 @@ static void applyTickSoundCombo(Metronome& metro, int comboIdx) {
   } else {
     metro.setActiveTickSound(comboIdx - 1);
   }
+}
+
+struct SynthPatchUiCtx {
+  Metronome* metro = nullptr;
+};
+
+static bool synthPatchComboGetter(void* userData, int idx, const char** outText) {
+  auto* ctx = static_cast<SynthPatchUiCtx*>(userData);
+  if (!ctx || !ctx->metro || !outText) {
+    return false;
+  }
+  const char* name = ctx->metro->synthPatchName(idx);
+  if (!name) {
+    return false;
+  }
+  *outText = name;
+  return true;
 }
 
 static const char* kSwingLabels[] = {
@@ -148,7 +166,7 @@ int main() {
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-  glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+  glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
   GLFWwindow* window = glfwCreateWindow(WIN_W, WIN_H, "Mighty Core — Debug", nullptr, nullptr);
   if (!window) {
@@ -156,6 +174,7 @@ int main() {
     return 1;
   }
   glfwMakeContextCurrent(window);
+  glfwSetWindowSizeLimits(window, WIN_W, WIN_MIN_H, GLFW_DONT_CARE, GLFW_DONT_CARE);
   glfwSwapInterval(1);  // vsync
 
   IMGUI_CHECKVERSION();
@@ -191,6 +210,11 @@ int main() {
   int swingIdx = swingComboIndexFromFraction(0.0);
   bool twoBeat = false;
 
+  int synthPatchIdx = 0;
+  int synthMidiNote = 60;
+  SynthPatchUiCtx synthUiCtx;
+  synthUiCtx.metro = &metro;
+
   metro.loadKit(Metronome::KitId::MetronomeGentle);
   metro.setBPM(bpm);
   metro.setSwingFraction(kSwingValues[swingIdx]);
@@ -224,7 +248,6 @@ int main() {
     ImGui::SetNextWindowSize(io.DisplaySize);
     ImGui::Begin("##root", nullptr,
                  ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove |
-                     ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse |
                      ImGuiWindowFlags_NoBringToFrontOnFocus);
 
     ImGui::Spacing();
@@ -371,6 +394,42 @@ int main() {
       metro.setTwoBeatMeasure(twoBeat);
     }
 
+    ImGui::Spacing();
+    ImGui::Separator();
+    ImGui::Spacing();
+
+    // ---- Synth test (independent of metronome Play/Stop) ----
+    ImGui::TextUnformatted("Synth sound");
+    ImGui::SetNextItemWidth(-1.0f);
+    ImGui::Combo("##synth_sound", &synthPatchIdx, synthPatchComboGetter, &synthUiCtx,
+                 metro.synthPatchCount());
+
+    ImGui::SetNextItemWidth(120.0f);
+    ImGui::SliderInt("MIDI note", &synthMidiNote, 24, 96);
+    ImGui::SameLine();
+    const int synthOctave = (synthMidiNote / 12) - 1;
+    ImGui::Text("%s%d", midiNoteName(synthMidiNote), synthOctave);
+
+    const float btnW = (ImGui::GetContentRegionAvail().x - ImGui::GetStyle().ItemSpacing.x) * 0.5f;
+
+    ImGui::PushStyleColor(ImGuiCol_Button, {0.12f, 0.40f, 0.65f, 1.0f});
+    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, {0.16f, 0.52f, 0.82f, 1.0f});
+    ImGui::PushStyleColor(ImGuiCol_ButtonActive, {0.08f, 0.28f, 0.48f, 1.0f});
+    if (ImGui::Button("Trigger note", {btnW, 32.0f})) {
+      metro.triggerSynthNote(synthPatchIdx, synthMidiNote, 0.85f);
+    }
+    ImGui::PopStyleColor(3);
+
+    ImGui::SameLine();
+
+    ImGui::PushStyleColor(ImGuiCol_Button, {0.45f, 0.28f, 0.10f, 1.0f});
+    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, {0.58f, 0.36f, 0.14f, 1.0f});
+    ImGui::PushStyleColor(ImGuiCol_ButtonActive, {0.32f, 0.20f, 0.06f, 1.0f});
+    if (ImGui::Button("Release gate", {btnW, 32.0f})) {
+      metro.releaseSynthGate();
+    }
+    ImGui::PopStyleColor(3);
+
     ImGui::End();
 
     // ---- Render ----
@@ -385,6 +444,7 @@ int main() {
   }
 
   metro.stop();
+  metro.closePlayback();
   ImGui_ImplOpenGL3_Shutdown();
   ImGui_ImplGlfw_Shutdown();
   ImGui::DestroyContext();

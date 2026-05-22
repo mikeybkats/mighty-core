@@ -1,0 +1,134 @@
+#pragma once
+
+#include <cstdint>
+
+// -----------------------------------------------------------------------------
+// SynthSoundTypes — POD patch data for Sound::createSound().
+//
+// VoiceEngine::Subtractive — dual VCO, SVF, dual envelope, LFO, ring mod.
+// VoiceEngine::Plucked     — Karplus–Strong string (guitar/harp/piano plucks).
+//
+// Master delay/chorus are configured per patch (EffectsSpec); the wet mix is
+// applied on the summed voice bus when notes play.
+// -----------------------------------------------------------------------------
+
+enum class OscFootage : int {
+  Foot32 = 32,
+  Foot16 = 16,
+  Foot8 = 8,
+  Foot4 = 4,
+  Foot2 = 2,
+  Low = 0,
+};
+
+enum class OscWave : uint8_t {
+  Sine,
+  Tri,
+  Saw,
+  Square,
+  PolySaw,
+  PolySquare,
+};
+
+enum class FilterMode : uint8_t {
+  Low,
+  Band,
+  High,
+  Notch,
+};
+
+enum class VoiceEngine : uint8_t {
+  Subtractive,
+  Plucked,
+};
+
+struct VcoSpec {
+  OscFootage range = OscFootage::Foot8;
+  OscWave wave = OscWave::PolySaw;
+  float tuneSemis = 0.f;
+  float pulseWidth = 0.5f;
+  float level = 0.5f;
+  bool enabled = true;
+};
+
+struct VcfSpec {
+  float cutoffHz = 800.f;
+  float resonance = 0.3f;
+  float envDepth = 0.5f;
+  float keyTrack = 0.f;
+  FilterMode mode = FilterMode::Low;
+  /// SVF input drive 0..1 (higher = more resonance emphasis).
+  float drive = 0.5f;
+};
+
+struct AdsrSpec {
+  float attackSec = 0.01f;
+  float decaySec = 0.2f;
+  float sustain = 0.6f;
+  float releaseSec = 0.3f;
+};
+
+/// LFO modulation depths (bipolar sine LFO at rateHz).
+struct LfoSpec {
+  float rateHz = 5.f;
+  /// Added to filter cutoff via envDepth scale (0..1).
+  float filterDepth = 0.f;
+  /// Pitch wobble in semitones peak (applied to both oscs).
+  float pitchDepthSemis = 0.f;
+  /// Pulse-width offset for square waves (0..1).
+  float pwmDepth = 0.f;
+};
+
+struct MixerSpec {
+  float osc1 = 0.6f;
+  float osc2 = 0.4f;
+  float noise = 0.f;
+  /// Ring mod: osc1 × osc2 (single sample each, no double-processing).
+  float ringMod = 0.f;
+};
+
+/// DaisySP StringVoice (Rings-style Karplus). See stringvoice.h / DaisySP docs.
+/// https://electro-smith.github.io/DaisySP/classdaisysp_1_1_string_voice.html
+struct PluckSpec {
+  /// String type: 0–0.26 curved bridge (guitar/bass), 0.26–1 dispersion (piano/harp).
+  float structure = 0.12f;
+  /// Timbre + strike noise density (0..1).
+  float brightness = 0.5f;
+  /// Decay; full damping needs accent near 1.
+  float damping = 0.55f;
+  /// Strike hardness; boosts brightness and damping on the attack.
+  float accent = 0.85f;
+  /// Continuous dust excitation (bowed); leave false for plucks.
+  bool sustain = false;
+  float level = 1.f;
+};
+
+/// Post-voice bus: chorus + feedback delay (applied in Synthesizer::renderVoices).
+struct EffectsSpec {
+  /// Overall wet amount 0..1 for this patch.
+  float wet = 0.f;
+  float chorusDepth = 0.35f;
+  float chorusRateHz = 0.6f;
+  float delayMs = 180.f;
+  float delayFeedback = 0.38f;
+  /// Balance inside wet: 0 = all chorus, 1 = all delay.
+  float delayMix = 0.45f;
+};
+
+struct SynthSoundSpec {
+  VoiceEngine engine = VoiceEngine::Subtractive;
+
+  VcoSpec osc1{};
+  VcoSpec osc2{};
+  VcfSpec filter{};
+  AdsrSpec ampEnv{};
+  AdsrSpec filterEnv{};
+  LfoSpec lfo{};
+  MixerSpec mixer{};
+  PluckSpec pluck{};
+  EffectsSpec effects{};
+
+  float masterVolume = 0.75f;
+  /// Portamento time in seconds (0 = instant pitch).
+  float glideSec = 0.f;
+};

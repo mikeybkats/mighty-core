@@ -3,6 +3,7 @@ build/
 cmake-build-*/
 out/
 CMakeUserPresets.json
+CMakeFiles
 
 # FetchContent / CPM caches (if used)
 _deps/

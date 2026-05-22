@@ -7,7 +7,7 @@
 #include "KitDefinition.h"
 #include "MightyMusicCore.h"
 
-// App/domain metronome policy layer.
+// App/domain metronome policy layer (transport only — independent of synth preview).
 // Kit defining: static `KitDefinition` tables (BuiltInKits, etc.).
 // Kit loading: `loadKit` selects one kit; hosts iterate `loadedKitSoundCount()` and
 // fill PCM with `setTickSoundPcm` using `loadedKitSoundResourceName(i)` until the
@@ -24,6 +24,10 @@ class Metronome {
   void start();
   void stop();
   [[nodiscard]] bool isPlaying() const;
+
+  bool openPlayback();
+  void closePlayback();
+  [[nodiscard]] bool isPlaybackOpen() const;
 
   void setBPM(double bpm);
   [[nodiscard]] double getBPM() const;
@@ -58,6 +62,11 @@ class Metronome {
   [[nodiscard]] bool isListening() const;
   [[nodiscard]] bool hasDetectedInputSignal() const;
   [[nodiscard]] int lastDetectedMidiNote() const;
+
+  [[nodiscard]] int synthPatchCount() const;
+  [[nodiscard]] const char* synthPatchName(int patchIndex) const;
+  void triggerSynthNote(int patchIndex, int midiNote, float velocity);
+  void releaseSynthGate();
 
   std::function<void(int beatNumber)> onTick;
 

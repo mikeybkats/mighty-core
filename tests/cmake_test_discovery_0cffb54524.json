@@ -1,0 +1,269 @@
+{
+  "tests": 43,
+  "name": "AllTests",
+  "testsuites": [
+    {
+      "name": "Scheduler",
+      "tests": 10,
+      "testsuite": [
+        {
+          "name": "DefaultBPMIs120",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_scheduler.cpp",
+          "line": 10
+        },
+        {
+          "name": "SetAndGetBPM",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_scheduler.cpp",
+          "line": 15
+        },
+        {
+          "name": "BPMClampedAtMinimum",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_scheduler.cpp",
+          "line": 21
+        },
+        {
+          "name": "BPMClampedAtMaximum",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_scheduler.cpp",
+          "line": 27
+        },
+        {
+          "name": "FirstTickAtFrameZero",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_scheduler.cpp",
+          "line": 37
+        },
+        {
+          "name": "BeatNumbersIncrement",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_scheduler.cpp",
+          "line": 47
+        },
+        {
+          "name": "TickIntervalIsExact_120BPM_48kHz",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_scheduler.cpp",
+          "line": 65
+        },
+        {
+          "name": "TickIntervalIsExact_60BPM_44100Hz",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_scheduler.cpp",
+          "line": 91
+        },
+        {
+          "name": "ResetRestartsBeatCounter",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_scheduler.cpp",
+          "line": 117
+        },
+        {
+          "name": "BPMChangeTakesEffectOnNextInterval",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_scheduler.cpp",
+          "line": 138
+        }
+      ]
+    },
+    {
+      "name": "MightyMusicCore",
+      "tests": 4,
+      "testsuite": [
+        {
+          "name": "StopWithoutStartIsHarmless",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_mighty_music_core.cpp",
+          "line": 6
+        },
+        {
+          "name": "ListeningStopWithoutStartIsHarmless",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_mighty_music_core.cpp",
+          "line": 11
+        },
+        {
+          "name": "DefaultBPMIsAccessibleFromCoreApi",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_mighty_music_core.cpp",
+          "line": 16
+        },
+        {
+          "name": "SetBPMThroughCoreApi",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_mighty_music_core.cpp",
+          "line": 21
+        }
+      ]
+    },
+    {
+      "name": "KitDefinition",
+      "tests": 9,
+      "testsuite": [
+        {
+          "name": "NullSoundsPointerYieldsZeroCount",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_kit_definition.cpp",
+          "line": 47
+        },
+        {
+          "name": "ImmediateTerminatorYieldsZeroCount",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_kit_definition.cpp",
+          "line": 54
+        },
+        {
+          "name": "CountsSingleSoundBeforeTerminator",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_kit_definition.cpp",
+          "line": 59
+        },
+        {
+          "name": "EmptyResourceNameTerminatesList",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_kit_definition.cpp",
+          "line": 66
+        },
+        {
+          "name": "NullDisplayNameFallsBackToResourceName",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_kit_definition.cpp",
+          "line": 73
+        },
+        {
+          "name": "OutOfRangeQueriesReturnNull",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_kit_definition.cpp",
+          "line": 79
+        },
+        {
+          "name": "ExactlyMaxSoundsCountsTwelve",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_kit_definition.cpp",
+          "line": 86
+        },
+        {
+          "name": "MoreThanMaxEntriesStillCountsTwelve",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_kit_definition.cpp",
+          "line": 94
+        },
+        {
+          "name": "MaxSoundsConstantIsTwelve",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_kit_definition.cpp",
+          "line": 101
+        }
+      ]
+    },
+    {
+      "name": "Metronome",
+      "tests": 6,
+      "testsuite": [
+        {
+          "name": "BeforeLoadKitExposesNoKitData",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_metronome.cpp",
+          "line": 8
+        },
+        {
+          "name": "LoadKitCountsSoundsUntilNullTerminator",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_metronome.cpp",
+          "line": 16
+        },
+        {
+          "name": "DisplayNamesMatchBuiltInKit",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_metronome.cpp",
+          "line": 26
+        },
+        {
+          "name": "LoadedKitMatchesBuiltInDefinition",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_metronome.cpp",
+          "line": 33
+        },
+        {
+          "name": "BuiltInKitHasNullTerminatorAfterLastSound",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_metronome.cpp",
+          "line": 43
+        },
+        {
+          "name": "LoadKitIsIdempotent",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_metronome.cpp",
+          "line": 50
+        }
+      ]
+    },
+    {
+      "name": "Input",
+      "tests": 2,
+      "testsuite": [
+        {
+          "name": "StopListeningWithoutStartIsHarmless",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_input.cpp",
+          "line": 7
+        },
+        {
+          "name": "RepeatedStopListeningIsHarmless",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_input.cpp",
+          "line": 12
+        }
+      ]
+    },
+    {
+      "name": "Output",
+      "tests": 9,
+      "testsuite": [
+        {
+          "name": "NotPlayingAfterConstruction",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_output.cpp",
+          "line": 14
+        },
+        {
+          "name": "IsPlayingAfterStart",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_output.cpp",
+          "line": 19
+        },
+        {
+          "name": "NotPlayingAfterStop",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_output.cpp",
+          "line": 27
+        },
+        {
+          "name": "StopWithoutStartIsHarmless",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_output.cpp",
+          "line": 34
+        },
+        {
+          "name": "DefaultBPM",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_output.cpp",
+          "line": 43
+        },
+        {
+          "name": "SetBPMBeforeStart",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_output.cpp",
+          "line": 48
+        },
+        {
+          "name": "SetBPMWhilePlaying",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_output.cpp",
+          "line": 54
+        },
+        {
+          "name": "TickCallbackFires",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_output.cpp",
+          "line": 67
+        },
+        {
+          "name": "BeatNumbersAreSequential",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_output.cpp",
+          "line": 81
+        }
+      ]
+    },
+    {
+      "name": "Synthesizer",
+      "tests": 1,
+      "testsuite": [
+        {
+          "name": "ClickRendersNonSilentSamples",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_synthesizer.cpp",
+          "line": 8
+        }
+      ]
+    },
+    {
+      "name": "Sound",
+      "tests": 2,
+      "testsuite": [
+        {
+          "name": "CreateSoundAndPlayVoice",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_synthesizer.cpp",
+          "line": 20
+        },
+        {
+          "name": "BuiltInGuitarPreset",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_synthesizer.cpp",
+          "line": 46
+        }
+      ]
+    }
+  ]
+}
