@@ -8,8 +8,8 @@
 #include "Control/adsr.h"
 #include "Control/phasor.h"
 #include "Effects/chorus.h"
+#include "Filters/ladder.h"
 #include "Filters/onepole.h"
-#include "Filters/svf.h"
 #include "Noise/whitenoise.h"
 #include "PhysicalModeling/stringvoice.h"
 #include "Synthesis/oscillator.h"
@@ -79,17 +79,21 @@ void configureOsc(daisysp::Oscillator& osc, float sampleRate, const VcoSpec& spe
   osc.SetAmp(1.f);
 }
 
-float filterOutput(daisysp::Svf& svf, FilterMode mode) {
+constexpr float kLadderMaxRes = 1.8f;
+constexpr float kLadderMaxInputDrive = 4.f;
+constexpr float kLadderPassbandGain = 0.1f;
+
+daisysp::LadderFilter::FilterMode toLadderMode(FilterMode mode) {
   switch (mode) {
     case FilterMode::Band:
-      return svf.Band();
+      return daisysp::LadderFilter::FilterMode::BP24;
     case FilterMode::High:
-      return svf.High();
+      return daisysp::LadderFilter::FilterMode::HP24;
     case FilterMode::Notch:
-      return svf.Notch();
+      return daisysp::LadderFilter::FilterMode::BP12;
     case FilterMode::Low:
     default:
-      return svf.Low();
+      return daisysp::LadderFilter::FilterMode::LP24;
   }
 }
 
@@ -186,7 +190,7 @@ struct PatchVoice {
   daisysp::Oscillator osc2;
   daisysp::Oscillator subOsc;
   daisysp::WhiteNoise noise;
-  daisysp::Svf svf;
+  daisysp::LadderFilter ladder;
   daisysp::Adsr ampEnv;
   daisysp::Adsr filterEnv;
   daisysp::Phasor lfo1;
@@ -216,7 +220,7 @@ struct PatchVoice {
     subOsc.SetWaveform(daisysp::Oscillator::WAVE_SQUARE);
     subOsc.SetAmp(1.f);
     noise.Init();
-    svf.Init(sr);
+    ladder.Init(sr);
     ampEnv.Init(sr);
     filterEnv.Init(sr);
     lfo1.Init(sr);
@@ -253,10 +257,8 @@ struct PatchVoice {
     osc2Mult = footageToMultiplier(s.osc2.range);
     updateGlideCoeff();
 
-    svf.Init(sampleRate);
-    svf.SetFreq(std::clamp(s.filter.cutoffHz, 20.f, sampleRate * 0.45f));
-    svf.SetRes(std::clamp(s.filter.resonance, 0.f, 1.f));
-    svf.SetDrive(std::clamp(s.filter.drive, 0.f, 1.f));
+    ladder.Init(sampleRate);
+    syncLadderFromSpec();
 
     ampEnv.Init(sampleRate);
     ampEnv.SetAttackTime(s.ampEnv.attackSec);
@@ -278,6 +280,29 @@ struct PatchVoice {
     ampGain = s.masterVolume;
   }
 
+  void syncAmpEnvFromSpec() {
+    ampEnv.SetAttackTime(spec.ampEnv.attackSec);
+    ampEnv.SetDecayTime(spec.ampEnv.decaySec);
+    ampEnv.SetSustainLevel(spec.ampEnv.sustain);
+    ampEnv.SetReleaseTime(spec.ampEnv.releaseSec);
+  }
+
+  void syncFilterEnvFromSpec() {
+    filterEnv.SetAttackTime(spec.filterEnv.attackSec);
+    filterEnv.SetDecayTime(spec.filterEnv.decaySec);
+    filterEnv.SetSustainLevel(spec.filterEnv.sustain);
+    filterEnv.SetReleaseTime(spec.filterEnv.releaseSec);
+  }
+
+  void syncLadderFromSpec() {
+    const float maxCutoff = sampleRate * 0.49f;
+    ladder.SetFilterMode(toLadderMode(spec.filter.mode));
+    ladder.SetFreq(std::clamp(spec.filter.cutoffHz, 5.f, maxCutoff));
+    ladder.SetRes(std::clamp(spec.filter.resonance, 0.f, kLadderMaxRes));
+    ladder.SetInputDrive(std::clamp(spec.filter.drive, 0.f, 1.f) * kLadderMaxInputDrive);
+    ladder.SetPassbandGain(kLadderPassbandGain);
+  }
+
   static float lfoBipolar(daisysp::Phasor& phasor) {
     return std::sin(phasor.Process() * kPi2);
   }
@@ -294,9 +319,7 @@ struct PatchVoice {
     return std::clamp(basePw + lfoValue * depth * kLfoPwmSwingMax, 0.05f, 0.95f);
   }
 
-  void applyFrequencies() {
-    const float lfo1v = lfoBipolar(lfo1);
-    const float lfo2v = lfoBipolar(lfo2);
+  void applyFrequencies(float lfo1v, float lfo2v) {
 
     float pitchMul1 = 1.f;
     float pitchMul2 = 1.f;
@@ -346,7 +369,7 @@ struct PatchVoice {
       currentHz1_ = targetHz1_;
       currentHz2_ = targetHz2_;
     }
-    applyFrequencies();
+    applyFrequencies(0.f, 0.f);
   }
 
   void trigger(int note, float velocity) {
@@ -371,19 +394,27 @@ struct PatchVoice {
     computeTargetHz(midiNote);
     currentHz1_ = targetHz1_;
     currentHz2_ = targetHz2_;
-    applyFrequencies();
+    applyFrequencies(0.f, 0.f);
   }
 
   float processSample() {
-    const float filterEnvVal = filterEnv.Process(gate);
-    const float ampEnvVal = ampEnv.Process(gate);
+    const float lfo1v = lfoBipolar(lfo1);
+    const float lfo2v = lfoBipolar(lfo2);
+
+    bool effectiveGate = gate;
+    if (spec.osc1Lfo.gateTrigger) {
+      effectiveGate = gate && (lfo1v > 0.f);
+    }
+
+    const float filterEnvVal = filterEnv.Process(effectiveGate);
+    const float ampEnvVal = ampEnv.Process(effectiveGate);
 
     if (glideAlpha_ < 1.f) {
       currentHz1_ += (targetHz1_ - currentHz1_) * glideAlpha_;
       currentHz2_ += (targetHz2_ - currentHz2_) * glideAlpha_;
-      applyFrequencies();
+      applyFrequencies(lfo1v, lfo2v);
     } else {
-      applyFrequencies();
+      applyFrequencies(lfo1v, lfo2v);
     }
 
     if (spec.osc2EnvMod && spec.osc2.enabled) {
@@ -408,12 +439,16 @@ struct PatchVoice {
 
     const float keyOffset = spec.filter.keyTrack * static_cast<float>(midiNote - 60) * 8.f;
     const float filterEnvMod = filterEnvVal * spec.filter.envDepth * 4000.f;
-    svf.SetFreq(std::clamp(spec.filter.cutoffHz + keyOffset + filterEnvMod, 20.f, 22000.f));
-    svf.Process(mix);
+    const float maxCutoff = sampleRate * 0.49f;
+    ladder.SetFreq(
+        std::clamp(spec.filter.cutoffHz + keyOffset + filterEnvMod, 5.f, maxCutoff));
+    const float filtered = ladder.Process(mix);
 
     const float amp = ampEnvVal * ampGain;
-    if (!gate && !ampEnv.IsRunning() && !filterEnv.IsRunning()) active = false;
-    return filterOutput(svf, spec.filter.mode) * amp;
+    if (!gate && !ampEnv.IsRunning() && !filterEnv.IsRunning()) {
+      active = false;
+    }
+    return filtered * amp;
   }
 };
 
@@ -458,6 +493,13 @@ struct PluckedVoice {
     ampEnv.SetReleaseTime(s.ampEnv.releaseSec);
 
     ampGain = s.masterVolume;
+  }
+
+  void syncAmpEnvFromSpec() {
+    ampEnv.SetAttackTime(spec.ampEnv.attackSec);
+    ampEnv.SetDecayTime(spec.ampEnv.decaySec);
+    ampEnv.SetSustainLevel(spec.ampEnv.sustain);
+    ampEnv.SetReleaseTime(spec.ampEnv.releaseSec);
   }
 
   void trigger(int note, float velocity) {
@@ -581,45 +623,55 @@ struct PoolVoice {
         subtractive.spec.filter.cutoffHz = std::clamp(value, 20.f, 22000.f);
         break;
       case SynthRealtimeParamId::FilterResonance:
-        subtractive.spec.filter.resonance = clamp01(value);
+        subtractive.spec.filter.resonance = std::clamp(value, 0.f, kLadderMaxRes);
+        subtractive.syncLadderFromSpec();
         break;
       case SynthRealtimeParamId::FilterDrive:
         subtractive.spec.filter.drive = clamp01(value);
+        subtractive.syncLadderFromSpec();
         break;
       case SynthRealtimeParamId::FilterEnvAttackSec:
         subtractive.spec.filterEnv.attackSec = std::max(value, 0.f);
-        subtractive.filterEnv.SetAttackTime(subtractive.spec.filterEnv.attackSec);
+        subtractive.syncFilterEnvFromSpec();
         break;
       case SynthRealtimeParamId::FilterEnvDecaySec:
         subtractive.spec.filterEnv.decaySec = std::max(value, 0.f);
-        subtractive.filterEnv.SetDecayTime(subtractive.spec.filterEnv.decaySec);
+        subtractive.syncFilterEnvFromSpec();
         break;
       case SynthRealtimeParamId::FilterEnvSustain:
         subtractive.spec.filterEnv.sustain = clamp01(value);
-        subtractive.filterEnv.SetSustainLevel(subtractive.spec.filterEnv.sustain);
+        subtractive.syncFilterEnvFromSpec();
         break;
       case SynthRealtimeParamId::FilterEnvReleaseSec:
         subtractive.spec.filterEnv.releaseSec = std::max(value, 0.f);
-        subtractive.filterEnv.SetReleaseTime(subtractive.spec.filterEnv.releaseSec);
+        subtractive.syncFilterEnvFromSpec();
         break;
       case SynthRealtimeParamId::FilterEnvDepth:
         subtractive.spec.filter.envDepth = clamp01(value);
         break;
       case SynthRealtimeParamId::AmpAttackSec:
         subtractive.spec.ampEnv.attackSec = std::max(value, 0.f);
+        subtractive.syncAmpEnvFromSpec();
         plucked.spec.ampEnv.attackSec = std::max(value, 0.f);
+        plucked.syncAmpEnvFromSpec();
         break;
       case SynthRealtimeParamId::AmpDecaySec:
         subtractive.spec.ampEnv.decaySec = std::max(value, 0.f);
+        subtractive.syncAmpEnvFromSpec();
         plucked.spec.ampEnv.decaySec = std::max(value, 0.f);
+        plucked.syncAmpEnvFromSpec();
         break;
       case SynthRealtimeParamId::AmpSustain:
         subtractive.spec.ampEnv.sustain = clamp01(value);
+        subtractive.syncAmpEnvFromSpec();
         plucked.spec.ampEnv.sustain = clamp01(value);
+        plucked.syncAmpEnvFromSpec();
         break;
       case SynthRealtimeParamId::AmpReleaseSec:
         subtractive.spec.ampEnv.releaseSec = std::max(value, 0.f);
+        subtractive.syncAmpEnvFromSpec();
         plucked.spec.ampEnv.releaseSec = std::max(value, 0.f);
+        plucked.syncAmpEnvFromSpec();
         break;
       case SynthRealtimeParamId::LfoRateHz:
         subtractive.spec.osc1Lfo.rateHz = std::max(value, 0.02f);
@@ -724,6 +776,9 @@ struct PoolVoice {
       case SynthRealtimeParamId::Osc1LfoTarget:
         subtractive.spec.osc1Lfo.target =
             (value >= 0.5f) ? LfoTarget::PulseWidth : LfoTarget::Pitch;
+        break;
+      case SynthRealtimeParamId::Osc1LfoGate:
+        subtractive.spec.osc1Lfo.gateTrigger = value >= 0.5f;
         break;
       case SynthRealtimeParamId::Osc2LfoRate:
         subtractive.spec.osc2Lfo.rateHz = std::max(value, 0.02f);

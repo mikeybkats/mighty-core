@@ -112,6 +112,7 @@ int main() {
   float osc1LfoRate = 2.7f;
   float osc1LfoDepth = 0.0f;
   int osc1LfoTarget = 0;  // 0 pitch, 1 pulse width
+  bool osc1LfoGate = false;
   float osc2LfoRate = 4.5f;
   float osc2LfoDepth = 0.0f;
   int osc2LfoTarget = 0;
@@ -157,6 +158,7 @@ int main() {
     queueParam(core, SynthRealtimeParamId::Osc1LfoRate, osc1LfoRate);
     queueParam(core, SynthRealtimeParamId::Osc1LfoDepth, osc1LfoDepth);
     queueParam(core, SynthRealtimeParamId::Osc1LfoTarget, static_cast<float>(osc1LfoTarget));
+    queueParam(core, SynthRealtimeParamId::Osc1LfoGate, osc1LfoGate ? 1.0f : 0.0f);
     queueParam(core, SynthRealtimeParamId::Osc2LfoRate, osc2LfoRate);
     queueParam(core, SynthRealtimeParamId::Osc2LfoDepth, osc2LfoDepth);
     queueParam(core, SynthRealtimeParamId::Osc2LfoTarget, static_cast<float>(osc2LfoTarget));
@@ -310,7 +312,7 @@ int main() {
     ImGui::BeginChild("col_filter", ImVec2(0, 430), true);
     ImGui::TextUnformatted("Filter");
     controlsChanged |= drawKnobLikeSlider("Cutoff", &cutoffHz, 40.0f, 16000.0f, "%.0f Hz");
-    controlsChanged |= drawKnobLikeSlider("Resonance", &resonance, 0.0f, 1.0f, "%.2f");
+    controlsChanged |= drawKnobLikeSlider("Resonance", &resonance, 0.0f, 1.8f, "%.2f");
     controlsChanged |= drawKnobLikeSlider("Drive", &drive, 0.0f, 1.0f, "%.2f");
     controlsChanged |= drawKnobLikeSlider("Env depth", &filterEnvDepth, 0.0f, 1.0f, "%.2f");
     ImGui::Separator();
@@ -348,6 +350,7 @@ int main() {
       controlsChanged |= ImGui::Combo("Target##lfo1", &osc1LfoTarget, lfoTargetItems);
       controlsChanged |= drawKnobLikeSlider("Rate##lfo1", &osc1LfoRate, 0.02f, 20.0f, "%.2f Hz");
       controlsChanged |= drawKnobLikeSlider("Depth##lfo1", &osc1LfoDepth, 0.0f, 1.0f, "%.2f");
+      controlsChanged |= ImGui::Checkbox("Gate trigger", &osc1LfoGate);
       ImGui::Separator();
       ImGui::TextUnformatted("LFO 2 (Osc 2)");
       ImGui::SetNextItemWidth(-1.0f);

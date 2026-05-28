@@ -30,10 +30,11 @@ if(ANDROID)
 endif()
 
 include(FetchContent)
+# Pin DaisySP main (LadderFilter + ladder.cpp); update hash when pulling upstream.
 FetchContent_Declare(
     DaisySP
     GIT_REPOSITORY https://github.com/electro-smith/DaisySP.git
-    GIT_TAG        V1.0.0
+    GIT_TAG        599511b740f8f3a9b8db72a0642aa45b8a23c3a3
     GIT_SHALLOW    TRUE
 )
 FetchContent_MakeAvailable(DaisySP)

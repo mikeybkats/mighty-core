@@ -7,7 +7,7 @@
 // -----------------------------------------------------------------------------
 // SynthSoundTypes — POD patch data for Sound::createSound().
 //
-// VoiceEngine::Subtractive — dual VCO, SVF, dual envelope, LFO, ring mod.
+// VoiceEngine::Subtractive — dual VCO, ladder VCF, dual envelope, LFO, ring mod.
 // VoiceEngine::Plucked     — Karplus–Strong string (guitar/harp/piano plucks).
 //
 // Master delay/chorus are configured per patch (EffectsSpec); the wet mix is
@@ -63,7 +63,7 @@ struct VcfSpec {
   float envDepth = 0.5f;
   float keyTrack = 0.f;
   FilterMode mode = FilterMode::Low;
-  /// SVF input drive 0..1 (higher = more resonance emphasis).
+  /// Ladder input drive 0..1 (mapped to LadderFilter input drive 0..4).
   float drive = 0.5f;
 };
 
@@ -85,6 +85,8 @@ struct OscLfoSpec {
   /// Modulation amount 0..1 (maps to pitch semitones or PWM swing).
   float depth = 0.f;
   LfoTarget target = LfoTarget::Pitch;
+  /// When true, LFO positive half-cycle opens amp/filter gate (requires main gate on).
+  bool gateTrigger = false;
 };
 
 struct MixerSpec {
