@@ -60,11 +60,11 @@ struct VcoSpec {
 struct VcfSpec {
   float cutoffHz = 800.f;
   float resonance = 0.3f;
+  /// Filter envelope depth 0..1 (octaves of cutoff sweep at full env).
   float envDepth = 0.5f;
-  float keyTrack = 0.f;
+  /// Keyboard tracking 0..1 (1 = cutoff follows pitch, ref MIDI 60).
+  float keyTrack = 0.33f;
   FilterMode mode = FilterMode::Low;
-  /// Ladder input drive 0..1 (mapped to LadderFilter input drive 0..4).
-  float drive = 0.5f;
 };
 
 struct AdsrSpec {

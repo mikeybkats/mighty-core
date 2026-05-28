@@ -24,12 +24,11 @@ const std::array<PatchDefinition, kBuiltInPatchCount>& builtInPatches() {
                   },
               .filter =
                   {
-                      .cutoffHz = 1200.f,
-                      .resonance = 0.2f,
+                      .cutoffHz = 900.f,
+                      .resonance = 0.18f,
                       .envDepth = 0.0f,
-                      .keyTrack = 0.0f,
+                      .keyTrack = 0.33f,
                       .mode = FilterMode::Low,
-                      .drive = 0.2f,
                   },
               .ampEnv =
                   {
@@ -145,7 +144,6 @@ const std::array<PatchDefinition, kBuiltInPatchCount>& builtInPatches() {
                       .resonance = 0.12f,
                       .envDepth = 0.4f,
                       .keyTrack = 0.5f,
-                      .drive = 0.35f,
                   },
               .ampEnv =
                   {
@@ -196,7 +194,6 @@ const std::array<PatchDefinition, kBuiltInPatchCount>& builtInPatches() {
                       .resonance = 0.45f,
                       .envDepth = 0.9f,
                       .mode = FilterMode::Band,
-                      .drive = 0.65f,
                   },
               .ampEnv =
                   {

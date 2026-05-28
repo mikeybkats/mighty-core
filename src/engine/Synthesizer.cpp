@@ -81,7 +81,62 @@ void configureOsc(daisysp::Oscillator& osc, float sampleRate, const VcoSpec& spe
 
 constexpr float kLadderMaxRes = 1.8f;
 constexpr float kLadderMaxInputDrive = 4.f;
-constexpr float kLadderPassbandGain = 0.1f;
+/// Fixed ladder input drive (UI drive removed; always run filter hot like Boomstar mixer into VCF).
+constexpr float kFixedLadderDrive = 1.f;
+/// Filter envelope depth at 1.0 ≈ this many octaves (Minimoog-style exponential sweep).
+constexpr float kFilterEnvOctavesMax = 3.5f;
+
+float smoothstep(float edge0, float edge1, float x) {
+  const float t = std::clamp((x - edge0) / (edge1 - edge0), 0.f, 1.f);
+  return t * t * (3.f - 2.f * t);
+}
+
+float resonanceEmphasis(float res) {
+  return smoothstep(0.55f, kLadderMaxRes, res);
+}
+
+float passbandGainForResonance(float res) {
+  const float t = resonanceEmphasis(res);
+  return 0.45f + (0.02f - 0.45f) * t;
+}
+
+float inputDriveForResonance(float res) {
+  return kFixedLadderDrive * kLadderMaxInputDrive
+         * (1.f - 0.8f * resonanceEmphasis(res));
+}
+
+float filterExciteGain(float res) {
+  return 1.f - 0.3f * smoothstep(1.0f, kLadderMaxRes, res);
+}
+
+void applyLadderVoicing(daisysp::LadderFilter& ladder, float res) {
+  ladder.SetRes(std::clamp(res, 0.f, kLadderMaxRes));
+  ladder.SetPassbandGain(passbandGainForResonance(res));
+  ladder.SetInputDrive(inputDriveForResonance(res));
+}
+
+float computeFilterCutoffHz(float sampleRate,
+                            float cutoffHz,
+                            float keyTrack,
+                            int midiNote,
+                            float filterEnvVal,
+                            float envDepth,
+                            float primaryOscHz,
+                            float res) {
+  const float maxCutoff = sampleRate * 0.49f;
+  const float semisFromKey = keyTrack * static_cast<float>(midiNote - 60);
+  float hz = cutoffHz * std::pow(2.f, semisFromKey / 12.f);
+  hz *= std::pow(2.f, filterEnvVal * std::clamp(envDepth, 0.f, 1.f) * kFilterEnvOctavesMax);
+
+  const float emphasize = resonanceEmphasis(res);
+  if (emphasize > 0.f && primaryOscHz > 20.f) {
+    const float pull =
+        emphasize * smoothstep(1.0f, kLadderMaxRes, res) * 0.88f;
+    hz = std::exp(std::log(hz) * (1.f - pull) + std::log(primaryOscHz) * pull);
+  }
+
+  return std::clamp(hz, 5.f, maxCutoff);
+}
 
 daisysp::LadderFilter::FilterMode toLadderMode(FilterMode mode) {
   switch (mode) {
@@ -295,12 +350,14 @@ struct PatchVoice {
   }
 
   void syncLadderFromSpec() {
-    const float maxCutoff = sampleRate * 0.49f;
     ladder.SetFilterMode(toLadderMode(spec.filter.mode));
-    ladder.SetFreq(std::clamp(spec.filter.cutoffHz, 5.f, maxCutoff));
-    ladder.SetRes(std::clamp(spec.filter.resonance, 0.f, kLadderMaxRes));
-    ladder.SetInputDrive(std::clamp(spec.filter.drive, 0.f, 1.f) * kLadderMaxInputDrive);
-    ladder.SetPassbandGain(kLadderPassbandGain);
+    applyLadderVoicing(ladder, spec.filter.resonance);
+  }
+
+  float primaryOscHz() const {
+    if (spec.osc1.enabled) return currentHz1_;
+    if (spec.osc2.enabled) return currentHz2_;
+    return midiToHz(midiNote);
   }
 
   static float lfoBipolar(daisysp::Phasor& phasor) {
@@ -437,12 +494,17 @@ struct PatchVoice {
       mix += spec.mixer.ringMod * (o1 * o2);
     }
 
-    const float keyOffset = spec.filter.keyTrack * static_cast<float>(midiNote - 60) * 8.f;
-    const float filterEnvMod = filterEnvVal * spec.filter.envDepth * 4000.f;
-    const float maxCutoff = sampleRate * 0.49f;
-    ladder.SetFreq(
-        std::clamp(spec.filter.cutoffHz + keyOffset + filterEnvMod, 5.f, maxCutoff));
-    const float filtered = ladder.Process(mix);
+    applyLadderVoicing(ladder, spec.filter.resonance);
+    ladder.SetFreq(computeFilterCutoffHz(sampleRate,
+                                         spec.filter.cutoffHz,
+                                         spec.filter.keyTrack,
+                                         midiNote,
+                                         filterEnvVal,
+                                         spec.filter.envDepth,
+                                         primaryOscHz(),
+                                         spec.filter.resonance));
+    const float filtered =
+        ladder.Process(mix * filterExciteGain(spec.filter.resonance));
 
     const float amp = ampEnvVal * ampGain;
     if (!gate && !ampEnv.IsRunning() && !filterEnv.IsRunning()) {
@@ -627,9 +689,7 @@ struct PoolVoice {
         subtractive.syncLadderFromSpec();
         break;
       case SynthRealtimeParamId::FilterDrive:
-        subtractive.spec.filter.drive = clamp01(value);
-        subtractive.syncLadderFromSpec();
-        break;
+        break;  // Fixed at max input drive; param kept for API compatibility.
       case SynthRealtimeParamId::FilterEnvAttackSec:
         subtractive.spec.filterEnv.attackSec = std::max(value, 0.f);
         subtractive.syncFilterEnvFromSpec();
@@ -648,6 +708,9 @@ struct PoolVoice {
         break;
       case SynthRealtimeParamId::FilterEnvDepth:
         subtractive.spec.filter.envDepth = clamp01(value);
+        break;
+      case SynthRealtimeParamId::FilterKeyTrack:
+        subtractive.spec.filter.keyTrack = clamp01(value);
         break;
       case SynthRealtimeParamId::AmpAttackSec:
         subtractive.spec.ampEnv.attackSec = std::max(value, 0.f);

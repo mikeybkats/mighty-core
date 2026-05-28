@@ -49,4 +49,5 @@ enum class SynthRealtimeParamId : int32_t {
   MixerNoise = 43,
   MixerRingMod = 44,
   Osc1LfoGate = 45,
+  FilterKeyTrack = 46,
 };

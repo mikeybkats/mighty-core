@@ -96,10 +96,10 @@ int main() {
   float osc2Level = 0.40f;
   float mixerNoise = 0.0f;
   float mixerRingMod = 0.0f;
-  float cutoffHz = 1600.0f;
-  float resonance = 0.22f;
-  float drive = 0.40f;
-  float filterEnvDepth = 0.35f;
+  float cutoffHz = 900.0f;
+  float resonance = 0.18f;
+  float filterKeyTrack = 0.33f;
+  float filterEnvDepth = 0.45f;
   float filterEnvAttack = 0.005f;
   float filterEnvDecay = 0.25f;
   float filterEnvSustain = 0.0f;
@@ -143,7 +143,7 @@ int main() {
     queueParam(core, SynthRealtimeParamId::PluckMode, pluckMode ? 1.0f : 0.0f);
     queueParam(core, SynthRealtimeParamId::FilterCutoffHz, cutoffHz);
     queueParam(core, SynthRealtimeParamId::FilterResonance, resonance);
-    queueParam(core, SynthRealtimeParamId::FilterDrive, drive);
+    queueParam(core, SynthRealtimeParamId::FilterKeyTrack, filterKeyTrack);
     queueParam(core, SynthRealtimeParamId::FilterEnvDepth, filterEnvDepth);
     queueParam(core, SynthRealtimeParamId::FilterEnvAttackSec, filterEnvAttack);
     queueParam(core, SynthRealtimeParamId::FilterEnvDecaySec, filterEnvDecay);
@@ -313,7 +313,7 @@ int main() {
     ImGui::TextUnformatted("Filter");
     controlsChanged |= drawKnobLikeSlider("Cutoff", &cutoffHz, 40.0f, 16000.0f, "%.0f Hz");
     controlsChanged |= drawKnobLikeSlider("Resonance", &resonance, 0.0f, 1.8f, "%.2f");
-    controlsChanged |= drawKnobLikeSlider("Drive", &drive, 0.0f, 1.0f, "%.2f");
+    controlsChanged |= drawKnobLikeSlider("Key track", &filterKeyTrack, 0.0f, 1.0f, "%.2f");
     controlsChanged |= drawKnobLikeSlider("Env depth", &filterEnvDepth, 0.0f, 1.0f, "%.2f");
     ImGui::Separator();
     ImGui::TextUnformatted("Filter env");
