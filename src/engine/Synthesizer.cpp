@@ -119,6 +119,29 @@ void applyLadderVoicing(daisysp::LadderFilter& ladder, float res) {
   ladder.SetInputDrive(inputDriveForResonance(res));
 }
 
+/// LP stage: stronger self-oscillation (minimal passband / excite at high res).
+void applyLowpassLadderVoicing(daisysp::LadderFilter& ladder, float res) {
+  const float r = std::clamp(res, 0.f, kLadderMaxRes);
+  ladder.SetRes(r);
+  if (r >= 1.0f) {
+    const float t = smoothstep(1.0f, kLadderMaxRes, r);
+    ladder.SetPassbandGain(0.0f);
+    const float driveBase = kFixedLadderDrive * kLadderMaxInputDrive;
+    ladder.SetInputDrive(driveBase * (1.f - 0.65f * t));
+  } else {
+    ladder.SetPassbandGain(passbandGainForResonance(r));
+    ladder.SetInputDrive(inputDriveForResonance(r));
+  }
+}
+
+float lowpassExciteGain(float res) {
+  if (res < 1.0f) {
+    return filterExciteGain(res);
+  }
+  const float t = smoothstep(1.0f, kLadderMaxRes, res);
+  return 0.4f + (0.06f - 0.4f) * t;
+}
+
 float computeFilterCutoffHz(float sampleRate,
                             float cutoffHz,
                             float keyTrack,
@@ -134,26 +157,51 @@ float computeFilterCutoffHz(float sampleRate,
 
   const float emphasize = resonanceEmphasis(res);
   if (emphasize > 0.f && primaryOscHz > 20.f) {
-    const float pull =
-        emphasize * smoothstep(1.0f, kLadderMaxRes, res) * 0.88f;
+    float pull = emphasize * smoothstep(1.0f, kLadderMaxRes, res) * 0.88f;
+    if (res >= 1.2f) {
+      pull = std::max(pull, smoothstep(1.2f, kLadderMaxRes, res));
+    }
     hz = std::exp(std::log(hz) * (1.f - pull) + std::log(primaryOscHz) * pull);
   }
 
   return std::clamp(hz, 5.f, maxCutoff);
 }
 
+bool isBandPassOnlyMode(FilterMode mode) {
+  return mode == FilterMode::BandPass24 || mode == FilterMode::BandPass12;
+}
+
 daisysp::LadderFilter::FilterMode toLadderMode(FilterMode mode) {
   switch (mode) {
-    case FilterMode::Band:
+    case FilterMode::LowPass12:
+      return daisysp::LadderFilter::FilterMode::LP12;
+    case FilterMode::BandPass24:
       return daisysp::LadderFilter::FilterMode::BP24;
-    case FilterMode::High:
-      return daisysp::LadderFilter::FilterMode::HP24;
-    case FilterMode::Notch:
+    case FilterMode::BandPass12:
       return daisysp::LadderFilter::FilterMode::BP12;
-    case FilterMode::Low:
+    case FilterMode::LowPass24:
     default:
       return daisysp::LadderFilter::FilterMode::LP24;
   }
+}
+
+FilterMode filterModeFromSelector(float value) {
+  const int idx = std::clamp(static_cast<int>(value + 0.5f), 0, 1);
+  return idx == 1 ? FilterMode::LowPass12 : FilterMode::LowPass24;
+}
+
+float computeHighpassCutoffHz(float sampleRate,
+                              float hpCutoffHz,
+                              float keyTrack,
+                              int midiNote,
+                              float filterEnvVal,
+                              float envDepth) {
+  if (hpCutoffHz <= 0.f) return 0.f;
+  const float maxCutoff = sampleRate * 0.49f;
+  const float semisFromKey = keyTrack * static_cast<float>(midiNote - 60);
+  float hz = hpCutoffHz * std::pow(2.f, semisFromKey / 12.f);
+  hz *= std::pow(2.f, filterEnvVal * std::clamp(envDepth, 0.f, 1.f) * 1.5f);
+  return std::clamp(hz, 5.f, maxCutoff);
 }
 
 // Post-voice chorus + delay (shared bus; params updated from the playing patch).
@@ -250,6 +298,7 @@ struct PatchVoice {
   daisysp::Oscillator subOsc;
   daisysp::WhiteNoise noise;
   daisysp::LadderFilter ladder;
+  daisysp::LadderFilter hpLadder;
   daisysp::Adsr ampEnv;
   daisysp::Adsr filterEnv;
   daisysp::Phasor lfo1;
@@ -280,6 +329,7 @@ struct PatchVoice {
     subOsc.SetAmp(1.f);
     noise.Init();
     ladder.Init(sr);
+    hpLadder.Init(sr);
     ampEnv.Init(sr);
     filterEnv.Init(sr);
     lfo1.Init(sr);
@@ -317,6 +367,7 @@ struct PatchVoice {
     updateGlideCoeff();
 
     ladder.Init(sampleRate);
+    hpLadder.Init(sampleRate);
     syncLadderFromSpec();
 
     ampEnv.Init(sampleRate);
@@ -355,7 +406,13 @@ struct PatchVoice {
 
   void syncLadderFromSpec() {
     ladder.SetFilterMode(toLadderMode(spec.filter.mode));
-    applyLadderVoicing(ladder, spec.filter.resonance);
+    if (isBandPassOnlyMode(spec.filter.mode)) {
+      applyLadderVoicing(ladder, spec.filter.resonance);
+    } else {
+      applyLowpassLadderVoicing(ladder, spec.filter.resonance);
+    }
+    hpLadder.SetFilterMode(daisysp::LadderFilter::FilterMode::HP24);
+    applyLadderVoicing(hpLadder, spec.filter.highpassResonance);
   }
 
   float primaryOscHz() const {
@@ -495,17 +552,45 @@ struct PatchVoice {
       mix += spec.mixer.ringMod * o1Lev * o2Lev;
     }
 
-    applyLadderVoicing(ladder, spec.filter.resonance);
-    ladder.SetFreq(computeFilterCutoffHz(sampleRate,
-                                         spec.filter.cutoffHz,
-                                         spec.filter.keyTrack,
-                                         midiNote,
-                                         filterEnvVal,
-                                         spec.filter.envDepth,
-                                         primaryOscHz(),
-                                         spec.filter.resonance));
-    const float filtered =
-        ladder.Process(mix * filterExciteGain(spec.filter.resonance));
+    float filtered = 0.f;
+
+    if (isBandPassOnlyMode(spec.filter.mode)) {
+      const float excite = filterExciteGain(spec.filter.resonance);
+      applyLadderVoicing(ladder, spec.filter.resonance);
+      ladder.SetFreq(computeFilterCutoffHz(sampleRate,
+                                           spec.filter.cutoffHz,
+                                           spec.filter.keyTrack,
+                                           midiNote,
+                                           filterEnvVal,
+                                           spec.filter.envDepth,
+                                           primaryOscHz(),
+                                           spec.filter.resonance));
+      filtered = ladder.Process(mix * excite);
+    } else {
+      const float lpExcite = lowpassExciteGain(spec.filter.resonance);
+      applyLowpassLadderVoicing(ladder, spec.filter.resonance);
+      ladder.SetFreq(computeFilterCutoffHz(sampleRate,
+                                           spec.filter.cutoffHz,
+                                           spec.filter.keyTrack,
+                                           midiNote,
+                                           filterEnvVal,
+                                           spec.filter.envDepth,
+                                           primaryOscHz(),
+                                           spec.filter.resonance));
+      filtered = ladder.Process(mix * lpExcite);
+
+      if (spec.filter.highpassCutoffHz > 0.f) {
+        const float hpExcite = filterExciteGain(spec.filter.highpassResonance);
+        applyLadderVoicing(hpLadder, spec.filter.highpassResonance);
+        hpLadder.SetFreq(computeHighpassCutoffHz(sampleRate,
+                                                 spec.filter.highpassCutoffHz,
+                                                 spec.filter.keyTrack,
+                                                 midiNote,
+                                                 filterEnvVal,
+                                                 spec.filter.envDepth));
+        filtered = hpLadder.Process(filtered * hpExcite);
+      }
+    }
 
     const float amp = ampEnvVal * ampGain;
     if (!gate && !ampEnv.IsRunning() && !filterEnv.IsRunning()) {
@@ -752,6 +837,17 @@ struct PoolVoice {
       case SynthRealtimeParamId::FilterKeyTrack:
         subtractive.spec.filter.keyTrack = clamp01(value);
         break;
+      case SynthRealtimeParamId::FilterMode:
+        subtractive.spec.filter.mode = filterModeFromSelector(value);
+        subtractive.syncLadderFromSpec();
+        break;
+      case SynthRealtimeParamId::FilterHighpassCutoffHz:
+        subtractive.spec.filter.highpassCutoffHz = std::clamp(value, 0.f, 16000.f);
+        break;
+      case SynthRealtimeParamId::FilterHighpassResonance:
+        subtractive.spec.filter.highpassResonance = std::clamp(value, 0.f, kLadderMaxRes);
+        subtractive.syncLadderFromSpec();
+        break;
       case SynthRealtimeParamId::AmpAttackSec:
         subtractive.spec.ampEnv.attackSec = std::max(value, 0.f);
         subtractive.syncAmpEnvFromSpec();
@@ -987,6 +1083,9 @@ void Synthesizer::applySoundSpec(int voiceIndex, const SynthSoundSpec& spec) {
   if (voiceIndex < kFirstAssignableVoice || voiceIndex >= kMaxVoices) return;
   SynthSoundSpec merged = spec;
   merged.osc1Lfo = panelOsc1Lfo_;
+  merged.filter.mode = panelFilterMode_;
+  merged.filter.highpassCutoffHz = panelHighpassCutoffHz_;
+  merged.filter.highpassResonance = panelHighpassResonance_;
   if (panelPluckMode_) {
     merged.engine = VoiceEngine::Plucked;
   }
@@ -1055,6 +1154,15 @@ void Synthesizer::updatePanelState(SynthRealtimeParamId paramId, float value) {
       break;
     case SynthRealtimeParamId::Osc1LfoGate:
       panelOsc1Lfo_.gateTrigger = value >= 0.5f;
+      break;
+    case SynthRealtimeParamId::FilterMode:
+      panelFilterMode_ = filterModeFromSelector(value);
+      break;
+    case SynthRealtimeParamId::FilterHighpassCutoffHz:
+      panelHighpassCutoffHz_ = std::clamp(value, 0.f, 16000.f);
+      break;
+    case SynthRealtimeParamId::FilterHighpassResonance:
+      panelHighpassResonance_ = std::clamp(value, 0.f, kLadderMaxRes);
       break;
     default:
       break;

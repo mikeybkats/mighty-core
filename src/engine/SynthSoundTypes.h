@@ -33,10 +33,11 @@ enum class OscWave : uint8_t {
 };
 
 enum class FilterMode : uint8_t {
-  Low,
-  Band,
-  High,
-  Notch,
+  LowPass24,  ///< Main VCF: 4-pole ladder lowpass (default).
+  LowPass12,  ///< Main VCF: 2-pole ladder lowpass.
+  /// Single-stage bandpass only (e.g. kick); bypasses the post-LP highpass path.
+  BandPass24,
+  BandPass12,
 };
 
 enum class VoiceEngine : uint8_t {
@@ -64,7 +65,11 @@ struct VcfSpec {
   float envDepth = 0.5f;
   /// Keyboard tracking 0..1 (1 = cutoff follows pitch, ref MIDI 60).
   float keyTrack = 0.33f;
-  FilterMode mode = FilterMode::Low;
+  FilterMode mode = FilterMode::LowPass24;
+  /// Post-LP highpass cutoff (Hz). 0 = HP stage off.
+  float highpassCutoffHz = 0.f;
+  /// Post-LP highpass resonance 0..1.8 (self-oscillates at high values).
+  float highpassResonance = 0.2f;
 };
 
 struct AdsrSpec {

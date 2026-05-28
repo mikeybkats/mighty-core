@@ -95,6 +95,9 @@ class Synthesizer {
   /// Live panel overrides merged into every applySoundSpec() (survives patch reload).
   OscLfoSpec panelOsc1Lfo_{};
   bool panelPluckMode_ = false;
+  FilterMode panelFilterMode_ = FilterMode::LowPass24;
+  float panelHighpassCutoffHz_ = 0.f;
+  float panelHighpassResonance_ = 0.2f;
 
   void updatePanelState(SynthRealtimeParamId paramId, float value);
 };

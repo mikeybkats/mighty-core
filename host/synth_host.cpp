@@ -99,6 +99,9 @@ int main() {
   float cutoffHz = 900.0f;
   float resonance = 0.18f;
   float filterKeyTrack = 0.33f;
+  int filterModeIdx = 0;  // 0 LP24, 1 LP12
+  float highpassCutoffHz = 0.0f;
+  float highpassResonance = 0.2f;
   float filterEnvDepth = 0.45f;
   float filterEnvAttack = 0.005f;
   float filterEnvDecay = 0.25f;
@@ -144,6 +147,9 @@ int main() {
     queueParam(core, SynthRealtimeParamId::FilterCutoffHz, cutoffHz);
     queueParam(core, SynthRealtimeParamId::FilterResonance, resonance);
     queueParam(core, SynthRealtimeParamId::FilterKeyTrack, filterKeyTrack);
+    queueParam(core, SynthRealtimeParamId::FilterMode, static_cast<float>(filterModeIdx));
+    queueParam(core, SynthRealtimeParamId::FilterHighpassCutoffHz, highpassCutoffHz);
+    queueParam(core, SynthRealtimeParamId::FilterHighpassResonance, highpassResonance);
     queueParam(core, SynthRealtimeParamId::FilterEnvDepth, filterEnvDepth);
     queueParam(core, SynthRealtimeParamId::FilterEnvAttackSec, filterEnvAttack);
     queueParam(core, SynthRealtimeParamId::FilterEnvDecaySec, filterEnvDecay);
@@ -311,8 +317,15 @@ int main() {
     ImGui::BeginDisabled(pluckMode);
     ImGui::BeginChild("col_filter", ImVec2(0, 430), true);
     ImGui::TextUnformatted("Filter");
-    controlsChanged |= drawKnobLikeSlider("Cutoff", &cutoffHz, 40.0f, 16000.0f, "%.0f Hz");
-    controlsChanged |= drawKnobLikeSlider("Resonance", &resonance, 0.0f, 1.8f, "%.2f");
+    ImGui::SetNextItemWidth(-1.0f);
+    const char* filterModeItems = "LP 24dB\0LP 12dB\0";
+    controlsChanged |= ImGui::Combo("LP type", &filterModeIdx, filterModeItems);
+    controlsChanged |= drawKnobLikeSlider("LP cutoff", &cutoffHz, 40.0f, 16000.0f, "%.0f Hz");
+    controlsChanged |= drawKnobLikeSlider("LP resonance", &resonance, 0.0f, 1.8f, "%.2f");
+    ImGui::Separator();
+    ImGui::TextUnformatted("Post-LP highpass");
+    controlsChanged |= drawKnobLikeSlider("HP cutoff", &highpassCutoffHz, 0.0f, 4000.0f, "%.0f Hz");
+    controlsChanged |= drawKnobLikeSlider("HP resonance", &highpassResonance, 0.0f, 1.8f, "%.2f");
     controlsChanged |= drawKnobLikeSlider("Key track", &filterKeyTrack, 0.0f, 1.0f, "%.2f");
     controlsChanged |= drawKnobLikeSlider("Env depth", &filterEnvDepth, 0.0f, 1.0f, "%.2f");
     ImGui::Separator();

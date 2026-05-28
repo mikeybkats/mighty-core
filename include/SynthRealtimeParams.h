@@ -50,4 +50,7 @@ enum class SynthRealtimeParamId : int32_t {
   MixerRingMod = 44,
   Osc1LfoGate = 45,
   FilterKeyTrack = 46,
+  FilterMode = 47,
+  FilterHighpassCutoffHz = 48,
+  FilterHighpassResonance = 49,
 };
