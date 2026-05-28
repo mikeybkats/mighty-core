@@ -74,15 +74,17 @@ struct AdsrSpec {
   float releaseSec = 0.3f;
 };
 
-/// LFO modulation depths (bipolar sine LFO at rateHz).
-struct LfoSpec {
+enum class LfoTarget : uint8_t {
+  Pitch = 0,
+  PulseWidth = 1,
+};
+
+/// Per-oscillator LFO (bipolar sine at rateHz).
+struct OscLfoSpec {
   float rateHz = 5.f;
-  /// Added to filter cutoff via envDepth scale (0..1).
-  float filterDepth = 0.f;
-  /// Pitch wobble in semitones peak (applied to both oscs).
-  float pitchDepthSemis = 0.f;
-  /// Pulse-width offset for square waves (0..1).
-  float pwmDepth = 0.f;
+  /// Modulation amount 0..1 (maps to pitch semitones or PWM swing).
+  float depth = 0.f;
+  LfoTarget target = LfoTarget::Pitch;
 };
 
 struct MixerSpec {
@@ -129,7 +131,8 @@ struct SynthSoundSpec {
   VcfSpec filter{};
   AdsrSpec ampEnv{};
   AdsrSpec filterEnv{};
-  LfoSpec lfo{};
+  OscLfoSpec osc1Lfo{};
+  OscLfoSpec osc2Lfo{};
   MixerSpec mixer{};
   PluckSpec pluck{};
   EffectsSpec effects{};

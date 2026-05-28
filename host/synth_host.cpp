@@ -14,7 +14,7 @@
 
 namespace {
 
-constexpr int kWinW = 1180;
+constexpr int kWinW = 1320;
 constexpr int kWinH = 740;
 
 const char* midiNoteName(int midi) {
@@ -94,16 +94,27 @@ int main() {
   bool osc2EnvMod = false;
   float osc2EnvAmountSemis = 0.0f;
   float osc2Level = 0.40f;
+  float mixerNoise = 0.0f;
+  float mixerRingMod = 0.0f;
   float cutoffHz = 1600.0f;
   float resonance = 0.22f;
   float drive = 0.40f;
+  float filterEnvDepth = 0.35f;
+  float filterEnvAttack = 0.005f;
+  float filterEnvDecay = 0.25f;
+  float filterEnvSustain = 0.0f;
+  float filterEnvRelease = 0.20f;
   float glideSec = 0.00f;
   float ampAttack = 0.005f;
   float ampDecay = 0.28f;
   float ampSustain = 0.65f;
   float ampRelease = 0.24f;
-  float lfoRate = 2.7f;
-  float lfoDepth = 0.25f;
+  float osc1LfoRate = 2.7f;
+  float osc1LfoDepth = 0.0f;
+  int osc1LfoTarget = 0;  // 0 pitch, 1 pulse width
+  float osc2LfoRate = 4.5f;
+  float osc2LfoDepth = 0.0f;
+  int osc2LfoTarget = 0;
   float masterVolume = 0.70f;
   float fxWet = 0.08f;
   float fxDelayMs = 80.0f;
@@ -126,18 +137,29 @@ int main() {
     queueParam(core, SynthRealtimeParamId::Osc2EnvMod, osc2EnvMod ? 1.0f : 0.0f);
     queueParam(core, SynthRealtimeParamId::Osc2EnvAmountSemis, osc2EnvAmountSemis);
     queueParam(core, SynthRealtimeParamId::Osc2Level, osc2Level);
+    queueParam(core, SynthRealtimeParamId::MixerNoise, mixerNoise);
+    queueParam(core, SynthRealtimeParamId::MixerRingMod, mixerRingMod);
     queueParam(core, SynthRealtimeParamId::PluckMode, pluckMode ? 1.0f : 0.0f);
     queueParam(core, SynthRealtimeParamId::FilterCutoffHz, cutoffHz);
     queueParam(core, SynthRealtimeParamId::FilterResonance, resonance);
     queueParam(core, SynthRealtimeParamId::FilterDrive, drive);
+    queueParam(core, SynthRealtimeParamId::FilterEnvDepth, filterEnvDepth);
+    queueParam(core, SynthRealtimeParamId::FilterEnvAttackSec, filterEnvAttack);
+    queueParam(core, SynthRealtimeParamId::FilterEnvDecaySec, filterEnvDecay);
+    queueParam(core, SynthRealtimeParamId::FilterEnvSustain, filterEnvSustain);
+    queueParam(core, SynthRealtimeParamId::FilterEnvReleaseSec, filterEnvRelease);
     queueParam(core, SynthRealtimeParamId::GlideSec, glideSec);
     queueParam(core, SynthRealtimeParamId::AmpAttackSec, ampAttack);
     queueParam(core, SynthRealtimeParamId::AmpDecaySec, ampDecay);
     queueParam(core, SynthRealtimeParamId::AmpSustain, ampSustain);
     queueParam(core, SynthRealtimeParamId::AmpReleaseSec, ampRelease);
     queueParam(core, SynthRealtimeParamId::MasterVolume, masterVolume);
-    queueParam(core, SynthRealtimeParamId::LfoRateHz, lfoRate);
-    queueParam(core, SynthRealtimeParamId::LfoDepth, lfoDepth);
+    queueParam(core, SynthRealtimeParamId::Osc1LfoRate, osc1LfoRate);
+    queueParam(core, SynthRealtimeParamId::Osc1LfoDepth, osc1LfoDepth);
+    queueParam(core, SynthRealtimeParamId::Osc1LfoTarget, static_cast<float>(osc1LfoTarget));
+    queueParam(core, SynthRealtimeParamId::Osc2LfoRate, osc2LfoRate);
+    queueParam(core, SynthRealtimeParamId::Osc2LfoDepth, osc2LfoDepth);
+    queueParam(core, SynthRealtimeParamId::Osc2LfoTarget, static_cast<float>(osc2LfoTarget));
     queueParam(core, SynthRealtimeParamId::PluckBrightness, pluckBrightness);
     queueParam(core, SynthRealtimeParamId::PluckDamping, pluckDamping);
     queueParam(core, SynthRealtimeParamId::PluckStructure, pluckStructure);
@@ -228,7 +250,7 @@ int main() {
     const char* waveItems = "Square\0Triangle\0Saw\0";
     const char* feetItems = "32\0""16\0""8\0""4\0""2\0";
 
-    ImGui::Columns(6, "synth_cols", false);
+    ImGui::Columns(7, "synth_cols", false);
 
     ImGui::BeginDisabled(pluckMode);
     ImGui::BeginChild("col_osc1", ImVec2(0, 430), true);
@@ -246,7 +268,6 @@ int main() {
     ImGui::SetNextItemWidth(-1.0f);
     controlsChanged |= ImGui::Combo("Waveform", &osc1Waveform, waveItems);
     controlsChanged |= drawKnobLikeSlider("Width", &osc1PulseWidth, 0.05f, 0.95f, "%.2f");
-    controlsChanged |= drawKnobLikeSlider("Level", &osc1Level, 0.0f, 1.0f, "%.2f");
     controlsChanged |= ImGui::Checkbox("Sync", &osc1Sync);
     controlsChanged |= ImGui::Checkbox("Sub osc", &osc1SubOsc);
     ImGui::EndChild();
@@ -268,9 +289,19 @@ int main() {
     }
     ImGui::SetNextItemWidth(-1.0f);
     controlsChanged |= ImGui::Combo("Waveform", &osc2Waveform, waveItems);
-    controlsChanged |= drawKnobLikeSlider("Level", &osc2Level, 0.0f, 1.0f, "%.2f");
-    controlsChanged |= ImGui::Checkbox("Env mod", &osc2EnvMod);
+    controlsChanged |= ImGui::Checkbox("Amp env mod", &osc2EnvMod);
     controlsChanged |= drawKnobLikeSlider("Env amount", &osc2EnvAmountSemis, -24.0f, 24.0f, "%.1f st");
+    ImGui::EndChild();
+    ImGui::EndDisabled();
+    ImGui::NextColumn();
+
+    ImGui::BeginDisabled(pluckMode);
+    ImGui::BeginChild("col_mixer", ImVec2(0, 430), true);
+    ImGui::TextUnformatted("Mixer");
+    controlsChanged |= drawKnobLikeSlider("Osc 1", &osc1Level, 0.0f, 1.0f, "%.2f");
+    controlsChanged |= drawKnobLikeSlider("Osc 2", &osc2Level, 0.0f, 1.0f, "%.2f");
+    controlsChanged |= drawKnobLikeSlider("Noise", &mixerNoise, 0.0f, 1.0f, "%.2f");
+    controlsChanged |= drawKnobLikeSlider("Ring mod", &mixerRingMod, 0.0f, 1.0f, "%.2f");
     ImGui::EndChild();
     ImGui::EndDisabled();
     ImGui::NextColumn();
@@ -281,17 +312,24 @@ int main() {
     controlsChanged |= drawKnobLikeSlider("Cutoff", &cutoffHz, 40.0f, 16000.0f, "%.0f Hz");
     controlsChanged |= drawKnobLikeSlider("Resonance", &resonance, 0.0f, 1.0f, "%.2f");
     controlsChanged |= drawKnobLikeSlider("Drive", &drive, 0.0f, 1.0f, "%.2f");
+    controlsChanged |= drawKnobLikeSlider("Env depth", &filterEnvDepth, 0.0f, 1.0f, "%.2f");
+    ImGui::Separator();
+    ImGui::TextUnformatted("Filter env");
+    controlsChanged |= drawKnobLikeSlider("Attack##fenv", &filterEnvAttack, 0.0f, 1.2f, "%.3f s");
+    controlsChanged |= drawKnobLikeSlider("Decay##fenv", &filterEnvDecay, 0.0f, 2.0f, "%.3f s");
+    controlsChanged |= drawKnobLikeSlider("Sustain##fenv", &filterEnvSustain, 0.0f, 1.0f, "%.2f");
+    controlsChanged |= drawKnobLikeSlider("Release##fenv", &filterEnvRelease, 0.0f, 2.5f, "%.3f s");
     controlsChanged |= drawKnobLikeSlider("Glide", &glideSec, 0.0f, 0.7f, "%.3f s");
     ImGui::EndChild();
     ImGui::EndDisabled();
     ImGui::NextColumn();
 
     ImGui::BeginChild("col_envelope", ImVec2(0, 430), true);
-    ImGui::TextUnformatted("Envelope");
-    controlsChanged |= drawKnobLikeSlider("Attack", &ampAttack, 0.0f, 1.2f, "%.3f s");
-    controlsChanged |= drawKnobLikeSlider("Decay", &ampDecay, 0.0f, 2.0f, "%.3f s");
-    controlsChanged |= drawKnobLikeSlider("Sustain", &ampSustain, 0.0f, 1.0f, "%.2f");
-    controlsChanged |= drawKnobLikeSlider("Release", &ampRelease, 0.0f, 2.5f, "%.3f s");
+    ImGui::TextUnformatted("Amp env (osc level)");
+    controlsChanged |= drawKnobLikeSlider("Attack##aenv", &ampAttack, 0.0f, 1.2f, "%.3f s");
+    controlsChanged |= drawKnobLikeSlider("Decay##aenv", &ampDecay, 0.0f, 2.0f, "%.3f s");
+    controlsChanged |= drawKnobLikeSlider("Sustain##aenv", &ampSustain, 0.0f, 1.0f, "%.2f");
+    controlsChanged |= drawKnobLikeSlider("Release##aenv", &ampRelease, 0.0f, 2.5f, "%.3f s");
     controlsChanged |= drawKnobLikeSlider("Master", &masterVolume, 0.0f, 1.0f, "%.2f");
     ImGui::EndChild();
     ImGui::NextColumn();
@@ -304,9 +342,18 @@ int main() {
       controlsChanged |= drawKnobLikeSlider("Structure", &pluckStructure, 0.0f, 1.0f, "%.2f");
       controlsChanged |= drawKnobLikeSlider("Accent", &pluckAccent, 0.0f, 1.0f, "%.2f");
     } else {
-      ImGui::TextUnformatted("LFO");
-      controlsChanged |= drawKnobLikeSlider("LFO Rate", &lfoRate, 0.02f, 20.0f, "%.2f Hz");
-      controlsChanged |= drawKnobLikeSlider("LFO Depth", &lfoDepth, 0.0f, 1.0f, "%.2f");
+      const char* lfoTargetItems = "Pitch\0Pulse width\0";
+      ImGui::TextUnformatted("LFO 1 (Osc 1)");
+      ImGui::SetNextItemWidth(-1.0f);
+      controlsChanged |= ImGui::Combo("Target##lfo1", &osc1LfoTarget, lfoTargetItems);
+      controlsChanged |= drawKnobLikeSlider("Rate##lfo1", &osc1LfoRate, 0.02f, 20.0f, "%.2f Hz");
+      controlsChanged |= drawKnobLikeSlider("Depth##lfo1", &osc1LfoDepth, 0.0f, 1.0f, "%.2f");
+      ImGui::Separator();
+      ImGui::TextUnformatted("LFO 2 (Osc 2)");
+      ImGui::SetNextItemWidth(-1.0f);
+      controlsChanged |= ImGui::Combo("Target##lfo2", &osc2LfoTarget, lfoTargetItems);
+      controlsChanged |= drawKnobLikeSlider("Rate##lfo2", &osc2LfoRate, 0.02f, 20.0f, "%.2f Hz");
+      controlsChanged |= drawKnobLikeSlider("Depth##lfo2", &osc2LfoDepth, 0.0f, 1.0f, "%.2f");
     }
     ImGui::EndChild();
     ImGui::NextColumn();

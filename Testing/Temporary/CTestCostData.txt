@@ -38,11 +38,11 @@ Output.SetBPMBeforeStart 3 0.00181804
 Output.SetBPMWhilePlaying 3 0.00288667
 Output.TickCallbackFires 3 0.504789
 Output.BeatNumbersAreSequential 3 0.50594
-Synthesizer.ClickRendersNonSilentSamples 3 0.00220432
-Sound.CreateSoundAndPlayVoice 3 0.00198425
-Sound.BuiltInGuitarPreset 3 0.00185497
-Sound.BuiltInPianoPreset 3 0.00223581
-Sound.RingModVoiceProducesHarmonics 3 0.0018546
+Synthesizer.ClickRendersNonSilentSamples 5 0.00222344
+Sound.CreateSoundAndPlayVoice 5 0.00135174
+Sound.BuiltInGuitarPreset 5 0.00125677
+Sound.BuiltInPianoPreset 5 0.00154577
+Sound.RingModVoiceProducesHarmonics 5 0.0011807
 RealtimeCommandQueue.PushAndPopSingleCommand 2 0.00250256
 RealtimeCommandQueue.ReturnsFalseWhenQueueIsFull 2 0.00281685
 ---
