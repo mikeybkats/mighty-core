@@ -25,11 +25,33 @@ float midiToHz(int midiNote) {
   return 440.0f * std::pow(2.0f, (static_cast<float>(midiNote) - 69.0f) / 12.0f);
 }
 
+OscFootage footageFromFeet(float feet) {
+  if (feet >= 28.f) return OscFootage::Foot32;
+  if (feet >= 12.f) return OscFootage::Foot16;
+  if (feet >= 6.f) return OscFootage::Foot8;
+  if (feet >= 3.f) return OscFootage::Foot4;
+  if (feet >= 1.5f) return OscFootage::Foot2;
+  return OscFootage::Low;
+}
+
+OscWave waveFromSelector(float selector) {
+  const int idx = std::clamp(static_cast<int>(selector + 0.5f), 0, 2);
+  switch (idx) {
+    case 0:
+      return OscWave::Square;
+    case 1:
+      return OscWave::Tri;
+    case 2:
+    default:
+      return OscWave::Saw;
+  }
+}
+
 float footageToMultiplier(OscFootage foot) {
   if (foot == OscFootage::Low) return 0.25f;
   const int f = static_cast<int>(foot);
   if (f <= 0) return 1.f;
-  return 8.0f / static_cast<float>(f);
+  return static_cast<float>(f) / 8.0f;
 }
 
 uint8_t toDaisyWave(OscWave wave) {
@@ -162,6 +184,7 @@ struct ClickVoice {
 struct PatchVoice {
   daisysp::Oscillator osc1;
   daisysp::Oscillator osc2;
+  daisysp::Oscillator subOsc;
   daisysp::WhiteNoise noise;
   daisysp::Svf svf;
   daisysp::Adsr ampEnv;
@@ -188,6 +211,9 @@ struct PatchVoice {
     sampleRate = sr;
     osc1.Init(sr);
     osc2.Init(sr);
+    subOsc.Init(sr);
+    subOsc.SetWaveform(daisysp::Oscillator::WAVE_SQUARE);
+    subOsc.SetAmp(1.f);
     noise.Init();
     svf.Init(sr);
     ampEnv.Init(sr);
@@ -218,6 +244,9 @@ struct PatchVoice {
     effects = s.effects;
     configureOsc(osc1, sampleRate, s.osc1);
     configureOsc(osc2, sampleRate, s.osc2);
+    subOsc.Init(sampleRate);
+    subOsc.SetWaveform(daisysp::Oscillator::WAVE_SQUARE);
+    subOsc.SetAmp(1.f);
     osc1Mult = footageToMultiplier(s.osc1.range);
     osc2Mult = footageToMultiplier(s.osc2.range);
     updateGlideCoeff();
@@ -259,9 +288,16 @@ struct PatchVoice {
       if (spec.osc1.wave == OscWave::Square || spec.osc1.wave == OscWave::PolySquare) {
         osc1.SetPw(std::clamp(spec.osc1.pulseWidth + pwOff, 0.05f, 0.95f));
       }
+      if (spec.osc1.subOsc) {
+        subOsc.SetFreq((currentHz1_ * pitchMul) * 0.5f);
+      }
     }
     if (spec.osc2.enabled) {
-      osc2.SetFreq(currentHz2_ * pitchMul);
+      if (spec.osc1.sync) {
+        osc2.SetFreq(currentHz1_ * pitchMul);
+      } else {
+        osc2.SetFreq(currentHz2_ * pitchMul);
+      }
       if (spec.osc2.wave == OscWave::Square || spec.osc2.wave == OscWave::PolySquare) {
         osc2.SetPw(std::clamp(spec.osc2.pulseWidth + pwOff, 0.05f, 0.95f));
       }
@@ -292,6 +328,17 @@ struct PatchVoice {
     gate = false;
   }
 
+  void setPitchNoRetrigger(int note) {
+    setPitch(note, false);
+  }
+
+  void refreshPitchTargets() {
+    computeTargetHz(midiNote);
+    currentHz1_ = targetHz1_;
+    currentHz2_ = targetHz2_;
+    applyFrequencies();
+  }
+
   float processSample() {
     if (glideAlpha_ < 1.f) {
       currentHz1_ += (targetHz1_ - currentHz1_) * glideAlpha_;
@@ -302,18 +349,27 @@ struct PatchVoice {
     }
 
     const float o1 = spec.osc1.enabled ? osc1.Process() : 0.f;
+    const float envValue = filterEnv.Process();
+    if (spec.osc2EnvMod && spec.osc2.enabled) {
+      const float envPitchSemis = envValue * spec.osc2EnvAmountSemis;
+      const float envMul = std::pow(2.0f, envPitchSemis / 12.0f);
+      const float baseHz = spec.osc1.sync ? currentHz1_ : currentHz2_;
+      osc2.SetFreq(baseHz * envMul);
+    }
     const float o2 = spec.osc2.enabled ? osc2.Process() : 0.f;
+    const float oSub = (spec.osc1.enabled && spec.osc1.subOsc) ? subOsc.Process() : 0.f;
 
     float mix = 0.f;
     mix += spec.mixer.osc1 * o1;
     mix += spec.mixer.osc2 * o2;
+    if (spec.osc1.subOsc) mix += 0.35f * spec.mixer.osc1 * oSub;
     if (spec.mixer.noise > 0.f) mix += spec.mixer.noise * noise.Process();
     if (spec.mixer.ringMod > 0.f && spec.osc1.enabled && spec.osc2.enabled) {
       mix += spec.mixer.ringMod * (o1 * o2);
     }
 
     const float keyOffset = spec.filter.keyTrack * static_cast<float>(midiNote - 60) * 8.f;
-    const float envMod = filterEnv.Process() * spec.filter.envDepth * 4000.f;
+    const float envMod = envValue * spec.filter.envDepth * 4000.f;
     const float lfoFilter = lfoBipolar() * spec.lfo.filterDepth * 2500.f;
     svf.SetFreq(
         std::clamp(spec.filter.cutoffHz + keyOffset + envMod + lfoFilter, 20.f, 22000.f));
@@ -386,6 +442,11 @@ struct PluckedVoice {
     gate = false;
   }
 
+  void setPitchNoRetrigger(int note) {
+    midiNote = note;
+    string.SetFreq(midiToHz(note));
+  }
+
   float processSample() {
     float sample = string.Process(false) * spec.pluck.level;
     const float amp = ampEnv.Process(gate) * ampGain;
@@ -421,6 +482,13 @@ struct PoolVoice {
     }
   }
 
+  void setEngine(VoiceEngine newEngine) {
+    if (engine == newEngine) return;
+    SynthSoundSpec merged = (engine == VoiceEngine::Plucked) ? plucked.spec : subtractive.spec;
+    merged.engine = newEngine;
+    applySpec(merged);
+  }
+
   const EffectsSpec& effects() const {
     return engine == VoiceEngine::Plucked ? plucked.effects : subtractive.effects;
   }
@@ -441,6 +509,14 @@ struct PoolVoice {
     }
   }
 
+  void setPitchNoRetrigger(int note) {
+    if (engine == VoiceEngine::Plucked) {
+      plucked.setPitchNoRetrigger(note);
+    } else {
+      subtractive.setPitchNoRetrigger(note);
+    }
+  }
+
   bool isActive() const {
     return engine == VoiceEngine::Plucked ? plucked.active : subtractive.active;
   }
@@ -454,6 +530,129 @@ struct PoolVoice {
 
   float processSample() {
     return engine == VoiceEngine::Plucked ? plucked.processSample() : subtractive.processSample();
+  }
+
+  void applyRealtimeParam(SynthRealtimeParamId paramId, float value) {
+    auto clamp01 = [](float v) { return std::clamp(v, 0.f, 1.f); };
+    switch (paramId) {
+      case SynthRealtimeParamId::MasterVolume:
+        subtractive.spec.masterVolume = std::max(value, 0.f);
+        subtractive.ampGain = subtractive.spec.masterVolume;
+        plucked.spec.masterVolume = std::max(value, 0.f);
+        plucked.ampGain = plucked.spec.masterVolume;
+        break;
+      case SynthRealtimeParamId::FilterCutoffHz:
+        subtractive.spec.filter.cutoffHz = std::clamp(value, 20.f, 22000.f);
+        break;
+      case SynthRealtimeParamId::FilterResonance:
+        subtractive.spec.filter.resonance = clamp01(value);
+        break;
+      case SynthRealtimeParamId::FilterDrive:
+        subtractive.spec.filter.drive = clamp01(value);
+        break;
+      case SynthRealtimeParamId::AmpAttackSec:
+        subtractive.spec.ampEnv.attackSec = std::max(value, 0.f);
+        plucked.spec.ampEnv.attackSec = std::max(value, 0.f);
+        break;
+      case SynthRealtimeParamId::AmpDecaySec:
+        subtractive.spec.ampEnv.decaySec = std::max(value, 0.f);
+        plucked.spec.ampEnv.decaySec = std::max(value, 0.f);
+        break;
+      case SynthRealtimeParamId::AmpSustain:
+        subtractive.spec.ampEnv.sustain = clamp01(value);
+        plucked.spec.ampEnv.sustain = clamp01(value);
+        break;
+      case SynthRealtimeParamId::AmpReleaseSec:
+        subtractive.spec.ampEnv.releaseSec = std::max(value, 0.f);
+        plucked.spec.ampEnv.releaseSec = std::max(value, 0.f);
+        break;
+      case SynthRealtimeParamId::LfoRateHz:
+        subtractive.spec.lfo.rateHz = std::max(value, 0.02f);
+        subtractive.lfo.SetFreq(subtractive.spec.lfo.rateHz);
+        break;
+      case SynthRealtimeParamId::EffectsWet:
+        subtractive.effects.wet = clamp01(value);
+        plucked.effects.wet = clamp01(value);
+        break;
+      case SynthRealtimeParamId::EffectsDelayMs:
+        subtractive.effects.delayMs = std::max(value, 1.f);
+        plucked.effects.delayMs = std::max(value, 1.f);
+        break;
+      case SynthRealtimeParamId::EffectsDelayFeedback:
+        subtractive.effects.delayFeedback = std::clamp(value, 0.f, 0.92f);
+        plucked.effects.delayFeedback = std::clamp(value, 0.f, 0.92f);
+        break;
+      case SynthRealtimeParamId::EffectsDelayMix:
+        subtractive.effects.delayMix = clamp01(value);
+        plucked.effects.delayMix = clamp01(value);
+        break;
+      case SynthRealtimeParamId::PluckBrightness:
+        plucked.spec.pluck.brightness = clamp01(value);
+        plucked.string.SetBrightness(plucked.spec.pluck.brightness);
+        break;
+      case SynthRealtimeParamId::PluckDamping:
+        plucked.spec.pluck.damping = clamp01(value);
+        plucked.string.SetDamping(plucked.spec.pluck.damping);
+        break;
+      case SynthRealtimeParamId::PluckStructure:
+        plucked.spec.pluck.structure = clamp01(value);
+        plucked.string.SetStructure(plucked.spec.pluck.structure);
+        break;
+      case SynthRealtimeParamId::PluckAccent:
+        plucked.spec.pluck.accent = clamp01(value);
+        break;
+      case SynthRealtimeParamId::GlideSec:
+        subtractive.spec.glideSec = std::max(value, 0.f);
+        subtractive.updateGlideCoeff();
+        break;
+      case SynthRealtimeParamId::Osc1RangeFeet:
+        subtractive.spec.osc1.range = footageFromFeet(value);
+        subtractive.osc1Mult = footageToMultiplier(subtractive.spec.osc1.range);
+        subtractive.refreshPitchTargets();
+        break;
+      case SynthRealtimeParamId::Osc1Sync:
+        subtractive.spec.osc1.sync = value >= 0.5f;
+        break;
+      case SynthRealtimeParamId::Osc1SubOsc:
+        subtractive.spec.osc1.subOsc = value >= 0.5f;
+        break;
+      case SynthRealtimeParamId::Osc1Waveform:
+        subtractive.spec.osc1.wave = waveFromSelector(value);
+        subtractive.osc1.SetWaveform(toDaisyWave(subtractive.spec.osc1.wave));
+        break;
+      case SynthRealtimeParamId::Osc1PulseWidth:
+        subtractive.spec.osc1.pulseWidth = std::clamp(value, 0.05f, 0.95f);
+        subtractive.osc1.SetPw(subtractive.spec.osc1.pulseWidth);
+        break;
+      case SynthRealtimeParamId::Osc2RangeFeet:
+        subtractive.spec.osc2.range = footageFromFeet(value);
+        subtractive.osc2Mult = footageToMultiplier(subtractive.spec.osc2.range);
+        subtractive.refreshPitchTargets();
+        break;
+      case SynthRealtimeParamId::Osc2Waveform:
+        subtractive.spec.osc2.wave = waveFromSelector(value);
+        subtractive.osc2.SetWaveform(toDaisyWave(subtractive.spec.osc2.wave));
+        break;
+      case SynthRealtimeParamId::Osc2EnvMod:
+        subtractive.spec.osc2EnvMod = value >= 0.5f;
+        break;
+      case SynthRealtimeParamId::Osc2EnvAmountSemis:
+        subtractive.spec.osc2EnvAmountSemis = std::clamp(value, -48.f, 48.f);
+        break;
+      case SynthRealtimeParamId::PluckMode:
+        setEngine((value >= 0.5f) ? VoiceEngine::Plucked : VoiceEngine::Subtractive);
+        break;
+      case SynthRealtimeParamId::Osc1Level:
+        subtractive.spec.osc1.level = clamp01(value);
+        subtractive.spec.mixer.osc1 = clamp01(value);
+        break;
+      case SynthRealtimeParamId::Osc2Level:
+        subtractive.spec.osc2.level = clamp01(value);
+        subtractive.spec.mixer.osc2 = clamp01(value);
+        break;
+      default:
+        break;
+    }
   }
 };
 
@@ -543,6 +742,11 @@ void Synthesizer::releaseNote(int voiceIndex) {
   voices_->pool[static_cast<size_t>(voiceIndex)].release();
 }
 
+void Synthesizer::setNotePitch(int voiceIndex, int midiNote) {
+  if (voiceIndex < kFirstAssignableVoice || voiceIndex >= kMaxVoices) return;
+  voices_->pool[static_cast<size_t>(voiceIndex)].setPitchNoRetrigger(midiNote);
+}
+
 void Synthesizer::renderVoices(float* buf, int32_t frameOffset, int32_t count) {
   uint32_t mask = voiceMask_.load(std::memory_order_relaxed);
   if (mask == 0) return;
@@ -565,5 +769,26 @@ void Synthesizer::renderVoices(float* buf, int32_t frameOffset, int32_t count) {
 
     voices_->effects.processSample(dry);
     buf[frameOffset + s] += dry;
+  }
+}
+
+void Synthesizer::applyRealtimeParam(int voiceIndex, SynthRealtimeParamId paramId, float value) {
+  if (voiceIndex == -1) {
+    for (int i = kFirstAssignableVoice; i < kMaxVoices; ++i) {
+      auto& voice = voices_->pool[static_cast<size_t>(i)];
+      if (!voice.isActive() && !voice.ampRunning()) continue;
+      voice.applyRealtimeParam(paramId, value);
+    }
+  } else {
+    if (voiceIndex < kFirstAssignableVoice || voiceIndex >= kMaxVoices) return;
+    voices_->pool[static_cast<size_t>(voiceIndex)].applyRealtimeParam(paramId, value);
+  }
+
+  // Keep shared FX bus aligned with one currently playing voice.
+  for (int i = kFirstAssignableVoice; i < kMaxVoices; ++i) {
+    auto& voice = voices_->pool[static_cast<size_t>(i)];
+    if (!voice.isActive() && !voice.ampRunning()) continue;
+    voices_->effects.applySpec(voice.effects());
+    break;
   }
 }

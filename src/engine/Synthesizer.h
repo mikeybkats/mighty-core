@@ -66,8 +66,15 @@ class Synthesizer {
   /// Note-off: enters release on a pool voice.
   void releaseNote(int voiceIndex);
 
+  /// Retunes a held voice without retriggering envelopes.
+  void setNotePitch(int voiceIndex, int midiNote);
+
   /// Sums all sounding pool voices into @p buf (audio thread).
   void renderVoices(float* buf, int32_t frameOffset, int32_t count);
+
+  /// Applies a real-time-safe scalar parameter update on the audio thread.
+  /// voiceIndex = -1 updates all active pool voices.
+  void applyRealtimeParam(int voiceIndex, SynthRealtimeParamId paramId, float value);
 
  private:
   /// Pimpl holding ClickVoice + PatchVoice instances (DaisySP objects).

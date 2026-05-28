@@ -5,6 +5,8 @@
 #include <memory>
 #include <vector>
 
+#include "engine/RealtimeCommandQueue.h"
+
 class Sound;
 class Synthesizer;
 
@@ -53,6 +55,7 @@ class Output {
   void setTickSoundPcm(int index, std::vector<float> samples, int32_t sourceSampleRate);
   /// kTickSoundSynthesized (-1) or PCM slot index (empty slot → synthesized click).
   void setTickSound(int soundIndex);
+  bool queueCommand(const RealtimeCommand& command);
 
   [[nodiscard]] Sound& sound();
   [[nodiscard]] const Sound& sound() const;

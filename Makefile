@@ -224,6 +224,19 @@ mighty-core-ui/fast:
 .PHONY : mighty-core-ui/fast
 
 #=============================================================================
+# Target rules for targets named mighty-core-synth-host
+
+# Build rule for target.
+mighty-core-synth-host: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 mighty-core-synth-host
+.PHONY : mighty-core-synth-host
+
+# fast build rule for target.
+mighty-core-synth-host/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mighty-core-synth-host.dir/build.make CMakeFiles/mighty-core-synth-host.dir/build
+.PHONY : mighty-core-synth-host/fast
+
+#=============================================================================
 # Target rules for targets named DaisySP
 
 # Build rule for target.
@@ -508,6 +521,30 @@ host/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/mighty-core-host-check.dir/build.make CMakeFiles/mighty-core-host-check.dir/host/main.cpp.s
 .PHONY : host/main.cpp.s
 
+host/synth_host.o: host/synth_host.cpp.o
+.PHONY : host/synth_host.o
+
+# target to build an object file
+host/synth_host.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mighty-core-synth-host.dir/build.make CMakeFiles/mighty-core-synth-host.dir/host/synth_host.cpp.o
+.PHONY : host/synth_host.cpp.o
+
+host/synth_host.i: host/synth_host.cpp.i
+.PHONY : host/synth_host.i
+
+# target to preprocess a source file
+host/synth_host.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mighty-core-synth-host.dir/build.make CMakeFiles/mighty-core-synth-host.dir/host/synth_host.cpp.i
+.PHONY : host/synth_host.cpp.i
+
+host/synth_host.s: host/synth_host.cpp.s
+.PHONY : host/synth_host.s
+
+# target to generate assembly for a file
+host/synth_host.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mighty-core-synth-host.dir/build.make CMakeFiles/mighty-core-synth-host.dir/host/synth_host.cpp.s
+.PHONY : host/synth_host.cpp.s
+
 host/ui_host.o: host/ui_host.cpp.o
 .PHONY : host/ui_host.o
 
@@ -628,6 +665,30 @@ src/engine/Output.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/mighty-core.dir/build.make CMakeFiles/mighty-core.dir/src/engine/Output.cpp.s
 .PHONY : src/engine/Output.cpp.s
 
+src/engine/RealtimeCommandQueue.o: src/engine/RealtimeCommandQueue.cpp.o
+.PHONY : src/engine/RealtimeCommandQueue.o
+
+# target to build an object file
+src/engine/RealtimeCommandQueue.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mighty-core.dir/build.make CMakeFiles/mighty-core.dir/src/engine/RealtimeCommandQueue.cpp.o
+.PHONY : src/engine/RealtimeCommandQueue.cpp.o
+
+src/engine/RealtimeCommandQueue.i: src/engine/RealtimeCommandQueue.cpp.i
+.PHONY : src/engine/RealtimeCommandQueue.i
+
+# target to preprocess a source file
+src/engine/RealtimeCommandQueue.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mighty-core.dir/build.make CMakeFiles/mighty-core.dir/src/engine/RealtimeCommandQueue.cpp.i
+.PHONY : src/engine/RealtimeCommandQueue.cpp.i
+
+src/engine/RealtimeCommandQueue.s: src/engine/RealtimeCommandQueue.cpp.s
+.PHONY : src/engine/RealtimeCommandQueue.s
+
+# target to generate assembly for a file
+src/engine/RealtimeCommandQueue.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mighty-core.dir/build.make CMakeFiles/mighty-core.dir/src/engine/RealtimeCommandQueue.cpp.s
+.PHONY : src/engine/RealtimeCommandQueue.cpp.s
+
 src/engine/Sound.o: src/engine/Sound.cpp.o
 .PHONY : src/engine/Sound.o
 
@@ -675,6 +736,30 @@ src/engine/Synthesizer.s: src/engine/Synthesizer.cpp.s
 src/engine/Synthesizer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/mighty-core.dir/build.make CMakeFiles/mighty-core.dir/src/engine/Synthesizer.cpp.s
 .PHONY : src/engine/Synthesizer.cpp.s
+
+src/engine/SynthesizerPatches.o: src/engine/SynthesizerPatches.cpp.o
+.PHONY : src/engine/SynthesizerPatches.o
+
+# target to build an object file
+src/engine/SynthesizerPatches.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mighty-core.dir/build.make CMakeFiles/mighty-core.dir/src/engine/SynthesizerPatches.cpp.o
+.PHONY : src/engine/SynthesizerPatches.cpp.o
+
+src/engine/SynthesizerPatches.i: src/engine/SynthesizerPatches.cpp.i
+.PHONY : src/engine/SynthesizerPatches.i
+
+# target to preprocess a source file
+src/engine/SynthesizerPatches.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mighty-core.dir/build.make CMakeFiles/mighty-core.dir/src/engine/SynthesizerPatches.cpp.i
+.PHONY : src/engine/SynthesizerPatches.cpp.i
+
+src/engine/SynthesizerPatches.s: src/engine/SynthesizerPatches.cpp.s
+.PHONY : src/engine/SynthesizerPatches.s
+
+# target to generate assembly for a file
+src/engine/SynthesizerPatches.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mighty-core.dir/build.make CMakeFiles/mighty-core.dir/src/engine/SynthesizerPatches.cpp.s
+.PHONY : src/engine/SynthesizerPatches.cpp.s
 
 src/engine/TempoEngine.o: src/engine/TempoEngine.cpp.o
 .PHONY : src/engine/TempoEngine.o
@@ -796,6 +881,7 @@ help:
 	@echo "... imgui_lib"
 	@echo "... mighty-core"
 	@echo "... mighty-core-host-check"
+	@echo "... mighty-core-synth-host"
 	@echo "... mighty-core-ui"
 	@echo "... mmc-tests"
 	@echo "... _deps/imgui-src/backends/imgui_impl_glfw.o"
@@ -819,6 +905,9 @@ help:
 	@echo "... host/main.o"
 	@echo "... host/main.i"
 	@echo "... host/main.s"
+	@echo "... host/synth_host.o"
+	@echo "... host/synth_host.i"
+	@echo "... host/synth_host.s"
 	@echo "... host/ui_host.o"
 	@echo "... host/ui_host.i"
 	@echo "... host/ui_host.s"
@@ -834,12 +923,18 @@ help:
 	@echo "... src/engine/Output.o"
 	@echo "... src/engine/Output.i"
 	@echo "... src/engine/Output.s"
+	@echo "... src/engine/RealtimeCommandQueue.o"
+	@echo "... src/engine/RealtimeCommandQueue.i"
+	@echo "... src/engine/RealtimeCommandQueue.s"
 	@echo "... src/engine/Sound.o"
 	@echo "... src/engine/Sound.i"
 	@echo "... src/engine/Sound.s"
 	@echo "... src/engine/Synthesizer.o"
 	@echo "... src/engine/Synthesizer.i"
 	@echo "... src/engine/Synthesizer.s"
+	@echo "... src/engine/SynthesizerPatches.o"
+	@echo "... src/engine/SynthesizerPatches.i"
+	@echo "... src/engine/SynthesizerPatches.s"
 	@echo "... src/engine/TempoEngine.o"
 	@echo "... src/engine/TempoEngine.i"
 	@echo "... src/engine/TempoEngine.s"

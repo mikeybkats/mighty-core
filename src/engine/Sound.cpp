@@ -2,6 +2,7 @@
 
 #include <algorithm>
 
+#include "engine/SynthesizerPatches.h"
 #include "engine/Synthesizer.h"
 
 namespace {
@@ -74,160 +75,18 @@ void Sound::releaseNote(int voiceIndex) {
   synthesizer_.releaseNote(voiceIndex);
 }
 
+void Sound::setNotePitch(int voiceIndex, int midiNote) {
+  synthesizer_.setNotePitch(voiceIndex, midiNote);
+}
+
 void Sound::registerBuiltInSounds() {
-  // Guitar: StringVoice curved bridge (structure < 0.26), pick attack, chorus.
-  guitarSound_ = createSound({
-      .engine = VoiceEngine::Plucked,
-      .pluck =
-          {
-              .structure = 0.14f,
-              .brightness = 0.58f,
-              .damping = 0.5f,
-              .accent = 0.92f,
-              .level = 0.88f,
-          },
-      .ampEnv =
-          {
-              .attackSec = 0.001f,
-              .decaySec = 0.45f,
-              .sustain = 0.08f,
-              .releaseSec = 0.22f,
-          },
-      .effects =
-          {
-              .wet = 0.1f,
-              .chorusDepth = 0.25f,
-              .chorusRateHz = 0.4f,
-              .delayMs = 55.f,
-              .delayFeedback = 0.18f,
-              .delayMix = 0.35f,
-          },
-      .masterVolume = 0.54f,
-  });
-
-  // Bass: low bridge structure, dark brightness, heavy damping, dry FX.
-  bassSound_ = createSound({
-      .engine = VoiceEngine::Plucked,
-      .pluck =
-          {
-              .structure = 0.06f,
-              .brightness = 0.24f,
-              .damping = 0.82f,
-              .accent = 0.9f,
-              .level = 0.92f,
-          },
-      .ampEnv =
-          {
-              .attackSec = 0.002f,
-              .decaySec = 0.28f,
-              .sustain = 0.55f,
-              .releaseSec = 0.1f,
-          },
-      .effects =
-          {
-              .wet = 0.06f,
-              .chorusDepth = 0.12f,
-              .delayMs = 40.f,
-              .delayFeedback = 0.12f,
-              .delayMix = 0.1f,
-          },
-      .masterVolume = 0.6f,
-  });
-
-  // Piano: subtractive dual-triangle, soft hammer envelope — not plucked Karplus.
-  pianoSound_ = createSound({
-      .osc1 =
-          {
-              .range = OscFootage::Foot8,
-              .wave = OscWave::Tri,
-              .level = 0.52f,
-          },
-      .osc2 =
-          {
-              .range = OscFootage::Foot4,
-              .wave = OscWave::Tri,
-              .tuneSemis = 0.03f,
-              .level = 0.38f,
-          },
-      .filter =
-          {
-              .cutoffHz = 3200.f,
-              .resonance = 0.12f,
-              .envDepth = 0.4f,
-              .keyTrack = 0.5f,
-              .drive = 0.35f,
-          },
-      .ampEnv =
-          {
-              .attackSec = 0.001f,
-              .decaySec = 0.55f,
-              .sustain = 0.35f,
-              .releaseSec = 0.3f,
-          },
-      .filterEnv =
-          {
-              .attackSec = 0.001f,
-              .decaySec = 0.4f,
-              .sustain = 0.f,
-              .releaseSec = 0.25f,
-          },
-      .mixer =
-          {
-              .osc1 = 0.52f,
-              .osc2 = 0.38f,
-          },
-      .effects =
-          {
-              .wet = 0.08f,
-              .chorusDepth = 0.1f,
-              .delayMs = 50.f,
-              .delayFeedback = 0.15f,
-              .delayMix = 0.4f,
-          },
-      .masterVolume = 0.45f,
-  });
-
-  // Kick: low square-ish osc + noise burst, fast filter sweep (drum placeholder).
-  kickDrumSound_ = createSound({
-      .osc1 =
-          {
-              .range = OscFootage::Foot32,
-              .wave = OscWave::PolySquare,
-              .level = 0.85f,
-          },
-      .osc2 =
-          {
-              .enabled = false,
-          },
-      .filter =
-          {
-              .cutoffHz = 120.f,
-              .resonance = 0.45f,
-              .envDepth = 0.9f,
-              .mode = FilterMode::Band,
-              .drive = 0.65f,
-          },
-      .ampEnv =
-          {
-              .attackSec = 0.001f,
-              .decaySec = 0.12f,
-              .sustain = 0.f,
-              .releaseSec = 0.05f,
-          },
-      .filterEnv =
-          {
-              .attackSec = 0.001f,
-              .decaySec = 0.08f,
-              .sustain = 0.f,
-              .releaseSec = 0.04f,
-          },
-      .mixer =
-          {
-              .osc1 = 0.75f,
-              .noise = 0.2f,
-          },
-      .masterVolume = 0.65f,
-  });
+  const auto& patches = SynthesizerPatches::builtInPatches();
+  if (patches.size() < 5) return;
+  defaultSound_ = createSound(patches[0].spec);
+  guitarSound_ = createSound(patches[1].spec);
+  bassSound_ = createSound(patches[2].spec);
+  pianoSound_ = createSound(patches[3].spec);
+  kickDrumSound_ = createSound(patches[4].spec);
 }
 
 void Sound::setPcmSlot(int index, std::vector<float> samples, int32_t sourceSampleRate) {

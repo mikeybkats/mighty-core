@@ -9,6 +9,7 @@
 #include <memory>
 #include <vector>
 
+#include "engine/RealtimeCommandQueue.h"
 #include "engine/Sound.h"
 #include "engine/Synthesizer.h"
 #include "scheduler/Scheduler.h"
@@ -68,6 +69,7 @@ class TempoEngine
 
   void setTickSoundPcm(int index, std::vector<float> samples, int32_t sourceSampleRate);
   void setTickSound(int index);
+  bool queueCommand(const RealtimeCommand& command);
 
 #ifdef __ANDROID__
   oboe::DataCallbackResult onAudioReady(oboe::AudioStream*, void*, int32_t) override;
@@ -85,6 +87,7 @@ class TempoEngine
   bool metronomeRunning_{false};
   /// State for a click that may span multiple callbacks when the buffer is small.
   Sound::ClickPlaybackState click_{};
+  RealtimeCommandQueue commandQueue_{};
 
 #ifdef __ANDROID__
   std::shared_ptr<oboe::AudioStream> stream_;

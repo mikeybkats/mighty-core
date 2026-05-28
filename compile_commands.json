@@ -25,9 +25,21 @@
 },
 {
   "directory": "/Users/michaelbarakat/projects/mighty-core",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/include -I/Users/michaelbarakat/projects/mighty-core/src -I/Users/michaelbarakat/projects/mighty-core/third_party -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -g -std=gnu++17 -o CMakeFiles/mighty-core.dir/src/engine/RealtimeCommandQueue.cpp.o -c /Users/michaelbarakat/projects/mighty-core/src/engine/RealtimeCommandQueue.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/src/engine/RealtimeCommandQueue.cpp",
+  "output": "CMakeFiles/mighty-core.dir/src/engine/RealtimeCommandQueue.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core",
   "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/include -I/Users/michaelbarakat/projects/mighty-core/src -I/Users/michaelbarakat/projects/mighty-core/third_party -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -g -std=gnu++17 -o CMakeFiles/mighty-core.dir/src/engine/Sound.cpp.o -c /Users/michaelbarakat/projects/mighty-core/src/engine/Sound.cpp",
   "file": "/Users/michaelbarakat/projects/mighty-core/src/engine/Sound.cpp",
   "output": "CMakeFiles/mighty-core.dir/src/engine/Sound.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/include -I/Users/michaelbarakat/projects/mighty-core/src -I/Users/michaelbarakat/projects/mighty-core/third_party -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -g -std=gnu++17 -o CMakeFiles/mighty-core.dir/src/engine/SynthesizerPatches.cpp.o -c /Users/michaelbarakat/projects/mighty-core/src/engine/SynthesizerPatches.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/src/engine/SynthesizerPatches.cpp",
+  "output": "CMakeFiles/mighty-core.dir/src/engine/SynthesizerPatches.cpp.o"
 },
 {
   "directory": "/Users/michaelbarakat/projects/mighty-core",
@@ -106,6 +118,12 @@
   "command": "/usr/bin/c++ -DGL_SILENCE_DEPRECATION -DMIGHTY_CORE_METRONOME_RAW_DIR=\\\"/Users/michaelbarakat/projects/mighty-core/assets/metronome/res/raw\\\" -I/Users/michaelbarakat/projects/mighty-core/host -I/Users/michaelbarakat/projects/mighty-core/include -I/Users/michaelbarakat/projects/mighty-core/_deps/imgui-src -I/Users/michaelbarakat/projects/mighty-core/_deps/imgui-src/backends -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/include -iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -g -std=gnu++17 -o CMakeFiles/mighty-core-ui.dir/host/wav_reader.cpp.o -c /Users/michaelbarakat/projects/mighty-core/host/wav_reader.cpp",
   "file": "/Users/michaelbarakat/projects/mighty-core/host/wav_reader.cpp",
   "output": "CMakeFiles/mighty-core-ui.dir/host/wav_reader.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core",
+  "command": "/usr/bin/c++ -DGL_SILENCE_DEPRECATION -I/Users/michaelbarakat/projects/mighty-core/include -I/Users/michaelbarakat/projects/mighty-core/_deps/imgui-src -I/Users/michaelbarakat/projects/mighty-core/_deps/imgui-src/backends -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/include -iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -g -std=gnu++17 -o CMakeFiles/mighty-core-synth-host.dir/host/synth_host.cpp.o -c /Users/michaelbarakat/projects/mighty-core/host/synth_host.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/host/synth_host.cpp",
+  "output": "CMakeFiles/mighty-core-synth-host.dir/host/synth_host.cpp.o"
 },
 {
   "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
@@ -538,5 +556,11 @@
   "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/tests/../src -I/Users/michaelbarakat/projects/mighty-core/include -isystem /Users/michaelbarakat/projects/mighty-core/_deps/googletest-src/googletest/include -isystem /Users/michaelbarakat/projects/mighty-core/_deps/googletest-src/googletest -g -std=gnu++17 -o CMakeFiles/mmc-tests.dir/test_synthesizer.cpp.o -c /Users/michaelbarakat/projects/mighty-core/tests/test_synthesizer.cpp",
   "file": "/Users/michaelbarakat/projects/mighty-core/tests/test_synthesizer.cpp",
   "output": "tests/CMakeFiles/mmc-tests.dir/test_synthesizer.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/tests",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/tests/../src -I/Users/michaelbarakat/projects/mighty-core/include -isystem /Users/michaelbarakat/projects/mighty-core/_deps/googletest-src/googletest/include -isystem /Users/michaelbarakat/projects/mighty-core/_deps/googletest-src/googletest -g -std=gnu++17 -o CMakeFiles/mmc-tests.dir/test_realtime_command_queue.cpp.o -c /Users/michaelbarakat/projects/mighty-core/tests/test_realtime_command_queue.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/tests/test_realtime_command_queue.cpp",
+  "output": "tests/CMakeFiles/mmc-tests.dir/test_realtime_command_queue.cpp.o"
 }
 ]

@@ -48,6 +48,10 @@ void TempoEngine::setTickSound(int index) {
   sound_.setSelection(index);
 }
 
+bool TempoEngine::queueCommand(const RealtimeCommand& command) {
+  return commandQueue_.tryPush(command);
+}
+
 void TempoEngine::setTwoBeatMeasure(bool enabled) {
   scheduler_.setTwoBeatMeasure(enabled);
 }
@@ -58,6 +62,20 @@ void TempoEngine::setSwingFraction(double fraction) {
 
 void TempoEngine::processAudio(float* output, int32_t numFrames) {
   std::memset(output, 0, numFrames * sizeof(float));
+
+  RealtimeCommand commands[64];
+  while (true) {
+    const size_t count = commandQueue_.popMany(commands, 64);
+    if (count == 0) break;
+    for (size_t i = 0; i < count; ++i) {
+      const RealtimeCommand& cmd = commands[i];
+      if (cmd.domain != RealtimeCommand::Domain::Synth) continue;
+      const auto op = static_cast<RealtimeCommand::SynthOp>(cmd.op);
+      if (op != RealtimeCommand::SynthOp::SetParam) continue;
+      synthesizer_.applyRealtimeParam(
+          cmd.target, static_cast<SynthRealtimeParamId>(cmd.paramId), cmd.value);
+    }
+  }
 
   // Extend any metronome click that began in the previous callback.
   if (!sound_.isIdle(click_)) {

@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+#include "SynthRealtimeParams.h"
+
 // -----------------------------------------------------------------------------
 // SynthSoundTypes — POD patch data for Sound::createSound().
 //
@@ -48,6 +50,10 @@ struct VcoSpec {
   float tuneSemis = 0.f;
   float pulseWidth = 0.5f;
   float level = 0.5f;
+  /// Osc hard-sync style lock (UI-facing; currently keeps osc2 pitch locked to osc1 base).
+  bool sync = false;
+  /// Adds a one-octave-down square sub oscillator for this VCO when supported.
+  bool subOsc = false;
   bool enabled = true;
 };
 
@@ -131,4 +137,8 @@ struct SynthSoundSpec {
   float masterVolume = 0.75f;
   /// Portamento time in seconds (0 = instant pitch).
   float glideSec = 0.f;
+  /// Enables envelope modulation on osc2 pitch.
+  bool osc2EnvMod = false;
+  /// Osc2 env amount in semitones when osc2EnvMod is enabled.
+  float osc2EnvAmountSemis = 0.f;
 };

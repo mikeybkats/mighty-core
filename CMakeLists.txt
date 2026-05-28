@@ -43,7 +43,9 @@ add_library(mighty-core STATIC
     src/core/MightyMusicCore.cpp
     src/engine/Input.cpp
     src/engine/Output.cpp
+    src/engine/RealtimeCommandQueue.cpp
     src/engine/Sound.cpp
+    src/engine/SynthesizerPatches.cpp
     src/engine/Synthesizer.cpp
     src/metronome/Metronome.cpp
     src/metronome/BuiltInKits.cpp
@@ -143,6 +145,10 @@ else()
     target_compile_definitions(mighty-core-ui PRIVATE
         "MIGHTY_CORE_METRONOME_RAW_DIR=\"${MIGHTY_CORE_METRONOME_RAW}\"")
     target_link_libraries(mighty-core-ui PRIVATE mighty-core imgui_lib)
+
+    # Dedicated synthesizer host for real-time patch design and auditioning.
+    add_executable(mighty-core-synth-host host/synth_host.cpp)
+    target_link_libraries(mighty-core-synth-host PRIVATE mighty-core imgui_lib)
 
     # Unit tests
     enable_testing()

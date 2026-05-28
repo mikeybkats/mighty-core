@@ -84,6 +84,10 @@ void Output::setTickSound(int soundIndex) {
   impl_->engine.setTickSound(soundIndex);
 }
 
+bool Output::queueCommand(const RealtimeCommand& command) {
+  return impl_->engine.queueCommand(command);
+}
+
 Sound& Output::sound() {
   return impl_->engine.sound();
 }

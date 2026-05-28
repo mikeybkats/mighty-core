@@ -53,6 +53,7 @@ class Sound {
   [[nodiscard]] const SynthSoundSpec* getSoundSpec(SoundId id) const;
 
   /// Built-in SoundIds (registered in the constructor). Use with allocateVoice().
+  [[nodiscard]] SoundId defaultSound() const { return defaultSound_; }
   [[nodiscard]] SoundId guitarSound() const { return guitarSound_; }
   [[nodiscard]] SoundId bassSound() const { return bassSound_; }
   [[nodiscard]] SoundId pianoSound() const { return pianoSound_; }
@@ -72,6 +73,9 @@ class Sound {
 
   /// Sends note-off on a pool voice (release envelope).
   void releaseNote(int voiceIndex);
+
+  /// Retunes a held voice without retriggering envelopes.
+  void setNotePitch(int voiceIndex, int midiNote);
 
   // ---- Metronome PCM / click selection ----------------------------------------
 
@@ -142,6 +146,7 @@ class Sound {
   std::vector<SynthSoundSpec> soundPresets_;
 
   /// SoundIds for built-in instruments (set in registerBuiltInSounds).
+  SoundId defaultSound_{kInvalidSound};
   SoundId guitarSound_{kInvalidSound};
   SoundId bassSound_{kInvalidSound};
   SoundId pianoSound_{kInvalidSound};

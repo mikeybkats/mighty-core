@@ -1,5 +1,5 @@
 {
-  "tests": 43,
+  "tests": 47,
   "name": "AllTests",
   "testsuites": [
     {
@@ -251,7 +251,7 @@
     },
     {
       "name": "Sound",
-      "tests": 2,
+      "tests": 4,
       "testsuite": [
         {
           "name": "CreateSoundAndPlayVoice",
@@ -262,6 +262,32 @@
           "name": "BuiltInGuitarPreset",
           "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_synthesizer.cpp",
           "line": 46
+        },
+        {
+          "name": "BuiltInPianoPreset",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_synthesizer.cpp",
+          "line": 64
+        },
+        {
+          "name": "RingModVoiceProducesHarmonics",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_synthesizer.cpp",
+          "line": 81
+        }
+      ]
+    },
+    {
+      "name": "RealtimeCommandQueue",
+      "tests": 2,
+      "testsuite": [
+        {
+          "name": "PushAndPopSingleCommand",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_realtime_command_queue.cpp",
+          "line": 5
+        },
+        {
+          "name": "ReturnsFalseWhenQueueIsFull",
+          "file": "\/Users\/michaelbarakat\/projects\/mighty-core\/tests\/test_realtime_command_queue.cpp",
+          "line": 24
         }
       ]
     }

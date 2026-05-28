@@ -305,6 +305,30 @@ test_output.cpp.s:
 	cd /Users/michaelbarakat/projects/mighty-core && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/mmc-tests.dir/build.make tests/CMakeFiles/mmc-tests.dir/test_output.cpp.s
 .PHONY : test_output.cpp.s
 
+test_realtime_command_queue.o: test_realtime_command_queue.cpp.o
+.PHONY : test_realtime_command_queue.o
+
+# target to build an object file
+test_realtime_command_queue.cpp.o:
+	cd /Users/michaelbarakat/projects/mighty-core && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/mmc-tests.dir/build.make tests/CMakeFiles/mmc-tests.dir/test_realtime_command_queue.cpp.o
+.PHONY : test_realtime_command_queue.cpp.o
+
+test_realtime_command_queue.i: test_realtime_command_queue.cpp.i
+.PHONY : test_realtime_command_queue.i
+
+# target to preprocess a source file
+test_realtime_command_queue.cpp.i:
+	cd /Users/michaelbarakat/projects/mighty-core && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/mmc-tests.dir/build.make tests/CMakeFiles/mmc-tests.dir/test_realtime_command_queue.cpp.i
+.PHONY : test_realtime_command_queue.cpp.i
+
+test_realtime_command_queue.s: test_realtime_command_queue.cpp.s
+.PHONY : test_realtime_command_queue.s
+
+# target to generate assembly for a file
+test_realtime_command_queue.cpp.s:
+	cd /Users/michaelbarakat/projects/mighty-core && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/mmc-tests.dir/build.make tests/CMakeFiles/mmc-tests.dir/test_realtime_command_queue.cpp.s
+.PHONY : test_realtime_command_queue.cpp.s
+
 test_scheduler.o: test_scheduler.cpp.o
 .PHONY : test_scheduler.o
 
@@ -382,6 +406,9 @@ help:
 	@echo "... test_output.o"
 	@echo "... test_output.i"
 	@echo "... test_output.s"
+	@echo "... test_realtime_command_queue.o"
+	@echo "... test_realtime_command_queue.i"
+	@echo "... test_realtime_command_queue.s"
 	@echo "... test_scheduler.o"
 	@echo "... test_scheduler.i"
 	@echo "... test_scheduler.s"

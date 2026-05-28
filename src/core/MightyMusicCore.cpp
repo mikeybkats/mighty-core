@@ -2,7 +2,9 @@
 
 #include "engine/Input.h"
 #include "engine/Output.h"
+#include "engine/RealtimeCommandQueue.h"
 #include "engine/Sound.h"
+#include "engine/SynthesizerPatches.h"
 
 class MightyMusicCore::Impl {
  public:
@@ -17,12 +19,14 @@ namespace {
 SoundId soundIdForPatch(Sound& sound, int patchIndex) {
   switch (patchIndex) {
     case 0:
-      return sound.guitarSound();
+      return sound.defaultSound();
     case 1:
-      return sound.bassSound();
+      return sound.guitarSound();
     case 2:
-      return sound.pianoSound();
+      return sound.bassSound();
     case 3:
+      return sound.pianoSound();
+    case 4:
       return sound.kickDrumSound();
     default:
       return Sound::kInvalidSound;
@@ -123,11 +127,11 @@ int MightyMusicCore::lastDetectedMidiNote() const {
 }
 
 const char* MightyMusicCore::synthPatchName(int patchIndex) const {
-  static const char* kNames[kSynthPatchCount] = {"Guitar", "Bass", "Piano", "Kick drum"};
+  const auto& patches = SynthesizerPatches::builtInPatches();
   if (patchIndex < 0 || patchIndex >= kSynthPatchCount) {
     return nullptr;
   }
-  return kNames[patchIndex];
+  return patches[static_cast<size_t>(patchIndex)].name;
 }
 
 void MightyMusicCore::triggerSynthNote(int patchIndex, int midiNote, float velocity) {
@@ -153,4 +157,26 @@ void MightyMusicCore::releaseSynthGate() {
     return;
   }
   impl_->output.sound().releaseNote(impl_->synthVoiceIndex);
+}
+
+void MightyMusicCore::setSynthPitch(int midiNote) {
+  if (impl_->synthVoiceIndex < 0) {
+    return;
+  }
+  impl_->output.sound().setNotePitch(impl_->synthVoiceIndex, midiNote);
+}
+
+bool MightyMusicCore::queueSynthParamChange(SynthRealtimeParamId paramId, float value,
+                                            bool applyToAllVoices) {
+  if (!applyToAllVoices && impl_->synthVoiceIndex < 0) {
+    return false;
+  }
+  RealtimeCommand cmd{};
+  cmd.domain = RealtimeCommand::Domain::Synth;
+  cmd.op = static_cast<uint8_t>(RealtimeCommand::SynthOp::SetParam);
+  cmd.target = applyToAllVoices ? -1 : impl_->synthVoiceIndex;
+  cmd.paramId = static_cast<int32_t>(paramId);
+  cmd.value = value;
+  cmd.frameOffset = 0;
+  return impl_->output.queueCommand(cmd);
 }

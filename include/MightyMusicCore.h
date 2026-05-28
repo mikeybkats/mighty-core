@@ -5,6 +5,8 @@
 #include <memory>
 #include <vector>
 
+#include "SynthRealtimeParams.h"
+
 // Mighty Music Core (MMC) — playback bus + metronome + synth preview API.
 //
 // Playback (openPlayback) is shared; metronome start/stop and synth trigger/release
@@ -44,13 +46,18 @@ class MightyMusicCore {
   [[nodiscard]] int lastDetectedMidiNote() const;
 
   /// Built-in subtractive presets (Sound::guitarSound, etc.).
-  static constexpr int kSynthPatchCount = 4;
+  static constexpr int kSynthPatchCount = 5;
   [[nodiscard]] const char* synthPatchName(int patchIndex) const;
 
   /// Note-on on a pooled voice; opens playback if needed (no metronome required).
   void triggerSynthNote(int patchIndex, int midiNote, float velocity);
   /// Note-off (amp envelope release); keeps the voice allocated for retrigger.
   void releaseSynthGate();
+  /// Updates held synth note pitch without retriggering envelopes (drone behavior).
+  void setSynthPitch(int midiNote);
+  /// Queues a real-time-safe synth parameter change to be applied on audio callback.
+  /// When applyToAllVoices is true, applies to all active voices; otherwise to held voice.
+  bool queueSynthParamChange(SynthRealtimeParamId paramId, float value, bool applyToAllVoices);
 
   std::function<void(int beatNumber)> onTick;
 
