@@ -650,6 +650,9 @@ struct PoolVoice {
         subtractive.spec.osc2.level = clamp01(value);
         subtractive.spec.mixer.osc2 = clamp01(value);
         break;
+      case SynthRealtimeParamId::LfoDepth:
+        subtractive.spec.lfo.filterDepth = clamp01(value);
+        break;
       default:
         break;
     }

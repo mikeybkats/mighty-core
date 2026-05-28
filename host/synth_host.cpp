@@ -103,6 +103,7 @@ int main() {
   float ampSustain = 0.65f;
   float ampRelease = 0.24f;
   float lfoRate = 2.7f;
+  float lfoDepth = 0.25f;
   float masterVolume = 0.70f;
   float fxWet = 0.08f;
   float fxDelayMs = 80.0f;
@@ -136,6 +137,7 @@ int main() {
     queueParam(core, SynthRealtimeParamId::AmpReleaseSec, ampRelease);
     queueParam(core, SynthRealtimeParamId::MasterVolume, masterVolume);
     queueParam(core, SynthRealtimeParamId::LfoRateHz, lfoRate);
+    queueParam(core, SynthRealtimeParamId::LfoDepth, lfoDepth);
     queueParam(core, SynthRealtimeParamId::PluckBrightness, pluckBrightness);
     queueParam(core, SynthRealtimeParamId::PluckDamping, pluckDamping);
     queueParam(core, SynthRealtimeParamId::PluckStructure, pluckStructure);
@@ -304,6 +306,7 @@ int main() {
     } else {
       ImGui::TextUnformatted("LFO");
       controlsChanged |= drawKnobLikeSlider("LFO Rate", &lfoRate, 0.02f, 20.0f, "%.2f Hz");
+      controlsChanged |= drawKnobLikeSlider("LFO Depth", &lfoDepth, 0.0f, 1.0f, "%.2f");
     }
     ImGui::EndChild();
     ImGui::NextColumn();
