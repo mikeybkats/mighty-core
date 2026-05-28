@@ -221,8 +221,8 @@ int main() {
     if (ImGui::Checkbox("Gate", &gate)) {
       controlsChanged = true;
       if (gate) {
-        core.triggerSynthNote(patchIndex, midiNote, velocity);
         applyPanelParams();
+        core.triggerSynthNote(patchIndex, midiNote, velocity);
       } else {
         core.releaseSynthGate();
       }
@@ -236,12 +236,12 @@ int main() {
     }
 
     if (gate && previousMidi != midiNote) {
+      applyPanelParams();
       if (droneHold) {
         core.setSynthPitch(midiNote);
       } else {
         core.triggerSynthNote(patchIndex, midiNote, velocity);
       }
-      applyPanelParams();
     }
     ImGui::EndChild();
 
@@ -343,6 +343,10 @@ int main() {
       controlsChanged |= drawKnobLikeSlider("Damping", &pluckDamping, 0.0f, 1.0f, "%.2f");
       controlsChanged |= drawKnobLikeSlider("Structure", &pluckStructure, 0.0f, 1.0f, "%.2f");
       controlsChanged |= drawKnobLikeSlider("Accent", &pluckAccent, 0.0f, 1.0f, "%.2f");
+      ImGui::Separator();
+      ImGui::TextUnformatted("LFO (pluck gate)");
+      controlsChanged |= drawKnobLikeSlider("Rate##plucklfo", &osc1LfoRate, 0.02f, 20.0f, "%.2f Hz");
+      controlsChanged |= ImGui::Checkbox("Gate trigger##pluck", &osc1LfoGate);
     } else {
       const char* lfoTargetItems = "Pitch\0Pulse width\0";
       ImGui::TextUnformatted("LFO 1 (Osc 1)");

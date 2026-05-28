@@ -109,6 +109,10 @@ float filterExciteGain(float res) {
   return 1.f - 0.3f * smoothstep(1.0f, kLadderMaxRes, res);
 }
 
+float lfoBipolar(daisysp::Phasor& phasor) {
+  return std::sin(phasor.Process() * kPi2);
+}
+
 void applyLadderVoicing(daisysp::LadderFilter& ladder, float res) {
   ladder.SetRes(std::clamp(res, 0.f, kLadderMaxRes));
   ladder.SetPassbandGain(passbandGainForResonance(res));
@@ -360,10 +364,6 @@ struct PatchVoice {
     return midiToHz(midiNote);
   }
 
-  static float lfoBipolar(daisysp::Phasor& phasor) {
-    return std::sin(phasor.Process() * kPi2);
-  }
-
   static constexpr float kLfoPitchSemisMax = 12.f;
   static constexpr float kLfoPwmSwingMax = 0.45f;
 
@@ -485,13 +485,14 @@ struct PatchVoice {
     const float o2 = spec.osc2.enabled ? osc2.Process() : 0.f;
     const float oSub = (spec.osc1.enabled && spec.osc1.subOsc) ? subOsc.Process() : 0.f;
 
-    float mix = 0.f;
-    mix += spec.mixer.osc1 * o1;
-    mix += spec.mixer.osc2 * o2;
+    const float o1Lev = spec.mixer.osc1 * o1;
+    const float o2Lev = spec.mixer.osc2 * o2;
+
+    float mix = o1Lev + o2Lev;
     if (spec.osc1.subOsc) mix += 0.35f * spec.mixer.osc1 * oSub;
     if (spec.mixer.noise > 0.f) mix += spec.mixer.noise * noise.Process();
     if (spec.mixer.ringMod > 0.f && spec.osc1.enabled && spec.osc2.enabled) {
-      mix += spec.mixer.ringMod * (o1 * o2);
+      mix += spec.mixer.ringMod * o1Lev * o2Lev;
     }
 
     applyLadderVoicing(ladder, spec.filter.resonance);
@@ -517,11 +518,14 @@ struct PatchVoice {
 struct PluckedVoice {
   daisysp::StringVoice string;
   daisysp::Adsr ampEnv;
+  daisysp::Phasor lfo1;
 
   SynthSoundSpec spec{};
   EffectsSpec effects{};
   bool active = false;
   bool gate = false;
+  bool lfo1WasPositive_ = false;
+  bool pendingStrike_ = false;
   float ampGain = 1.f;
   float strikeAccent_ = 0.85f;
   float sampleRate = 48000.f;
@@ -532,8 +536,11 @@ struct PluckedVoice {
     sampleRate = sr;
     string.Init(sr);
     ampEnv.Init(sr);
+    lfo1.Init(sr);
     active = false;
     gate = false;
+    lfo1WasPositive_ = false;
+    pendingStrike_ = false;
     quietSamples_ = 0;
   }
 
@@ -554,6 +561,9 @@ struct PluckedVoice {
     ampEnv.SetSustainLevel(s.ampEnv.sustain);
     ampEnv.SetReleaseTime(s.ampEnv.releaseSec);
 
+    lfo1.Init(sampleRate);
+    lfo1.SetFreq(std::max(s.osc1Lfo.rateHz, 0.02f));
+
     ampGain = s.masterVolume;
   }
 
@@ -570,7 +580,14 @@ struct PluckedVoice {
     string.SetFreq(midiToHz(note));
     string.SetAccent(strikeAccent_ * (0.35f + 0.65f * vel));
     string.Reset();
-    string.Trig();
+    lfo1WasPositive_ = false;
+    if (!spec.osc1Lfo.gateTrigger) {
+      pendingStrike_ = true;
+    } else {
+      const float lfo1v = lfoBipolar(lfo1);
+      pendingStrike_ = lfo1v > 0.f;
+      lfo1WasPositive_ = lfo1v > 0.f;
+    }
     gate = true;
     active = true;
     quietSamples_ = 0;
@@ -580,6 +597,8 @@ struct PluckedVoice {
 
   void release() {
     gate = false;
+    lfo1WasPositive_ = false;
+    pendingStrike_ = false;
   }
 
   void setPitchNoRetrigger(int note) {
@@ -588,8 +607,24 @@ struct PluckedVoice {
   }
 
   float processSample() {
-    float sample = string.Process(false) * spec.pluck.level;
-    const float amp = ampEnv.Process(gate) * ampGain;
+    const float lfo1v = lfoBipolar(lfo1);
+    bool strike = pendingStrike_;
+    pendingStrike_ = false;
+    if (spec.osc1Lfo.gateTrigger && gate) {
+      const bool lfoPositive = lfo1v > 0.f;
+      if (lfoPositive && !lfo1WasPositive_) {
+        strike = true;
+      }
+      lfo1WasPositive_ = lfoPositive;
+    }
+
+    bool effectiveGate = gate;
+    if (spec.osc1Lfo.gateTrigger) {
+      effectiveGate = gate && (lfo1v > 0.f);
+    }
+
+    float sample = string.Process(strike) * spec.pluck.level;
+    const float amp = ampEnv.Process(effectiveGate) * ampGain;
     sample *= amp;
 
     if (std::abs(sample) < 1e-4f) {
@@ -624,8 +659,13 @@ struct PoolVoice {
 
   void setEngine(VoiceEngine newEngine) {
     if (engine == newEngine) return;
-    SynthSoundSpec merged = (engine == VoiceEngine::Plucked) ? plucked.spec : subtractive.spec;
+    const SynthSoundSpec& primary =
+        (engine == VoiceEngine::Plucked) ? plucked.spec : subtractive.spec;
+    const OscLfoSpec& osc1Lfo =
+        (newEngine == VoiceEngine::Plucked) ? plucked.spec.osc1Lfo : subtractive.spec.osc1Lfo;
+    SynthSoundSpec merged = primary;
     merged.engine = newEngine;
+    merged.osc1Lfo = osc1Lfo;
     applySpec(merged);
   }
 
@@ -826,23 +866,39 @@ struct PoolVoice {
       case SynthRealtimeParamId::MixerRingMod:
         subtractive.spec.mixer.ringMod = clamp01(value);
         break;
-      case SynthRealtimeParamId::LfoDepth:
-        subtractive.spec.osc1Lfo.depth = clamp01(value);
+      case SynthRealtimeParamId::LfoDepth: {
+        const float d = clamp01(value);
+        subtractive.spec.osc1Lfo.depth = d;
+        plucked.spec.osc1Lfo.depth = d;
         break;
-      case SynthRealtimeParamId::Osc1LfoRate:
-        subtractive.spec.osc1Lfo.rateHz = std::max(value, 0.02f);
-        subtractive.lfo1.SetFreq(subtractive.spec.osc1Lfo.rateHz);
+      }
+      case SynthRealtimeParamId::Osc1LfoRate: {
+        const float hz = std::max(value, 0.02f);
+        subtractive.spec.osc1Lfo.rateHz = hz;
+        subtractive.lfo1.SetFreq(hz);
+        plucked.spec.osc1Lfo.rateHz = hz;
+        plucked.lfo1.SetFreq(hz);
         break;
-      case SynthRealtimeParamId::Osc1LfoDepth:
-        subtractive.spec.osc1Lfo.depth = clamp01(value);
+      }
+      case SynthRealtimeParamId::Osc1LfoDepth: {
+        const float d = clamp01(value);
+        subtractive.spec.osc1Lfo.depth = d;
+        plucked.spec.osc1Lfo.depth = d;
         break;
-      case SynthRealtimeParamId::Osc1LfoTarget:
-        subtractive.spec.osc1Lfo.target =
+      }
+      case SynthRealtimeParamId::Osc1LfoTarget: {
+        const LfoTarget t =
             (value >= 0.5f) ? LfoTarget::PulseWidth : LfoTarget::Pitch;
+        subtractive.spec.osc1Lfo.target = t;
+        plucked.spec.osc1Lfo.target = t;
         break;
-      case SynthRealtimeParamId::Osc1LfoGate:
-        subtractive.spec.osc1Lfo.gateTrigger = value >= 0.5f;
+      }
+      case SynthRealtimeParamId::Osc1LfoGate: {
+        const bool gt = value >= 0.5f;
+        subtractive.spec.osc1Lfo.gateTrigger = gt;
+        plucked.spec.osc1Lfo.gateTrigger = gt;
         break;
+      }
       case SynthRealtimeParamId::Osc2LfoRate:
         subtractive.spec.osc2Lfo.rateHz = std::max(value, 0.02f);
         subtractive.lfo2.SetFreq(subtractive.spec.osc2Lfo.rateHz);
@@ -929,9 +985,14 @@ void Synthesizer::releaseVoice(int voiceIndex) {
 
 void Synthesizer::applySoundSpec(int voiceIndex, const SynthSoundSpec& spec) {
   if (voiceIndex < kFirstAssignableVoice || voiceIndex >= kMaxVoices) return;
+  SynthSoundSpec merged = spec;
+  merged.osc1Lfo = panelOsc1Lfo_;
+  if (panelPluckMode_) {
+    merged.engine = VoiceEngine::Plucked;
+  }
   auto& voice = voices_->pool[static_cast<size_t>(voiceIndex)];
-  voice.applySpec(spec);
-  voices_->effects.applySpec(spec.effects);
+  voice.applySpec(merged);
+  voices_->effects.applySpec(merged.effects);
 }
 
 void Synthesizer::triggerNote(int voiceIndex, int midiNote, float velocity) {
@@ -976,12 +1037,35 @@ void Synthesizer::renderVoices(float* buf, int32_t frameOffset, int32_t count) {
   }
 }
 
+void Synthesizer::updatePanelState(SynthRealtimeParamId paramId, float value) {
+  switch (paramId) {
+    case SynthRealtimeParamId::PluckMode:
+      panelPluckMode_ = value >= 0.5f;
+      break;
+    case SynthRealtimeParamId::Osc1LfoRate:
+      panelOsc1Lfo_.rateHz = std::max(value, 0.02f);
+      break;
+    case SynthRealtimeParamId::Osc1LfoDepth:
+    case SynthRealtimeParamId::LfoDepth:
+      panelOsc1Lfo_.depth = std::clamp(value, 0.f, 1.f);
+      break;
+    case SynthRealtimeParamId::Osc1LfoTarget:
+      panelOsc1Lfo_.target =
+          (value >= 0.5f) ? LfoTarget::PulseWidth : LfoTarget::Pitch;
+      break;
+    case SynthRealtimeParamId::Osc1LfoGate:
+      panelOsc1Lfo_.gateTrigger = value >= 0.5f;
+      break;
+    default:
+      break;
+  }
+}
+
 void Synthesizer::applyRealtimeParam(int voiceIndex, SynthRealtimeParamId paramId, float value) {
+  updatePanelState(paramId, value);
   if (voiceIndex == -1) {
     for (int i = kFirstAssignableVoice; i < kMaxVoices; ++i) {
-      auto& voice = voices_->pool[static_cast<size_t>(i)];
-      if (!voice.isActive() && !voice.ampRunning()) continue;
-      voice.applyRealtimeParam(paramId, value);
+      voices_->pool[static_cast<size_t>(i)].applyRealtimeParam(paramId, value);
     }
   } else {
     if (voiceIndex < kFirstAssignableVoice || voiceIndex >= kMaxVoices) return;

@@ -86,7 +86,7 @@ TEST(Sound, RingModVoiceProducesHarmonics) {
   const SoundId ring = sound.createSound({
       .osc1 = {.wave = OscWave::Sine, .level = 0.7f},
       .osc2 = {.wave = OscWave::Sine, .tuneSemis = 7.f, .level = 0.7f},
-      .mixer = {.osc1 = 0.f, .osc2 = 0.f, .ringMod = 0.9f},
+      .mixer = {.osc1 = 0.7f, .osc2 = 0.7f, .ringMod = 0.9f},
       .filter = {.cutoffHz = 8000.f, .resonance = 0.1f, .envDepth = 0.f},
       .ampEnv = {.attackSec = 0.001f, .decaySec = 0.1f, .sustain = 0.8f, .releaseSec = 0.1f},
       .filterEnv = {.attackSec = 0.001f, .decaySec = 0.05f},
@@ -100,4 +100,28 @@ TEST(Sound, RingModVoiceProducesHarmonics) {
   float peak = 0.f;
   for (float s : buf) peak = std::max(peak, std::abs(s));
   EXPECT_GT(peak, 0.05f);
+}
+
+TEST(Sound, RingModSilentWhenOscLevelsZero) {
+  Synthesizer synth;
+  Sound sound(synth);
+  synth.setSampleRate(48000);
+
+  const SoundId ring = sound.createSound({
+      .osc1 = {.wave = OscWave::Sine, .level = 0.7f},
+      .osc2 = {.wave = OscWave::Sine, .tuneSemis = 7.f, .level = 0.7f},
+      .mixer = {.osc1 = 0.f, .osc2 = 0.f, .ringMod = 0.9f},
+      .filter = {.cutoffHz = 8000.f, .resonance = 0.1f, .envDepth = 0.f},
+      .ampEnv = {.attackSec = 0.001f, .decaySec = 0.1f, .sustain = 0.8f, .releaseSec = 0.1f},
+      .filterEnv = {.attackSec = 0.001f, .decaySec = 0.05f},
+  });
+  const int v = sound.allocateVoice(ring);
+  sound.triggerNote(v, 60, 1.f);
+
+  std::vector<float> buf(512, 0.f);
+  synth.renderVoices(buf.data(), 0, static_cast<int32_t>(buf.size()));
+
+  float peak = 0.f;
+  for (float s : buf) peak = std::max(peak, std::abs(s));
+  EXPECT_LT(peak, 0.01f);
 }

@@ -91,4 +91,10 @@ class Synthesizer {
 
   /// Bit mask of pool voices currently active (audio-thread read/write).
   std::atomic<uint32_t> voiceMask_{0};
+
+  /// Live panel overrides merged into every applySoundSpec() (survives patch reload).
+  OscLfoSpec panelOsc1Lfo_{};
+  bool panelPluckMode_ = false;
+
+  void updatePanelState(SynthRealtimeParamId paramId, float value);
 };

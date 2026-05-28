@@ -93,7 +93,7 @@ struct MixerSpec {
   float osc1 = 0.6f;
   float osc2 = 0.4f;
   float noise = 0.f;
-  /// Ring mod: osc1 × osc2 (single sample each, no double-processing).
+  /// Ring mod amount; product of leveled osc1 × leveled osc2 (after mixer osc levels).
   float ringMod = 0.f;
 };
 
