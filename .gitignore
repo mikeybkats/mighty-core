@@ -1,9 +1,22 @@
-# CMake / local builds
+# CMake / local builds (always use: cmake -B build -S .)
 build/
 cmake-build-*/
 out/
-CMakeUserPresets.json
-CMakeFiles
+
+# In-source build artifacts (if someone runs cmake in the repo root by mistake)
+/CMakeCache.txt
+/CMakeFiles/
+/Makefile
+/cmake_install.cmake
+/CTestTestfile.cmake
+/compile_commands.json
+/libmighty-core.a
+/libimgui_lib.a
+/mighty-core-host-check
+/mighty-core-ui
+/mighty-core-synth-host
+/lib/
+/Testing/
 
 # FetchContent / CPM caches (if used)
 _deps/
@@ -13,6 +26,15 @@ _deps/
 *.swp
 *.swo
 *~
+
+# In-source test build outputs (when cmake is run in repo root)
+/tests/CMakeFiles/
+/tests/Makefile
+/tests/cmake_install.cmake
+/tests/CTestTestfile.cmake
+/tests/mmc-tests
+/tests/cmake_test_discovery_*.json
+/tests/mmc-tests[*]_*.cmake
 
 # Logs
 listening_logs/

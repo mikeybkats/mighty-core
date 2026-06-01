@@ -4,6 +4,13 @@
 cmake_minimum_required(VERSION 3.14)  # 3.14 = FetchContent_MakeAvailable minimum
 project(mighty-core VERSION 1.0.0)
 
+if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
+  message(FATAL_ERROR
+    "In-source builds are not allowed. Configure with:\n"
+    "  cmake -B build -S . -DCMAKE_BUILD_TYPE=Debug\n"
+    "  cmake --build build")
+endif()
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 

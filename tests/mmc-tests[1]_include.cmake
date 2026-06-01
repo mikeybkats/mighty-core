@@ -1,5 +1,0 @@
-if(EXISTS "/Users/michaelbarakat/projects/mighty-core/tests/mmc-tests[1]_tests.cmake")
-  include("/Users/michaelbarakat/projects/mighty-core/tests/mmc-tests[1]_tests.cmake")
-else()
-  add_test(mmc-tests_NOT_BUILT mmc-tests_NOT_BUILT)
-endif()
