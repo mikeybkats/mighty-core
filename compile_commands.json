@@ -1,0 +1,572 @@
+[
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/include -I/Users/michaelbarakat/projects/mighty-core/src -I/Users/michaelbarakat/projects/mighty-core/third_party -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -g -std=gnu++17 -arch arm64 -o CMakeFiles/mighty-core.dir/src/scheduler/Scheduler.cpp.o -c /Users/michaelbarakat/projects/mighty-core/src/scheduler/Scheduler.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/src/scheduler/Scheduler.cpp",
+  "output": "CMakeFiles/mighty-core.dir/src/scheduler/Scheduler.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/include -I/Users/michaelbarakat/projects/mighty-core/src -I/Users/michaelbarakat/projects/mighty-core/third_party -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -g -std=gnu++17 -arch arm64 -o CMakeFiles/mighty-core.dir/src/core/MightyMusicCore.cpp.o -c /Users/michaelbarakat/projects/mighty-core/src/core/MightyMusicCore.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/src/core/MightyMusicCore.cpp",
+  "output": "CMakeFiles/mighty-core.dir/src/core/MightyMusicCore.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/include -I/Users/michaelbarakat/projects/mighty-core/src -I/Users/michaelbarakat/projects/mighty-core/third_party -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -g -std=gnu++17 -arch arm64 -o CMakeFiles/mighty-core.dir/src/engine/Input.cpp.o -c /Users/michaelbarakat/projects/mighty-core/src/engine/Input.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/src/engine/Input.cpp",
+  "output": "CMakeFiles/mighty-core.dir/src/engine/Input.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/include -I/Users/michaelbarakat/projects/mighty-core/src -I/Users/michaelbarakat/projects/mighty-core/third_party -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -g -std=gnu++17 -arch arm64 -o CMakeFiles/mighty-core.dir/src/engine/Output.cpp.o -c /Users/michaelbarakat/projects/mighty-core/src/engine/Output.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/src/engine/Output.cpp",
+  "output": "CMakeFiles/mighty-core.dir/src/engine/Output.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/include -I/Users/michaelbarakat/projects/mighty-core/src -I/Users/michaelbarakat/projects/mighty-core/third_party -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -g -std=gnu++17 -arch arm64 -o CMakeFiles/mighty-core.dir/src/engine/RealtimeCommandQueue.cpp.o -c /Users/michaelbarakat/projects/mighty-core/src/engine/RealtimeCommandQueue.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/src/engine/RealtimeCommandQueue.cpp",
+  "output": "CMakeFiles/mighty-core.dir/src/engine/RealtimeCommandQueue.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/include -I/Users/michaelbarakat/projects/mighty-core/src -I/Users/michaelbarakat/projects/mighty-core/third_party -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -g -std=gnu++17 -arch arm64 -o CMakeFiles/mighty-core.dir/src/engine/Sound.cpp.o -c /Users/michaelbarakat/projects/mighty-core/src/engine/Sound.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/src/engine/Sound.cpp",
+  "output": "CMakeFiles/mighty-core.dir/src/engine/Sound.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/include -I/Users/michaelbarakat/projects/mighty-core/src -I/Users/michaelbarakat/projects/mighty-core/third_party -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -g -std=gnu++17 -arch arm64 -o CMakeFiles/mighty-core.dir/src/engine/SynthesizerPatches.cpp.o -c /Users/michaelbarakat/projects/mighty-core/src/engine/SynthesizerPatches.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/src/engine/SynthesizerPatches.cpp",
+  "output": "CMakeFiles/mighty-core.dir/src/engine/SynthesizerPatches.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/include -I/Users/michaelbarakat/projects/mighty-core/src -I/Users/michaelbarakat/projects/mighty-core/third_party -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -g -std=gnu++17 -arch arm64 -o CMakeFiles/mighty-core.dir/src/engine/Synthesizer.cpp.o -c /Users/michaelbarakat/projects/mighty-core/src/engine/Synthesizer.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/src/engine/Synthesizer.cpp",
+  "output": "CMakeFiles/mighty-core.dir/src/engine/Synthesizer.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/include -I/Users/michaelbarakat/projects/mighty-core/src -I/Users/michaelbarakat/projects/mighty-core/third_party -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -g -std=gnu++17 -arch arm64 -o CMakeFiles/mighty-core.dir/src/metronome/Metronome.cpp.o -c /Users/michaelbarakat/projects/mighty-core/src/metronome/Metronome.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/src/metronome/Metronome.cpp",
+  "output": "CMakeFiles/mighty-core.dir/src/metronome/Metronome.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/include -I/Users/michaelbarakat/projects/mighty-core/src -I/Users/michaelbarakat/projects/mighty-core/third_party -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -g -std=gnu++17 -arch arm64 -o CMakeFiles/mighty-core.dir/src/metronome/BuiltInKits.cpp.o -c /Users/michaelbarakat/projects/mighty-core/src/metronome/BuiltInKits.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/src/metronome/BuiltInKits.cpp",
+  "output": "CMakeFiles/mighty-core.dir/src/metronome/BuiltInKits.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/include -I/Users/michaelbarakat/projects/mighty-core/src -I/Users/michaelbarakat/projects/mighty-core/third_party -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -g -std=gnu++17 -arch arm64 -o CMakeFiles/mighty-core.dir/src/engine/TempoEngine.cpp.o -c /Users/michaelbarakat/projects/mighty-core/src/engine/TempoEngine.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/src/engine/TempoEngine.cpp",
+  "output": "CMakeFiles/mighty-core.dir/src/engine/TempoEngine.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core",
+  "command": "/usr/bin/c++ -DGL_SILENCE_DEPRECATION -I/Users/michaelbarakat/projects/mighty-core/_deps/imgui-src -I/Users/michaelbarakat/projects/mighty-core/_deps/imgui-src/backends -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/include -iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -g -std=gnu++17 -arch arm64 -o CMakeFiles/imgui_lib.dir/_deps/imgui-src/imgui.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/imgui-src/imgui.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/imgui-src/imgui.cpp",
+  "output": "CMakeFiles/imgui_lib.dir/_deps/imgui-src/imgui.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core",
+  "command": "/usr/bin/c++ -DGL_SILENCE_DEPRECATION -I/Users/michaelbarakat/projects/mighty-core/_deps/imgui-src -I/Users/michaelbarakat/projects/mighty-core/_deps/imgui-src/backends -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/include -iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -g -std=gnu++17 -arch arm64 -o CMakeFiles/imgui_lib.dir/_deps/imgui-src/imgui_draw.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/imgui-src/imgui_draw.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/imgui-src/imgui_draw.cpp",
+  "output": "CMakeFiles/imgui_lib.dir/_deps/imgui-src/imgui_draw.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core",
+  "command": "/usr/bin/c++ -DGL_SILENCE_DEPRECATION -I/Users/michaelbarakat/projects/mighty-core/_deps/imgui-src -I/Users/michaelbarakat/projects/mighty-core/_deps/imgui-src/backends -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/include -iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -g -std=gnu++17 -arch arm64 -o CMakeFiles/imgui_lib.dir/_deps/imgui-src/imgui_tables.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/imgui-src/imgui_tables.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/imgui-src/imgui_tables.cpp",
+  "output": "CMakeFiles/imgui_lib.dir/_deps/imgui-src/imgui_tables.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core",
+  "command": "/usr/bin/c++ -DGL_SILENCE_DEPRECATION -I/Users/michaelbarakat/projects/mighty-core/_deps/imgui-src -I/Users/michaelbarakat/projects/mighty-core/_deps/imgui-src/backends -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/include -iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -g -std=gnu++17 -arch arm64 -o CMakeFiles/imgui_lib.dir/_deps/imgui-src/imgui_widgets.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/imgui-src/imgui_widgets.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/imgui-src/imgui_widgets.cpp",
+  "output": "CMakeFiles/imgui_lib.dir/_deps/imgui-src/imgui_widgets.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core",
+  "command": "/usr/bin/c++ -DGL_SILENCE_DEPRECATION -I/Users/michaelbarakat/projects/mighty-core/_deps/imgui-src -I/Users/michaelbarakat/projects/mighty-core/_deps/imgui-src/backends -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/include -iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -g -std=gnu++17 -arch arm64 -o CMakeFiles/imgui_lib.dir/_deps/imgui-src/backends/imgui_impl_glfw.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/imgui-src/backends/imgui_impl_glfw.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/imgui-src/backends/imgui_impl_glfw.cpp",
+  "output": "CMakeFiles/imgui_lib.dir/_deps/imgui-src/backends/imgui_impl_glfw.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core",
+  "command": "/usr/bin/c++ -DGL_SILENCE_DEPRECATION -I/Users/michaelbarakat/projects/mighty-core/_deps/imgui-src -I/Users/michaelbarakat/projects/mighty-core/_deps/imgui-src/backends -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/include -iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -g -std=gnu++17 -arch arm64 -o CMakeFiles/imgui_lib.dir/_deps/imgui-src/backends/imgui_impl_opengl3.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/imgui-src/backends/imgui_impl_opengl3.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/imgui-src/backends/imgui_impl_opengl3.cpp",
+  "output": "CMakeFiles/imgui_lib.dir/_deps/imgui-src/backends/imgui_impl_opengl3.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/include -g -std=gnu++17 -arch arm64 -o CMakeFiles/mighty-core-host-check.dir/host/main.cpp.o -c /Users/michaelbarakat/projects/mighty-core/host/main.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/host/main.cpp",
+  "output": "CMakeFiles/mighty-core-host-check.dir/host/main.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core",
+  "command": "/usr/bin/c++ -DGL_SILENCE_DEPRECATION -DMIGHTY_CORE_METRONOME_RAW_DIR=\\\"/Users/michaelbarakat/projects/mighty-core/assets/metronome/res/raw\\\" -I/Users/michaelbarakat/projects/mighty-core/host -I/Users/michaelbarakat/projects/mighty-core/include -I/Users/michaelbarakat/projects/mighty-core/_deps/imgui-src -I/Users/michaelbarakat/projects/mighty-core/_deps/imgui-src/backends -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/include -iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -g -std=gnu++17 -arch arm64 -o CMakeFiles/mighty-core-ui.dir/host/ui_host.cpp.o -c /Users/michaelbarakat/projects/mighty-core/host/ui_host.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/host/ui_host.cpp",
+  "output": "CMakeFiles/mighty-core-ui.dir/host/ui_host.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core",
+  "command": "/usr/bin/c++ -DGL_SILENCE_DEPRECATION -DMIGHTY_CORE_METRONOME_RAW_DIR=\\\"/Users/michaelbarakat/projects/mighty-core/assets/metronome/res/raw\\\" -I/Users/michaelbarakat/projects/mighty-core/host -I/Users/michaelbarakat/projects/mighty-core/include -I/Users/michaelbarakat/projects/mighty-core/_deps/imgui-src -I/Users/michaelbarakat/projects/mighty-core/_deps/imgui-src/backends -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/include -iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -g -std=gnu++17 -arch arm64 -o CMakeFiles/mighty-core-ui.dir/host/wav_reader.cpp.o -c /Users/michaelbarakat/projects/mighty-core/host/wav_reader.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/host/wav_reader.cpp",
+  "output": "CMakeFiles/mighty-core-ui.dir/host/wav_reader.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core",
+  "command": "/usr/bin/c++ -DGL_SILENCE_DEPRECATION -I/Users/michaelbarakat/projects/mighty-core/include -I/Users/michaelbarakat/projects/mighty-core/_deps/imgui-src -I/Users/michaelbarakat/projects/mighty-core/_deps/imgui-src/backends -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/include -iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -g -std=gnu++17 -arch arm64 -o CMakeFiles/mighty-core-synth-host.dir/host/synth_host.cpp.o -c /Users/michaelbarakat/projects/mighty-core/host/synth_host.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/host/synth_host.cpp",
+  "output": "CMakeFiles/mighty-core-synth-host.dir/host/synth_host.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/Control/adenv.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control/adenv.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control/adenv.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/Control/adenv.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/Control/adsr.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control/adsr.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control/adsr.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/Control/adsr.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/Control/phasor.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control/phasor.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control/phasor.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/Control/phasor.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/Drums/analogbassdrum.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums/analogbassdrum.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums/analogbassdrum.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/Drums/analogbassdrum.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/Drums/analogsnaredrum.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums/analogsnaredrum.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums/analogsnaredrum.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/Drums/analogsnaredrum.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/Drums/hihat.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums/hihat.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums/hihat.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/Drums/hihat.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/Drums/synthbassdrum.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums/synthbassdrum.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums/synthbassdrum.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/Drums/synthbassdrum.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/Drums/synthsnaredrum.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums/synthsnaredrum.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums/synthsnaredrum.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/Drums/synthsnaredrum.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/Dynamics/crossfade.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics/crossfade.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics/crossfade.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/Dynamics/crossfade.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/Dynamics/limiter.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics/limiter.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics/limiter.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/Dynamics/limiter.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/Effects/autowah.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects/autowah.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects/autowah.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/Effects/autowah.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/Effects/chorus.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects/chorus.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects/chorus.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/Effects/chorus.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/Effects/decimator.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects/decimator.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects/decimator.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/Effects/decimator.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/Effects/flanger.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects/flanger.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects/flanger.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/Effects/flanger.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/Effects/overdrive.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects/overdrive.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects/overdrive.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/Effects/overdrive.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/Effects/phaser.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects/phaser.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects/phaser.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/Effects/phaser.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/Effects/sampleratereducer.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects/sampleratereducer.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects/sampleratereducer.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/Effects/sampleratereducer.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/Effects/tremolo.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects/tremolo.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects/tremolo.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/Effects/tremolo.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/Effects/wavefolder.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects/wavefolder.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects/wavefolder.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/Effects/wavefolder.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/Filters/ladder.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters/ladder.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters/ladder.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/Filters/ladder.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/Filters/svf.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters/svf.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters/svf.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/Filters/svf.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/Filters/soap.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters/soap.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters/soap.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/Filters/soap.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/Noise/clockednoise.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise/clockednoise.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise/clockednoise.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/Noise/clockednoise.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/Noise/grainlet.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise/grainlet.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise/grainlet.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/Noise/grainlet.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/Noise/particle.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise/particle.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise/particle.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/Noise/particle.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/PhysicalModeling/drip.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling/drip.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling/drip.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/PhysicalModeling/drip.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/PhysicalModeling/modalvoice.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling/modalvoice.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling/modalvoice.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/PhysicalModeling/modalvoice.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/PhysicalModeling/resonator.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling/resonator.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling/resonator.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/PhysicalModeling/resonator.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/PhysicalModeling/KarplusString.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling/KarplusString.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling/KarplusString.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/PhysicalModeling/KarplusString.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/PhysicalModeling/stringvoice.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling/stringvoice.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling/stringvoice.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/PhysicalModeling/stringvoice.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/Sampling/granularplayer.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Sampling/granularplayer.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Sampling/granularplayer.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/Sampling/granularplayer.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/Synthesis/fm2.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis/fm2.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis/fm2.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/Synthesis/fm2.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/Synthesis/formantosc.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis/formantosc.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis/formantosc.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/Synthesis/formantosc.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/Synthesis/oscillator.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis/oscillator.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis/oscillator.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/Synthesis/oscillator.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/Synthesis/oscillatorbank.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis/oscillatorbank.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis/oscillatorbank.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/Synthesis/oscillatorbank.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/Synthesis/variablesawosc.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis/variablesawosc.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis/variablesawosc.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/Synthesis/variablesawosc.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/Synthesis/variableshapeosc.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis/variableshapeosc.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis/variableshapeosc.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/Synthesis/variableshapeosc.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/Synthesis/vosim.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis/vosim.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis/vosim.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/Synthesis/vosim.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/Synthesis/zoscillator.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis/zoscillator.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis/zoscillator.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/Synthesis/zoscillator.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/Utility/dcblock.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility/dcblock.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility/dcblock.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/Utility/dcblock.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-build",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Control -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Drums -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Dynamics -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Effects -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Filters -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Noise -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/PhysicalModeling -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Synthesis -I/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility -g -std=gnu++17 -arch arm64 -o CMakeFiles/DaisySP.dir/Source/Utility/metro.cpp.o -c /Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility/metro.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/daisysp-src/Source/Utility/metro.cpp",
+  "output": "_deps/daisysp-build/CMakeFiles/DaisySP.dir/Source/Utility/metro.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src",
+  "command": "/usr/bin/cc -D_GLFW_COCOA -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/include -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src -g -std=c99 -arch arm64 -fPIC -Wall -o CMakeFiles/glfw.dir/context.c.o -c /Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/context.c",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/context.c",
+  "output": "_deps/glfw-build/src/CMakeFiles/glfw.dir/context.c.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src",
+  "command": "/usr/bin/cc -D_GLFW_COCOA -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/include -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src -g -std=c99 -arch arm64 -fPIC -Wall -o CMakeFiles/glfw.dir/init.c.o -c /Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/init.c",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/init.c",
+  "output": "_deps/glfw-build/src/CMakeFiles/glfw.dir/init.c.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src",
+  "command": "/usr/bin/cc -D_GLFW_COCOA -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/include -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src -g -std=c99 -arch arm64 -fPIC -Wall -o CMakeFiles/glfw.dir/input.c.o -c /Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/input.c",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/input.c",
+  "output": "_deps/glfw-build/src/CMakeFiles/glfw.dir/input.c.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src",
+  "command": "/usr/bin/cc -D_GLFW_COCOA -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/include -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src -g -std=c99 -arch arm64 -fPIC -Wall -o CMakeFiles/glfw.dir/monitor.c.o -c /Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/monitor.c",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/monitor.c",
+  "output": "_deps/glfw-build/src/CMakeFiles/glfw.dir/monitor.c.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src",
+  "command": "/usr/bin/cc -D_GLFW_COCOA -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/include -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src -g -std=c99 -arch arm64 -fPIC -Wall -o CMakeFiles/glfw.dir/platform.c.o -c /Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/platform.c",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/platform.c",
+  "output": "_deps/glfw-build/src/CMakeFiles/glfw.dir/platform.c.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src",
+  "command": "/usr/bin/cc -D_GLFW_COCOA -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/include -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src -g -std=c99 -arch arm64 -fPIC -Wall -o CMakeFiles/glfw.dir/vulkan.c.o -c /Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/vulkan.c",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/vulkan.c",
+  "output": "_deps/glfw-build/src/CMakeFiles/glfw.dir/vulkan.c.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src",
+  "command": "/usr/bin/cc -D_GLFW_COCOA -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/include -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src -g -std=c99 -arch arm64 -fPIC -Wall -o CMakeFiles/glfw.dir/window.c.o -c /Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/window.c",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/window.c",
+  "output": "_deps/glfw-build/src/CMakeFiles/glfw.dir/window.c.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src",
+  "command": "/usr/bin/cc -D_GLFW_COCOA -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/include -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src -g -std=c99 -arch arm64 -fPIC -Wall -o CMakeFiles/glfw.dir/egl_context.c.o -c /Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/egl_context.c",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/egl_context.c",
+  "output": "_deps/glfw-build/src/CMakeFiles/glfw.dir/egl_context.c.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src",
+  "command": "/usr/bin/cc -D_GLFW_COCOA -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/include -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src -g -std=c99 -arch arm64 -fPIC -Wall -o CMakeFiles/glfw.dir/osmesa_context.c.o -c /Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/osmesa_context.c",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/osmesa_context.c",
+  "output": "_deps/glfw-build/src/CMakeFiles/glfw.dir/osmesa_context.c.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src",
+  "command": "/usr/bin/cc -D_GLFW_COCOA -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/include -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src -g -std=c99 -arch arm64 -fPIC -Wall -o CMakeFiles/glfw.dir/null_init.c.o -c /Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/null_init.c",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/null_init.c",
+  "output": "_deps/glfw-build/src/CMakeFiles/glfw.dir/null_init.c.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src",
+  "command": "/usr/bin/cc -D_GLFW_COCOA -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/include -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src -g -std=c99 -arch arm64 -fPIC -Wall -o CMakeFiles/glfw.dir/null_monitor.c.o -c /Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/null_monitor.c",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/null_monitor.c",
+  "output": "_deps/glfw-build/src/CMakeFiles/glfw.dir/null_monitor.c.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src",
+  "command": "/usr/bin/cc -D_GLFW_COCOA -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/include -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src -g -std=c99 -arch arm64 -fPIC -Wall -o CMakeFiles/glfw.dir/null_window.c.o -c /Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/null_window.c",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/null_window.c",
+  "output": "_deps/glfw-build/src/CMakeFiles/glfw.dir/null_window.c.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src",
+  "command": "/usr/bin/cc -D_GLFW_COCOA -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/include -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src -g -std=c99 -arch arm64 -fPIC -Wall -o CMakeFiles/glfw.dir/null_joystick.c.o -c /Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/null_joystick.c",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/null_joystick.c",
+  "output": "_deps/glfw-build/src/CMakeFiles/glfw.dir/null_joystick.c.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src",
+  "command": "/usr/bin/cc -D_GLFW_COCOA -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/include -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src -g -std=c99 -arch arm64 -fPIC -Wall -o CMakeFiles/glfw.dir/cocoa_time.c.o -c /Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/cocoa_time.c",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/cocoa_time.c",
+  "output": "_deps/glfw-build/src/CMakeFiles/glfw.dir/cocoa_time.c.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src",
+  "command": "/usr/bin/cc -D_GLFW_COCOA -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/include -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src -g -std=c99 -arch arm64 -fPIC -Wall -o CMakeFiles/glfw.dir/posix_module.c.o -c /Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/posix_module.c",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/posix_module.c",
+  "output": "_deps/glfw-build/src/CMakeFiles/glfw.dir/posix_module.c.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src",
+  "command": "/usr/bin/cc -D_GLFW_COCOA -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/include -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src -g -std=c99 -arch arm64 -fPIC -Wall -o CMakeFiles/glfw.dir/posix_thread.c.o -c /Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/posix_thread.c",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/posix_thread.c",
+  "output": "_deps/glfw-build/src/CMakeFiles/glfw.dir/posix_thread.c.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src",
+  "command": "/usr/bin/cc -D_GLFW_COCOA -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/include -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src -g -std=c99 -arch arm64 -fPIC -Wall -o CMakeFiles/glfw.dir/cocoa_init.m.o -c /Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/cocoa_init.m",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/cocoa_init.m",
+  "output": "_deps/glfw-build/src/CMakeFiles/glfw.dir/cocoa_init.m.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src",
+  "command": "/usr/bin/cc -D_GLFW_COCOA -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/include -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src -g -std=c99 -arch arm64 -fPIC -Wall -o CMakeFiles/glfw.dir/cocoa_joystick.m.o -c /Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/cocoa_joystick.m",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/cocoa_joystick.m",
+  "output": "_deps/glfw-build/src/CMakeFiles/glfw.dir/cocoa_joystick.m.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src",
+  "command": "/usr/bin/cc -D_GLFW_COCOA -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/include -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src -g -std=c99 -arch arm64 -fPIC -Wall -o CMakeFiles/glfw.dir/cocoa_monitor.m.o -c /Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/cocoa_monitor.m",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/cocoa_monitor.m",
+  "output": "_deps/glfw-build/src/CMakeFiles/glfw.dir/cocoa_monitor.m.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src",
+  "command": "/usr/bin/cc -D_GLFW_COCOA -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/include -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src -g -std=c99 -arch arm64 -fPIC -Wall -o CMakeFiles/glfw.dir/cocoa_window.m.o -c /Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/cocoa_window.m",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/cocoa_window.m",
+  "output": "_deps/glfw-build/src/CMakeFiles/glfw.dir/cocoa_window.m.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src",
+  "command": "/usr/bin/cc -D_GLFW_COCOA -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/include -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src -I/Users/michaelbarakat/projects/mighty-core/_deps/glfw-build/src -g -std=c99 -arch arm64 -fPIC -Wall -o CMakeFiles/glfw.dir/nsgl_context.m.o -c /Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/nsgl_context.m",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/glfw-src/src/nsgl_context.m",
+  "output": "_deps/glfw-build/src/CMakeFiles/glfw.dir/nsgl_context.m.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/googletest-build/googlemock",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/googletest-src/googlemock/include -I/Users/michaelbarakat/projects/mighty-core/_deps/googletest-src/googlemock -isystem /Users/michaelbarakat/projects/mighty-core/_deps/googletest-src/googletest/include -isystem /Users/michaelbarakat/projects/mighty-core/_deps/googletest-src/googletest -g -std=c++17 -arch arm64  -DGTEST_HAS_PTHREAD=1   -o CMakeFiles/gmock.dir/src/gmock-all.cc.o -c /Users/michaelbarakat/projects/mighty-core/_deps/googletest-src/googlemock/src/gmock-all.cc",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/googletest-src/googlemock/src/gmock-all.cc",
+  "output": "_deps/googletest-build/googlemock/CMakeFiles/gmock.dir/src/gmock-all.cc.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/googletest-build/googlemock",
+  "command": "/usr/bin/c++  -isystem /Users/michaelbarakat/projects/mighty-core/_deps/googletest-src/googlemock/include -isystem /Users/michaelbarakat/projects/mighty-core/_deps/googletest-src/googlemock -isystem /Users/michaelbarakat/projects/mighty-core/_deps/googletest-src/googletest/include -isystem /Users/michaelbarakat/projects/mighty-core/_deps/googletest-src/googletest -g -std=c++17 -arch arm64  -DGTEST_HAS_PTHREAD=1   -o CMakeFiles/gmock_main.dir/src/gmock_main.cc.o -c /Users/michaelbarakat/projects/mighty-core/_deps/googletest-src/googlemock/src/gmock_main.cc",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/googletest-src/googlemock/src/gmock_main.cc",
+  "output": "_deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/googletest-build/googletest",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/_deps/googletest-src/googletest/include -I/Users/michaelbarakat/projects/mighty-core/_deps/googletest-src/googletest -g -std=c++17 -arch arm64  -DGTEST_HAS_PTHREAD=1   -o CMakeFiles/gtest.dir/src/gtest-all.cc.o -c /Users/michaelbarakat/projects/mighty-core/_deps/googletest-src/googletest/src/gtest-all.cc",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/googletest-src/googletest/src/gtest-all.cc",
+  "output": "_deps/googletest-build/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/_deps/googletest-build/googletest",
+  "command": "/usr/bin/c++  -isystem /Users/michaelbarakat/projects/mighty-core/_deps/googletest-src/googletest/include -isystem /Users/michaelbarakat/projects/mighty-core/_deps/googletest-src/googletest -g -std=c++17 -arch arm64  -DGTEST_HAS_PTHREAD=1   -o CMakeFiles/gtest_main.dir/src/gtest_main.cc.o -c /Users/michaelbarakat/projects/mighty-core/_deps/googletest-src/googletest/src/gtest_main.cc",
+  "file": "/Users/michaelbarakat/projects/mighty-core/_deps/googletest-src/googletest/src/gtest_main.cc",
+  "output": "_deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/tests",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/tests/../src -I/Users/michaelbarakat/projects/mighty-core/include -isystem /Users/michaelbarakat/projects/mighty-core/_deps/googletest-src/googletest/include -isystem /Users/michaelbarakat/projects/mighty-core/_deps/googletest-src/googletest -g -std=gnu++17 -arch arm64 -o CMakeFiles/mmc-tests.dir/test_scheduler.cpp.o -c /Users/michaelbarakat/projects/mighty-core/tests/test_scheduler.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/tests/test_scheduler.cpp",
+  "output": "tests/CMakeFiles/mmc-tests.dir/test_scheduler.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/tests",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/tests/../src -I/Users/michaelbarakat/projects/mighty-core/include -isystem /Users/michaelbarakat/projects/mighty-core/_deps/googletest-src/googletest/include -isystem /Users/michaelbarakat/projects/mighty-core/_deps/googletest-src/googletest -g -std=gnu++17 -arch arm64 -o CMakeFiles/mmc-tests.dir/test_mighty_music_core.cpp.o -c /Users/michaelbarakat/projects/mighty-core/tests/test_mighty_music_core.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/tests/test_mighty_music_core.cpp",
+  "output": "tests/CMakeFiles/mmc-tests.dir/test_mighty_music_core.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/tests",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/tests/../src -I/Users/michaelbarakat/projects/mighty-core/include -isystem /Users/michaelbarakat/projects/mighty-core/_deps/googletest-src/googletest/include -isystem /Users/michaelbarakat/projects/mighty-core/_deps/googletest-src/googletest -g -std=gnu++17 -arch arm64 -o CMakeFiles/mmc-tests.dir/test_kit_definition.cpp.o -c /Users/michaelbarakat/projects/mighty-core/tests/test_kit_definition.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/tests/test_kit_definition.cpp",
+  "output": "tests/CMakeFiles/mmc-tests.dir/test_kit_definition.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/tests",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/tests/../src -I/Users/michaelbarakat/projects/mighty-core/include -isystem /Users/michaelbarakat/projects/mighty-core/_deps/googletest-src/googletest/include -isystem /Users/michaelbarakat/projects/mighty-core/_deps/googletest-src/googletest -g -std=gnu++17 -arch arm64 -o CMakeFiles/mmc-tests.dir/test_metronome.cpp.o -c /Users/michaelbarakat/projects/mighty-core/tests/test_metronome.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/tests/test_metronome.cpp",
+  "output": "tests/CMakeFiles/mmc-tests.dir/test_metronome.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/tests",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/tests/../src -I/Users/michaelbarakat/projects/mighty-core/include -isystem /Users/michaelbarakat/projects/mighty-core/_deps/googletest-src/googletest/include -isystem /Users/michaelbarakat/projects/mighty-core/_deps/googletest-src/googletest -g -std=gnu++17 -arch arm64 -o CMakeFiles/mmc-tests.dir/test_input.cpp.o -c /Users/michaelbarakat/projects/mighty-core/tests/test_input.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/tests/test_input.cpp",
+  "output": "tests/CMakeFiles/mmc-tests.dir/test_input.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/tests",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/tests/../src -I/Users/michaelbarakat/projects/mighty-core/include -isystem /Users/michaelbarakat/projects/mighty-core/_deps/googletest-src/googletest/include -isystem /Users/michaelbarakat/projects/mighty-core/_deps/googletest-src/googletest -g -std=gnu++17 -arch arm64 -o CMakeFiles/mmc-tests.dir/test_output.cpp.o -c /Users/michaelbarakat/projects/mighty-core/tests/test_output.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/tests/test_output.cpp",
+  "output": "tests/CMakeFiles/mmc-tests.dir/test_output.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/tests",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/tests/../src -I/Users/michaelbarakat/projects/mighty-core/include -isystem /Users/michaelbarakat/projects/mighty-core/_deps/googletest-src/googletest/include -isystem /Users/michaelbarakat/projects/mighty-core/_deps/googletest-src/googletest -g -std=gnu++17 -arch arm64 -o CMakeFiles/mmc-tests.dir/test_synthesizer.cpp.o -c /Users/michaelbarakat/projects/mighty-core/tests/test_synthesizer.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/tests/test_synthesizer.cpp",
+  "output": "tests/CMakeFiles/mmc-tests.dir/test_synthesizer.cpp.o"
+},
+{
+  "directory": "/Users/michaelbarakat/projects/mighty-core/tests",
+  "command": "/usr/bin/c++  -I/Users/michaelbarakat/projects/mighty-core/tests/../src -I/Users/michaelbarakat/projects/mighty-core/include -isystem /Users/michaelbarakat/projects/mighty-core/_deps/googletest-src/googletest/include -isystem /Users/michaelbarakat/projects/mighty-core/_deps/googletest-src/googletest -g -std=gnu++17 -arch arm64 -o CMakeFiles/mmc-tests.dir/test_realtime_command_queue.cpp.o -c /Users/michaelbarakat/projects/mighty-core/tests/test_realtime_command_queue.cpp",
+  "file": "/Users/michaelbarakat/projects/mighty-core/tests/test_realtime_command_queue.cpp",
+  "output": "tests/CMakeFiles/mmc-tests.dir/test_realtime_command_queue.cpp.o"
+}
+]

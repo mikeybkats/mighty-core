@@ -24,6 +24,17 @@
       "preLaunchTask": "mighty-core: build (Debug)"
     },
     {
+      "name": "mighty-core: Synth host (lldb)",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/mighty-core-synth-host",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "stopAtEntry": false,
+      "MIMode": "lldb",
+      "preLaunchTask": "mighty-core: build (Debug)"
+    },
+    {
       "name": "mighty-core: Run all tests",
       "type": "cppdbg",
       "request": "launch",

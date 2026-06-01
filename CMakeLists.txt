@@ -29,11 +29,25 @@ if(ANDROID)
     endif()
 endif()
 
+include(FetchContent)
+# Pin DaisySP main (LadderFilter + ladder.cpp); update hash when pulling upstream.
+FetchContent_Declare(
+    DaisySP
+    GIT_REPOSITORY https://github.com/electro-smith/DaisySP.git
+    GIT_TAG        599511b740f8f3a9b8db72a0642aa45b8a23c3a3
+    GIT_SHALLOW    TRUE
+)
+FetchContent_MakeAvailable(DaisySP)
+
 add_library(mighty-core STATIC
     src/scheduler/Scheduler.cpp
     src/core/MightyMusicCore.cpp
     src/engine/Input.cpp
     src/engine/Output.cpp
+    src/engine/RealtimeCommandQueue.cpp
+    src/engine/Sound.cpp
+    src/engine/SynthesizerPatches.cpp
+    src/engine/Synthesizer.cpp
     src/metronome/Metronome.cpp
     src/metronome/BuiltInKits.cpp
     src/engine/TempoEngine.cpp
@@ -46,6 +60,8 @@ target_include_directories(mighty-core
         ${CMAKE_CURRENT_SOURCE_DIR}/src
         ${CMAKE_CURRENT_SOURCE_DIR}/third_party
 )
+
+target_link_libraries(mighty-core PRIVATE DaisySP)
 
 if(ANDROID)
     target_link_libraries(mighty-core
@@ -130,6 +146,10 @@ else()
     target_compile_definitions(mighty-core-ui PRIVATE
         "MIGHTY_CORE_METRONOME_RAW_DIR=\"${MIGHTY_CORE_METRONOME_RAW}\"")
     target_link_libraries(mighty-core-ui PRIVATE mighty-core imgui_lib)
+
+    # Dedicated synthesizer host for real-time patch design and auditioning.
+    add_executable(mighty-core-synth-host host/synth_host.cpp)
+    target_link_libraries(mighty-core-synth-host PRIVATE mighty-core imgui_lib)
 
     # Unit tests
     enable_testing()

@@ -34,6 +34,18 @@ bool Metronome::isPlaying() const {
   return core_.isPlaying();
 }
 
+bool Metronome::openPlayback() {
+  return core_.openPlayback();
+}
+
+void Metronome::closePlayback() {
+  core_.closePlayback();
+}
+
+bool Metronome::isPlaybackOpen() const {
+  return core_.isPlaybackOpen();
+}
+
 void Metronome::setBPM(double bpm) {
   core_.setBPM(bpm);
 }
@@ -115,6 +127,22 @@ bool Metronome::hasDetectedInputSignal() const {
 
 int Metronome::lastDetectedMidiNote() const {
   return core_.lastDetectedMidiNote();
+}
+
+int Metronome::synthPatchCount() const {
+  return MightyMusicCore::kSynthPatchCount;
+}
+
+const char* Metronome::synthPatchName(int patchIndex) const {
+  return core_.synthPatchName(patchIndex);
+}
+
+void Metronome::triggerSynthNote(int patchIndex, int midiNote, float velocity) {
+  core_.triggerSynthNote(patchIndex, midiNote, velocity);
+}
+
+void Metronome::releaseSynthGate() {
+  core_.releaseSynthGate();
 }
 
 void Metronome::syncPolicyToCore() {

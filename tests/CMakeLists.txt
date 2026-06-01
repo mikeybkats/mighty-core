@@ -6,6 +6,8 @@ add_executable(mmc-tests
     test_metronome.cpp
     test_input.cpp
     test_output.cpp
+    test_synthesizer.cpp
+    test_realtime_command_queue.cpp
 )
 
 target_include_directories(mmc-tests PRIVATE

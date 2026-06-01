@@ -5,11 +5,12 @@
 #include <memory>
 #include <vector>
 
-// Mighty Music Core (MMC) — platform-agnostic metronome engine.
-// Android apps link this as a static library and bridge JNI to these calls.
-// Internally: TempoEngine opens the OS audio device, Scheduler decides beat
-// times in samples, and the audio callback mixes the tick (WAV or sine) +
-// invokes onTick.
+#include "SynthRealtimeParams.h"
+
+// Mighty Music Core (MMC) — playback bus + metronome + synth preview API.
+//
+// Playback (openPlayback) is shared; metronome start/stop and synth trigger/release
+// are independent. Android JNI bridges these calls.
 class MightyMusicCore {
  public:
   /// Maximum PCM click slots (must match `kKitMaxSounds` policy cap in practice).
@@ -19,9 +20,15 @@ class MightyMusicCore {
   MightyMusicCore();
   ~MightyMusicCore();
 
+  /// Metronome transport (opens playback if needed).
   void start();
   void stop();
   [[nodiscard]] bool isPlaying() const;
+
+  /// Shared output device — required for synth; independent of metronome.
+  bool openPlayback();
+  void closePlayback();
+  [[nodiscard]] bool isPlaybackOpen() const;
 
   void setBPM(double bpm);
   [[nodiscard]] double getBPM() const;
@@ -38,12 +45,28 @@ class MightyMusicCore {
   [[nodiscard]] bool hasDetectedInputSignal() const;
   [[nodiscard]] int lastDetectedMidiNote() const;
 
+  /// Built-in subtractive presets (Sound::guitarSound, etc.).
+  static constexpr int kSynthPatchCount = 5;
+  [[nodiscard]] const char* synthPatchName(int patchIndex) const;
+
+  /// Note-on on a pooled voice; opens playback if needed (no metronome required).
+  void triggerSynthNote(int patchIndex, int midiNote, float velocity);
+  /// Note-off (amp envelope release); keeps the voice allocated for retrigger.
+  void releaseSynthGate();
+  /// Updates held synth note pitch without retriggering envelopes (drone behavior).
+  void setSynthPitch(int midiNote);
+  /// Queues a real-time-safe synth parameter change to be applied on audio callback.
+  /// When applyToAllVoices is true, applies to all active voices; otherwise to held voice.
+  bool queueSynthParamChange(SynthRealtimeParamId paramId, float value, bool applyToAllVoices);
+
   std::function<void(int beatNumber)> onTick;
 
  private:
   friend class Metronome;
   void setTwoBeatMeasureInternal(bool enabled);
   void setSwingFractionInternal(double fraction);
+  void resetSynthVoiceHeld();
+  void ensurePlaybackOpen();
 
   class Impl;
   std::unique_ptr<Impl> impl_;

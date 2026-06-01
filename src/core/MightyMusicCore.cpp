@@ -2,18 +2,58 @@
 
 #include "engine/Input.h"
 #include "engine/Output.h"
+#include "engine/RealtimeCommandQueue.h"
+#include "engine/Sound.h"
+#include "engine/SynthesizerPatches.h"
 
 class MightyMusicCore::Impl {
  public:
   Input input;
   Output output;
+  int synthVoiceIndex = -1;
+  SoundId synthSoundId = Sound::kInvalidSound;
 };
+
+namespace {
+
+SoundId soundIdForPatch(Sound& sound, int patchIndex) {
+  switch (patchIndex) {
+    case 0:
+      return sound.defaultSound();
+    case 1:
+      return sound.guitarSound();
+    case 2:
+      return sound.bassSound();
+    case 3:
+      return sound.pianoSound();
+    case 4:
+      return sound.kickDrumSound();
+    default:
+      return Sound::kInvalidSound;
+  }
+}
+
+}  // namespace
 
 MightyMusicCore::MightyMusicCore() : impl_(std::make_unique<Impl>()) {
 }
 MightyMusicCore::~MightyMusicCore() {
   stopListening();
   stop();
+  resetSynthVoiceHeld();
+  impl_->output.closePlayback();
+}
+
+void MightyMusicCore::resetSynthVoiceHeld() {
+  if (impl_->synthVoiceIndex >= 0) {
+    impl_->output.sound().releaseVoice(impl_->synthVoiceIndex);
+  }
+  impl_->synthVoiceIndex = -1;
+  impl_->synthSoundId = Sound::kInvalidSound;
+}
+
+void MightyMusicCore::ensurePlaybackOpen() {
+  impl_->output.openPlayback();
 }
 
 void MightyMusicCore::start() {
@@ -26,6 +66,19 @@ void MightyMusicCore::stop() {
 
 bool MightyMusicCore::isPlaying() const {
   return impl_->output.isPlaying();
+}
+
+bool MightyMusicCore::openPlayback() {
+  return impl_->output.openPlayback();
+}
+
+void MightyMusicCore::closePlayback() {
+  resetSynthVoiceHeld();
+  impl_->output.closePlayback();
+}
+
+bool MightyMusicCore::isPlaybackOpen() const {
+  return impl_->output.isPlaybackOpen();
 }
 
 void MightyMusicCore::setBPM(double bpm) {
@@ -71,4 +124,59 @@ bool MightyMusicCore::hasDetectedInputSignal() const {
 
 int MightyMusicCore::lastDetectedMidiNote() const {
   return impl_->input.lastDetectedMidiNote();
+}
+
+const char* MightyMusicCore::synthPatchName(int patchIndex) const {
+  const auto& patches = SynthesizerPatches::builtInPatches();
+  if (patchIndex < 0 || patchIndex >= kSynthPatchCount) {
+    return nullptr;
+  }
+  return patches[static_cast<size_t>(patchIndex)].name;
+}
+
+void MightyMusicCore::triggerSynthNote(int patchIndex, int midiNote, float velocity) {
+  ensurePlaybackOpen();
+
+  Sound& sound = impl_->output.sound();
+  const SoundId id = soundIdForPatch(sound, patchIndex);
+  if (!sound.isValidSound(id)) {
+    return;
+  }
+
+  // Always re-allocate: opening playback calls setSampleRate(), which clears voiceMask_.
+  resetSynthVoiceHeld();
+  impl_->synthVoiceIndex = sound.allocateVoice(id);
+  impl_->synthSoundId = id;
+  if (impl_->synthVoiceIndex >= 0) {
+    sound.triggerNote(impl_->synthVoiceIndex, midiNote, velocity);
+  }
+}
+
+void MightyMusicCore::releaseSynthGate() {
+  if (impl_->synthVoiceIndex < 0) {
+    return;
+  }
+  impl_->output.sound().releaseNote(impl_->synthVoiceIndex);
+}
+
+void MightyMusicCore::setSynthPitch(int midiNote) {
+  if (impl_->synthVoiceIndex < 0) {
+    return;
+  }
+  impl_->output.sound().setNotePitch(impl_->synthVoiceIndex, midiNote);
+}
+
+bool MightyMusicCore::queueSynthParamChange(SynthRealtimeParamId paramId, float value,
+                                            bool applyToAllVoices) {
+  if (!applyToAllVoices && impl_->synthVoiceIndex < 0) {
+    return false;
+  }
+  RealtimeCommand cmd{};
+  cmd.domain = RealtimeCommand::Domain::Synth;
+  cmd.op = static_cast<uint8_t>(RealtimeCommand::SynthOp::SetParam);
+  cmd.target = applyToAllVoices ? -1 : impl_->synthVoiceIndex;
+  cmd.paramId = static_cast<int32_t>(paramId);
+  cmd.value = value;
+  cmd.frameOffset = 0;
+  return impl_->output.queueCommand(cmd);
 }
