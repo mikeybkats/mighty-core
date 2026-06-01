@@ -41,9 +41,19 @@ Bandmate is an adaptive practice partner and creative songwriting tool for music
 - the website component offers a place for teachers to offer courses and midi practice tracks
 - the website offers students a place to get practice materials
 
+## Product line: Mighty Core Ecosystem:
+
+- Mighty Metronome - loads patches from `Synthesizer`.
+- Mighty Syntheszier - 2 osc analog style mono synth. Has poly synth mode for strings and plucked instruments.
+- Mighty Drum - a drum looper that uses probabilities, retrigger and pattern definitiion to create loops.
+- Mighty Composer - a songwriting generator that given an input creates backing track with guitar, bass, keys and drums
+- Mighty Bandmate - a musical collaborator and playback engine. Creates backing tracks, acts as musical librarian and dynamic audio player.
+- Mighty Music - a marketplace and collaboration hub where students, teachers and songwriters can find and share music they've created for the Mighty Music Platform
+
 ## Revision History
 
-| Version | Date           | Author          | Changes                                       |
-| ------- | -------------- | --------------- | --------------------------------------------- |
-| 1.0     | Feb 5th, 2026  | Michael Barakat | Initial Draft                                 |
-| 1.1     | May 25th, 2026 | Michael Barakat | Deletions and Refinement of Executive Summary |
+| Version | Date           | Author  | Changes                                       |
+| ------- | -------------- | ------- | --------------------------------------------- |
+| 1.0     | Feb 5th, 2026  | Michael | Initial Draft                                 |
+| 1.1     | May 25th, 2026 | Michael | Deletions and Refinement of Executive Summary |
+| 1.2     | June 1st, 2026 | Michael | Adds product line                             |
