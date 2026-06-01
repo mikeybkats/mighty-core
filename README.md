@@ -55,6 +55,21 @@ add_subdirectory(path/to/mighty-core)
 target_link_libraries(your_target mighty-core)
 ```
 
+### Desktop (macOS / Linux debug hosts)
+
+Configure and build **out of tree** (outputs go under `build/` only):
+
+```bash
+cmake -B build -S . -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+cmake --build build --parallel
+./build/mighty-core-ui          # metronome debug UI
+./build/mighty-core-synth-host  # synth patch UI
+./build/mighty-core-host-check  # headless click smoke test
+./build/tests/mmc-tests         # unit tests
+```
+
+VS Code: use the default **Build** task (`mighty-core: build (Debug)`).
+
 ### Android
 
 Requires NDK 26+ and CMake 3.22+. Oboe is fetched automatically via CMake `FetchContent` — no manual dependency setup needed.
