@@ -62,7 +62,7 @@ modules: metronome, synthesizer, recorder, analyzer, composer, player
 
 ### Jordan
 
-Guitarist & Hobbyist Songwriter
+**Guitarist & Hobbyist Songwriter**
 
 Jordan works a 9-to-5 in UX design and plays guitar in the evenings and on weekends. He's been playing for 12 years — solid enough to write his own chord progressions and riffs, but he practices alone because his schedule and obligations to his family makes it impossible to coordinate with other musicians regularly.
 
@@ -93,11 +93,46 @@ Jordan sets a tempo, plays through a chord progression, and lets Bandmate genera
 
 Primarily mobile or tablet, in a home office. Sessions are 30–60 minutes, usually early in the morning.
 
+### Trish
+
+**Professional Musician and Bass Guitar Teacher**
+
+Trish has been playing bass for 20 years and teaching privately for the last eight. She runs a studio out of her home and teaches a roster of 12–15 students ranging from beginners to intermediate players. She's deeply musical and technically fluent, but her time is stretched thin between lessons, her own gigging, and lesson prep.
+
+#### Trish's musical goals
+
+- Make practicing more fun through creation of backing tracks
+- Create custom backing tracks that work for student's at different skill levels and the specific concept she's teaching
+- Spend less time on prep and more time on actual instruction
+- Share practice materials with students they can use on their own between lessons
+- Build a small library of tracks and exercises she can sell or distribute through a platform
+- Stay current with music technology so she can speak her students' language
+
+#### Frustrations
+
+- Building a backing track from scratch in a DAW takes 30–45 minutes she doesn't have between lessons
+- Generic YouTube backing tracks are rarely in the right key, tempo, or feel for what she's teaching that week
+- No easy way to package and share custom practice materials with students digitally
+- Most music tools are built for producers, not teachers — the workflow doesn't fit her use case
+
+#### How she uses Bandmate
+
+Trish inputs a chord progression she's been working on with a student, dials in the tempo they've been practicing at, and generates a backing track with guitar, piano, and drums — leaving the bass part open so the student can fill it in. She exports the track as MIDI and shares it ahead of the next lesson. She's also started uploading her more polished tracks to the Mighty Music marketplace, building a small passive income stream on the side.
+
+#### Quote
+
+_"My students need to practice with something that sounds real. I can't be in the room every time they pick up their bass."_
+
+#### Device & context
+
+Primarily desktop or laptop, in her home teaching studio. Uses Bandmate during lesson prep blocks — typically 20–30 minute windows between students or the night before a lesson day.
+
 ## Revision History
 
-| Version | Date           | Author  | Changes                                       |
-| ------- | -------------- | ------- | --------------------------------------------- |
-| 1.0     | Feb 5th, 2026  | Michael | Initial Draft                                 |
-| 1.1     | May 25th, 2026 | Michael | Deletions and Refinement of Executive Summary |
-| 1.2     | June 1st, 2026 | Michael | Adds product line                             |
-| 1.3     | June 3rd, 2026 | Michael | Refines P0, adds user personas                |
+| Version | Date           | Author  | Changes                                                    |
+| ------- | -------------- | ------- | ---------------------------------------------------------- |
+| 1.0     | Feb 5th, 2026  | Michael | Initial Draft                                              |
+| 1.1     | May 25th, 2026 | Michael | Deletions and Refinement of Executive Summary              |
+| 1.2     | June 1st, 2026 | Michael | Adds product line                                          |
+| 1.3     | June 3rd, 2026 | Michael | Refines P0, adds user persona for Jordan: musician for fun |
+| 1.4     | June 4th, 2026 | Michael | Adds user persona for Trish: music teacher                 |
